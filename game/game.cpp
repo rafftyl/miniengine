@@ -2,11 +2,12 @@
 //
 
 #include "stdafx.h"
-#include "Miniengine.h"
+#include <Miniengine.h>
 
 int main()
 {
 	mini::Miniengine engine;
+	engine.Run();
 	return 0;
 }
 

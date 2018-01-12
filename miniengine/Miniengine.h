@@ -1,11 +1,15 @@
+#pragma once
+#include "Defines.h"
+
 namespace mini
 {
-	class Miniengine
+	class MINI_API Miniengine
 	{
 	protected:
 	public:
 		Miniengine() = default;
 		~Miniengine() = default;
+		void Run();
 	protected:
 	};
 }
