@@ -126,11 +126,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="EngineSystem.h" />
+    <ClInclude Include="EngineSystems.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="GameplaySystem.h" />
+    <ClInclude Include="GUISystem.h" />
+    <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="MessageBus.h" />
     <ClInclude Include="Miniengine.h" />
+    <ClInclude Include="RenderingSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="EngineSystem.cpp" />
+    <ClCompile Include="GameplaySystem.cpp" />
+    <ClCompile Include="GUISystem.cpp" />
+    <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="MessageBus.cpp" />
     <ClCompile Include="Miniengine.cpp" />
+    <ClCompile Include="RenderingSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
