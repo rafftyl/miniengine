@@ -16,7 +16,7 @@ namespace mini
 
 	typedef Event<> BasicEvent;
 	typedef Event<sf::Keyboard::Key, const ModifierKeys&> KeyboardEvent;
-	typedef Event<sf::Mouse::Button, const sf::Vector2i&, const sf::Vector2f&> MouseEvent;
+	typedef Event<sf::Mouse::Button, const sf::Vector2f&, const sf::Vector2f&> MouseEvent;
 
 	struct EngineEvents
 	{

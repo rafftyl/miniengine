@@ -1,5 +1,6 @@
 #pragma once
 #include "EngineSystem.h"
+#include "GameObject.h"
 #include <memory>
 
 namespace sf { class RenderWindow; class CircleShape; }
@@ -9,7 +10,7 @@ namespace mini
 	{
 	private:
 		sf::RenderWindow& window;
-		sf::CircleShape* debugCircle;
+		GameObject debugCircle;
 	public:
 		RenderingSystem(MessageBus& msgBus, sf::RenderWindow& window);
 		virtual ~RenderingSystem();

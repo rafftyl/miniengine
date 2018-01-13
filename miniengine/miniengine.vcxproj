@@ -137,27 +137,39 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="EngineSystem.h" />
     <ClInclude Include="EngineSystems.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameplaySystem.h" />
     <ClInclude Include="GUISystem.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MessageBus.h" />
     <ClInclude Include="Miniengine.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderingSystem.h" />
+    <ClInclude Include="ShapeRenderer.h" />
+    <ClInclude Include="SpriteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="EngineSystem.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameplaySystem.cpp" />
     <ClCompile Include="GUISystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="MessageBus.cpp" />
     <ClCompile Include="Miniengine.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderingSystem.cpp" />
+    <ClCompile Include="ShapeRenderer.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

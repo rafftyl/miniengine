@@ -15,8 +15,8 @@ namespace mini
 		sf::RenderWindow& window;
 		std::map<sf::Keyboard::Key, float> pressedKeys;
 		std::map<sf::Mouse::Button, float> pressedMouseButtons;
-		sf::Vector2i mousePosition{ 0,0 };
-		sf::Vector2f mouseDelta{ 0.0f,0.0f };
+		sf::Vector2f mousePosition{ 0, 0 };
+		sf::Vector2f mouseDelta{ 0, 0 };
 
 		bool isMouseDragging = false;
 	public:

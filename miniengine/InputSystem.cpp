@@ -80,8 +80,8 @@ namespace mini
 	{
 		mouseDelta = sf::Vector2f(static_cast<float>(mousePos.x - mousePosition.x),
 								  static_cast<float>(mousePos.y - mousePosition.y));
-		mousePosition = mousePos;
-		msgBus.inputEvents.onMouseMove.broadcast(sf::Mouse::ButtonCount, mousePos, mouseDelta);
+		mousePosition += mouseDelta;
+		msgBus.inputEvents.onMouseMove.broadcast(sf::Mouse::ButtonCount, mousePosition, mouseDelta);
 
 		auto mouseButtonIter = pressedMouseButtons.find(sf::Mouse::Button::Left);
 		if (mouseButtonIter != pressedMouseButtons.end())
@@ -91,11 +91,11 @@ namespace mini
 				if (!isMouseDragging)
 				{
 					isMouseDragging = true;
-					msgBus.inputEvents.onMouseDragStart.broadcast(sf::Mouse::Button::Left, mousePos, mouseDelta);
+					msgBus.inputEvents.onMouseDragStart.broadcast(sf::Mouse::Button::Left, mousePosition, mouseDelta);
 				}
 				else
 				{
-					msgBus.inputEvents.onMouseDrag.broadcast(sf::Mouse::Button::Left, mousePos, mouseDelta);
+					msgBus.inputEvents.onMouseDrag.broadcast(sf::Mouse::Button::Left, mousePosition, mouseDelta);
 				}
 			}
 		}
@@ -107,11 +107,11 @@ namespace mini
 				if (!isMouseDragging)
 				{
 					isMouseDragging = true;
-					msgBus.inputEvents.onMouseDragStart.broadcast(sf::Mouse::Button::Right, mousePos, mouseDelta);
+					msgBus.inputEvents.onMouseDragStart.broadcast(sf::Mouse::Button::Right, mousePosition, mouseDelta);
 				}
 				else
 				{
-					msgBus.inputEvents.onMouseDrag.broadcast(sf::Mouse::Button::Right, mousePos, mouseDelta);
+					msgBus.inputEvents.onMouseDrag.broadcast(sf::Mouse::Button::Right, mousePosition, mouseDelta);
 				}
 			}
 		}
