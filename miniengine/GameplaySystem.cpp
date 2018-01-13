@@ -1,9 +1,12 @@
 #include "GameplaySystem.h"
 
-GameplaySystem::GameplaySystem(MessageBus& msgBus) : EngineSystem(msgBus)
+namespace mini
 {
-}
+	GameplaySystem::GameplaySystem(MessageBus& msgBus) : EngineSystem(msgBus)
+	{
+	}
 
-GameplaySystem::~GameplaySystem()
-{
+	GameplaySystem::~GameplaySystem()
+	{
+	}
 }

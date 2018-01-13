@@ -1,10 +1,13 @@
 #include "GUISystem.h"
 
-GUISystem::GUISystem(MessageBus& msgBus, sf::RenderWindow& window) : 
-	EngineSystem(msgBus), window(window)
+namespace mini
 {
-}
+	GUISystem::GUISystem(MessageBus& msgBus, sf::RenderWindow& window) :
+		EngineSystem(msgBus), window(window)
+	{
+	}
 
-GUISystem::~GUISystem()
-{
+	GUISystem::~GUISystem()
+	{
+	}
 }

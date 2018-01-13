@@ -1,12 +1,13 @@
 #include "MessageBus.h"
 
-
-
-MessageBus::MessageBus()
+namespace mini
 {
-}
+	MessageBus::MessageBus()
+	{
+	}
 
 
-MessageBus::~MessageBus()
-{
+	MessageBus::~MessageBus()
+	{
+	}
 }

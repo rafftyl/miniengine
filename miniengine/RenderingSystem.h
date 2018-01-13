@@ -2,15 +2,18 @@
 #include "EngineSystem.h"
 #include <memory>
 
-namespace sf { class RenderWindow; }
-class RenderingSystem : public EngineSystem
+namespace sf { class RenderWindow; class CircleShape; }
+namespace mini
 {
-private:
-	sf::RenderWindow& window;
-public:
-	RenderingSystem(MessageBus& msgBus, sf::RenderWindow& window);
-	virtual ~RenderingSystem();
+	class RenderingSystem : public EngineSystem
+	{
+	private:
+		sf::RenderWindow& window;
+		sf::CircleShape* debugCircle;
+	public:
+		RenderingSystem(MessageBus& msgBus, sf::RenderWindow& window);
+		virtual ~RenderingSystem();
 
-	virtual void update() override;
-};
-
+		virtual void update() override;
+	};
+}

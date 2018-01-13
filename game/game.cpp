@@ -6,7 +6,11 @@
 
 int main()
 {
-	mini::Miniengine engine;
+	mini::EngineSettings settings;
+	settings.windowHeight = 480;
+	settings.windowWidth = 640;
+	settings.windowName = "Example Game";
+	mini::Miniengine engine(settings);
 	engine.Run();
 	return 0;
 }

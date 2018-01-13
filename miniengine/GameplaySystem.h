@@ -1,10 +1,12 @@
 #pragma once
 #include "EngineSystem.h"
 
-class GameplaySystem : public EngineSystem
+namespace mini
 {
-public:
-	GameplaySystem(MessageBus& msgBus);
-	virtual ~GameplaySystem();
-};
-
+	class GameplaySystem : public EngineSystem
+	{
+	public:
+		GameplaySystem(MessageBus& msgBus);
+		virtual ~GameplaySystem();
+	};
+}

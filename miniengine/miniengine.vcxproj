@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="EngineSystem.h" />
     <ClInclude Include="EngineSystems.h" />
     <ClInclude Include="Event.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="EngineSystem.cpp" />
     <ClCompile Include="GameplaySystem.cpp" />
     <ClCompile Include="GUISystem.cpp" />

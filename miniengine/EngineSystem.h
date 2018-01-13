@@ -3,17 +3,19 @@
 #include <memory>
 #include <ctime>
 
-class EngineSystem
+namespace mini
 {
-private:
-	clock_t prevTimestamp;
-protected:
-	MessageBus& msgBus;
-	float deltaTime;
-public:
-	EngineSystem(MessageBus& msgBus);
-	virtual ~EngineSystem();
+	class EngineSystem
+	{
+	private:
+		clock_t prevTimestamp;
+	protected:
+		MessageBus& msgBus;
+		float deltaTime;
+	public:
+		EngineSystem(MessageBus& msgBus);
+		virtual ~EngineSystem();
 
-	virtual void update();
-};
-
+		virtual void update();
+	};
+}

@@ -1,9 +1,12 @@
 #include "AudioSystem.h"
 
-AudioSystem::AudioSystem(MessageBus& msgBus) : EngineSystem(msgBus)
+namespace mini
 {
-}
+	AudioSystem::AudioSystem(MessageBus& msgBus) : EngineSystem(msgBus)
+	{
+	}
 
-AudioSystem::~AudioSystem()
-{
+	AudioSystem::~AudioSystem()
+	{
+	}
 }

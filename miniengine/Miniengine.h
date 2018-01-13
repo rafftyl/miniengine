@@ -6,6 +6,13 @@
 namespace sf { class RenderWindow; }
 namespace mini
 {
+	struct EngineSettings
+	{
+		int windowWidth;
+		int windowHeight;
+		std::string windowName;
+	};
+
 	class Miniengine
 	{
 	private:
@@ -14,7 +21,7 @@ namespace mini
 		std::unique_ptr<sf::RenderWindow> window; //unique_ptr to avoid passing sfml header dependencies
 		bool shouldRun = true;
 	public:
-		Miniengine();
+		Miniengine(const EngineSettings& settings);
 		~Miniengine();
 		void Run();
 	protected:
