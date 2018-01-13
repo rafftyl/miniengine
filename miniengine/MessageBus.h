@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.h"
 
-typedef Event<int, int> BasicEvent;
+typedef Event<> BasicEvent;
 class MessageBus
 {
 private:
@@ -15,9 +15,9 @@ public:
 		return engineShutdownRequestEvent;
 	}
 
-	void sendEngineShutdownRequest(int arg1, int arg2)
+	void sendEngineShutdownRequest()
 	{
-		engineShutdownRequestEvent.broadcast(arg1, arg2);
+		engineShutdownRequestEvent.broadcast();
 	}
 };
 

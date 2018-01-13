@@ -1,5 +1,4 @@
 #pragma once
-#include "Defines.h"
 #include "EngineSystem.h"
 #include "MessageBus.h"
 #include <vector>
@@ -7,7 +6,7 @@
 namespace sf { class RenderWindow; }
 namespace mini
 {
-	class MiniengineImpl
+	class Miniengine
 	{
 	private:
 		MessageBus msgBus;
@@ -15,21 +14,9 @@ namespace mini
 		std::unique_ptr<sf::RenderWindow> window; //unique_ptr to avoid passing sfml header dependencies
 		bool shouldRun = true;
 	public:
-		MiniengineImpl();
-		~MiniengineImpl();
-		void Run();
-	protected:
-	};
-
-	//pimpl technique to avoid exporting stl containers in dll
-	class MINI_API Miniengine
-	{
-	private:
-		MiniengineImpl* impl;
-	public:
 		Miniengine();
 		~Miniengine();
 		void Run();
+	protected:
 	};
-	
 }

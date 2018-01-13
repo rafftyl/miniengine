@@ -4,7 +4,7 @@
 
 namespace mini
 {
-	MiniengineImpl::MiniengineImpl()
+	Miniengine::Miniengine()
 	{
 		window = std::make_unique<sf::RenderWindow>(sf::VideoMode(200, 200), "SFML works!");
 		systems.push_back(std::make_unique<AudioSystem>(msgBus));
@@ -13,15 +13,15 @@ namespace mini
 		systems.push_back(std::make_unique<RenderingSystem>(msgBus, *window));
 		systems.push_back(std::make_unique<GUISystem>(msgBus, *window));
 
-		msgBus.onEngineShutdownRequest().addCallback([&](int arg, int arss) {shouldRun = false;});
+		msgBus.onEngineShutdownRequest().addCallback([&] {shouldRun = false;});
 	}
 
-	MiniengineImpl::~MiniengineImpl()
+	Miniengine::~Miniengine()
 	{
 		window->close();
 	}
 
-	void MiniengineImpl::Run()
+	void Miniengine::Run()
 	{
 		while (shouldRun)
 		{
@@ -30,20 +30,5 @@ namespace mini
 				sys->update();
 			}
 		}
-	}
-
-	Miniengine::Miniengine()
-	{
-		impl = new MiniengineImpl();
-	}
-
-	Miniengine::~Miniengine()
-	{
-		delete impl;
-	}
-
-	void Miniengine::Run()
-	{
-		impl->Run();
 	}
 }

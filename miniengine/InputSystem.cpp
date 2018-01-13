@@ -17,7 +17,7 @@ void InputSystem::update()
 	{
 		if (event.type == sf::Event::Closed)
 		{
-			msgBus.sendEngineShutdownRequest(1, 1);
+			msgBus.sendEngineShutdownRequest();
 		}
 	}
 }
