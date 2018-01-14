@@ -25,6 +25,7 @@ int main()
 	auto& shapeRen = obj_1.addComponent<mini::ShapeRenderer>();
 	shapeRen.setColor(sf::Color::Green);
 	shapeRen.setShape(sharedShape);
+	shapeRen.setLayer(1);
 	auto& follower_1 = obj_1.addComponent<MouseFollower>();
 	follower_1.offset = sf::Vector2f(-50, 0);
 
