@@ -3,26 +3,24 @@
 #include "SFML/Window/Keyboard.hpp"
 #include "SFML/Window/Mouse.hpp"
 #include "SFML/System/Vector2.hpp"
+#include "RenderingQueue.h"
+#include "ModifierKeys.h"
 #include <set>
 
 namespace mini
-{
-	struct ModifierKeys
-	{
-		bool alt;
-		bool ctrl;
-		bool shift;
-	};
-
+{	
 	typedef Event<> BasicEvent;
 	typedef Event<sf::Keyboard::Key, const ModifierKeys&> KeyboardEvent;
 	typedef Event<sf::Mouse::Button, const sf::Vector2f&, const sf::Vector2f&> MouseEvent;
+	typedef Event<const sf::Vector2f&, const sf::Vector2f&> MouseMoveEvent;
 
 	struct EngineEvents
 	{
 		BasicEvent onEngineStart;
 		BasicEvent onEngineShutdownRequest;
 		BasicEvent onEngineShutdown;
+
+		Event<const RenderingQueue&>  onCreateRenderingQueue;
 	};
 
 	struct InputEvents
@@ -30,7 +28,7 @@ namespace mini
 		KeyboardEvent onKeyPress;
 		KeyboardEvent onKeyRelease;
 		KeyboardEvent onKeyHold;
-		MouseEvent onMouseMove;
+		MouseMoveEvent onMouseMove;
 		MouseEvent onMouseButtonPress;
 		MouseEvent onMouseButtonRelease;
 		MouseEvent onMouseButtonHold;

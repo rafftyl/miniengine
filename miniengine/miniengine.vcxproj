@@ -146,13 +146,18 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameplaySystem.h" />
     <ClInclude Include="GUISystem.h" />
+    <ClInclude Include="InputInterfaces.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MessageBus.h" />
     <ClInclude Include="Miniengine.h" />
+    <ClInclude Include="ModifierKeys.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderingQueue.h" />
     <ClInclude Include="RenderingSystem.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioSystem.cpp" />
@@ -167,9 +172,12 @@
     <ClCompile Include="MessageBus.cpp" />
     <ClCompile Include="Miniengine.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderingQueue.cpp" />
     <ClCompile Include="RenderingSystem.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,6 @@
 #include "InputSystem.h"
 #include <SFML/Graphics.hpp>
+#include "Time.h"
 
 namespace mini
 {
@@ -81,7 +82,7 @@ namespace mini
 		mouseDelta = sf::Vector2f(static_cast<float>(mousePos.x - mousePosition.x),
 								  static_cast<float>(mousePos.y - mousePosition.y));
 		mousePosition += mouseDelta;
-		msgBus.inputEvents.onMouseMove.broadcast(sf::Mouse::ButtonCount, mousePosition, mouseDelta);
+		msgBus.inputEvents.onMouseMove.broadcast(mousePosition, mouseDelta);
 
 		auto mouseButtonIter = pressedMouseButtons.find(sf::Mouse::Button::Left);
 		if (mouseButtonIter != pressedMouseButtons.end())
@@ -129,12 +130,12 @@ namespace mini
 	{
 		for (auto& holdInfo : pressedKeys)
 		{
-			holdInfo.second += deltaTime;
+			holdInfo.second += Time::getDeltaTime();
 		}
 
 		for (auto& holdInfo : pressedMouseButtons)
 		{
-			holdInfo.second += deltaTime;
+			holdInfo.second += Time::getDeltaTime();
 		}
 	}
 

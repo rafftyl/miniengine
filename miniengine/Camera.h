@@ -8,7 +8,7 @@ namespace mini
 	public:
 		Camera(GameObject& owner);
 		virtual ~Camera();
-
-		void update(float deltaTime) override;
+	protected:
+		void update() override;
 	};
 }

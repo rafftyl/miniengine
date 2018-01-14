@@ -3,8 +3,7 @@
 namespace mini
 {
 	EngineSystem::EngineSystem(MessageBus& msgBus) : msgBus(msgBus)
-	{
-		prevTimestamp = clock();
+	{		
 	}
 
 
@@ -14,8 +13,8 @@ namespace mini
 
 	void EngineSystem::update()
 	{
-		clock_t currentTimestamp = clock();
-		deltaTime = static_cast<float>(currentTimestamp - prevTimestamp) / CLOCKS_PER_SEC;
-		prevTimestamp = currentTimestamp;
+	}
+	void EngineSystem::init()
+	{
 	}
 }

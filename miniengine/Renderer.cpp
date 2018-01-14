@@ -10,12 +10,22 @@ namespace mini
 	{
 	}
 
-	void Renderer::update(float deltaTime)
+	void Renderer::update()
 	{
 	}
 
 	void Renderer::setColor(const sf::Color& newColor)
 	{
 		color = newColor;
+	}
+
+	int Renderer::getLayer() const
+	{
+		return layer;
+	}
+
+	void Renderer::setLayer(int newLayer)
+	{
+		layer = newLayer;
 	}
 }

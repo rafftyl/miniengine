@@ -6,16 +6,11 @@ namespace mini
 {
 	RenderingSystem::RenderingSystem(MessageBus& msgBus, sf::RenderWindow& window) :
 		EngineSystem(msgBus), window(window)
-	{
-		auto shape = std::make_shared<sf::CircleShape>(80.f);
-		shape->setOrigin({ 80,80 });
-		auto& shapeRen = debugCircle.addComponent<ShapeRenderer>();
-		shapeRen.setColor(sf::Color::Green);
-		shapeRen.setShape(shape);
-		msgBus.inputEvents.onMouseDrag.addCallback(
-		[&](sf::Mouse::Button button, const sf::Vector2f& mousePos, const sf::Vector2f& mouseDelta) 
+	{		
+		msgBus.engineEvents.onCreateRenderingQueue.addCallback(
+		[&](const RenderingQueue& queue)
 		{			
-			debugCircle.setPosition(mousePos);
+			renderingQueue = queue;
 		});
 	}
 
@@ -27,7 +22,11 @@ namespace mini
 	{		
 		EngineSystem::update();
 		window.clear();
-		window.draw(*debugCircle.getComponent<Renderer>());
+		while (!renderingQueue.empty())
+		{
+			window.draw(*renderingQueue.top());
+			renderingQueue.pop();
+		}
 		window.display();
 	}
 }

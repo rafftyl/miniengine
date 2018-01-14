@@ -6,14 +6,18 @@ namespace mini
 {
 	class Renderer : public Component, public sf::Drawable
 	{
+	private:
+		int layer = 0;
 	protected:
 		sf::Color color = sf::Color::White;
 	public:
 		Renderer(GameObject& owner);
 		virtual ~Renderer();
-
-		virtual void update(float deltaTime) override;	
 		void setColor(const sf::Color& newColor);
+		int getLayer() const;
+		void setLayer(int newLayer);
+	protected:
+		virtual void update() override;			
 	};
 }
 

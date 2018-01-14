@@ -12,7 +12,6 @@ namespace mini
 	public:
 		SpriteRenderer(GameObject& owner);
 		virtual ~SpriteRenderer();
-
 		void setSprite(const std::shared_ptr<sf::Sprite>& sharedSprite);		
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	};

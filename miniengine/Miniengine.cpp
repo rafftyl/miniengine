@@ -1,21 +1,29 @@
 #include "Miniengine.h"
 #include "EngineSystems.h"
+#include "Time.h"
 #include <SFML/Graphics.hpp>
 
 namespace mini
 {
-	Miniengine::Miniengine(const EngineSettings& settings)
+	Miniengine::Miniengine(const EngineSettings& settings, std::vector<Scene>&& scenes)
 	{
 		window = std::make_unique<sf::RenderWindow>(sf::VideoMode(settings.windowWidth, settings.windowHeight), settings.windowName);
-		systems.push_back(std::make_unique<AudioSystem>(msgBus));
-		systems.push_back(std::make_unique<GameplaySystem>(msgBus));		
-		systems.push_back(std::make_unique<InputSystem>(msgBus, *window));
-		systems.push_back(std::make_unique<RenderingSystem>(msgBus, *window));
-		systems.push_back(std::make_unique<GUISystem>(msgBus, *window));
-		systems.push_back(std::make_unique<DebugConsole>(msgBus));
+		systems.push_back(std::make_shared<AudioSystem>(msgBus));
+		systems.push_back(std::make_shared<GameplaySystem>(msgBus, std::move(scenes)));
+		systems.push_back(std::make_shared<InputSystem>(msgBus, *window));
+		systems.push_back(std::make_shared<RenderingSystem>(msgBus, *window));
+		systems.push_back(std::make_shared<GUISystem>(msgBus, *window));
+		systems.push_back(std::make_shared<DebugConsole>(msgBus));
 
 		msgBus.engineEvents.onEngineShutdownRequest.addCallback([&] {shouldRun = false;});
+
+		for (const auto& sys : systems)
+		{
+			sys->init();
+		}
+
 		msgBus.engineEvents.onEngineStart.broadcast();
+		Time::updateTimer(); //to init timestamps		
 	}
 
 	Miniengine::~Miniengine()
@@ -28,6 +36,7 @@ namespace mini
 	{
 		while (shouldRun)
 		{
+			Time::updateTimer();					
 			for (const auto& sys : systems)
 			{
 				sys->update();

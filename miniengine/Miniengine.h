@@ -3,6 +3,7 @@
 #include "MessageBus.h"
 #include <vector>
 #include <memory>
+
 namespace sf { class RenderWindow; }
 namespace mini
 {
@@ -17,13 +18,12 @@ namespace mini
 	{
 	private:
 		MessageBus msgBus;
-		std::vector<std::unique_ptr<EngineSystem>> systems;
+		std::vector<std::shared_ptr<EngineSystem>> systems;
 		std::unique_ptr<sf::RenderWindow> window; //unique_ptr to avoid passing sfml header dependencies
-		bool shouldRun = true;
+		bool shouldRun = true;		
 	public:
-		Miniengine(const EngineSettings& settings);
+		Miniengine(const EngineSettings& settings, std::vector<class Scene>&& scenes);
 		~Miniengine();
 		void Run();
-	protected:
 	};
 }
