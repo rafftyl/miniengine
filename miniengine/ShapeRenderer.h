@@ -14,8 +14,9 @@ namespace mini
 		virtual ~ShapeRenderer();
 		void setShape(const std::shared_ptr<sf::Shape>& sharedShape);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
+		virtual void getLocalBounds(sf::Vector2f & outMin, sf::Vector2f & outMax) const override;
 	private:
 		void tempUglyHack() const;
+		
 	};
 }

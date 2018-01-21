@@ -14,5 +14,6 @@ namespace mini
 		virtual ~SpriteRenderer();
 		void setSprite(const std::shared_ptr<sf::Sprite>& sharedSprite);		
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+		virtual void getLocalBounds(sf::Vector2f& outMin, sf::Vector2f& outMax) const override;
 	};
 }

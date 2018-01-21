@@ -125,6 +125,7 @@ namespace mini
 
 			class IMouseEnterHandler
 			{
+			public:
 				virtual void onMouseEnter(
 					const sf::Vector2f& mousePosition,
 					const sf::Vector2f& mouseDelta) = 0;
@@ -132,6 +133,7 @@ namespace mini
 
 			class IMouseExitHandler
 			{
+			public:
 				virtual void onMouseExit(
 					const sf::Vector2f& mousePosition,
 					const sf::Vector2f& mouseDelta) = 0;

@@ -9,8 +9,8 @@ namespace mini
 	class InputSystem : public EngineSystem
 	{
 	private:	
-		const float timeToBroadcastHoldEvent = 0.1f;
-		const float timeToBroadcastDragEvent = 0.1f;
+		const float timeToBroadcastHoldEvent = 0.05f;
+		const float timeToBroadcastDragEvent = 0.05f;
 
 		sf::RenderWindow& window;
 		std::map<sf::Keyboard::Key, float> pressedKeys;

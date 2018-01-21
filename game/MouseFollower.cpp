@@ -10,7 +10,7 @@ MouseFollower::~MouseFollower()
 {
 }
 
-void MouseFollower::onMouseButtonHold(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+void MouseFollower::onMouseMove(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 {
 	owner.setPosition(mousePosition + offset);
 }

@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "GameObject.h"
 
 namespace mini
 {
@@ -27,5 +28,12 @@ namespace mini
 	void Renderer::setLayer(int newLayer)
 	{
 		layer = newLayer;
+	}
+
+	void Renderer::getBounds(sf::Vector2f& outMin, sf::Vector2f& outMax) const
+	{
+		getLocalBounds(outMin, outMax);
+		outMin = owner.getTransform() * outMin;
+		outMax = owner.getTransform() * outMax;
 	}
 }

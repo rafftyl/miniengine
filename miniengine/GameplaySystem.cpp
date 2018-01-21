@@ -1,6 +1,7 @@
 #include "GameplaySystem.h"
 #include "RenderingQueue.h"
 #include "InputInterfaces.h"
+#include "Collider.h"
 #include "Renderer.h"
 
 namespace mini
@@ -32,7 +33,7 @@ namespace mini
 		}
 
 		bool found = false;
-		for (size_t i = 0; i < scenes.size() && !found; ++i)
+		for (size_t i = 0; i < scenes.size()&& !found; ++i)
 		{
 			if (scenes[i].name == name)
 			{
@@ -93,42 +94,231 @@ namespace mini
 		msgBus.inputEvents.onKeyHold.addCallback(
 			[&](sf::Keyboard::Key key, const ModifierKeys& modifiers)
 			{
-				sendKeyHoldCallbacks(key, modifiers);
+				invokeKeyHoldCallbacks(key, modifiers);
+			}
+		);
+
+		msgBus.inputEvents.onKeyPress.addCallback(
+			[&](sf::Keyboard::Key key, const ModifierKeys& modifiers)
+			{
+				invokeKeyPressCallbacks(key, modifiers);
+			}
+		);
+
+		msgBus.inputEvents.onKeyRelease.addCallback(
+			[&](sf::Keyboard::Key key, const ModifierKeys& modifiers)
+			{
+				invokeKeyReleaseCallbacks(key, modifiers);
+			}
+		);
+
+		msgBus.inputEvents.onMouseButtonPress.addCallback(
+			[&](sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+			{
+				invokeMousePressCallbacks(button, mousePosition, mouseDelta);
 			}
 		);
 
 		msgBus.inputEvents.onMouseButtonHold.addCallback(
 			[&](sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 			{
-				sendMouseHoldCallbacks(button, mousePosition, mouseDelta);
+				invokeMouseHoldCallbacks(button, mousePosition, mouseDelta);
 			}
 		);
 
-		//TODO: implement all callbacks
-	}
-	
-	//TODO: optimize passing events (avoid iterating over all objects - first register interfaces, than iterate over them)
-	void GameplaySystem::sendKeyHoldCallbacks(sf::Keyboard::Key key, const ModifierKeys& modifiers)
-	{
-		for (auto& obj : scenes[currentSceneIndex].objects)
-		{
-			auto handler = obj.second.getComponent<input::IKeyHoldHandler>();
-			if (handler != nullptr)
+		msgBus.inputEvents.onMouseButtonRelease.addCallback(
+			[&](sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 			{
-				handler->onKeyHold(key, modifiers);
+				invokeMouseReleaseCallbacks(button, mousePosition, mouseDelta);
 			}
-		}
+		);
+
+		msgBus.inputEvents.onMouseDragStart.addCallback(
+			[&](sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+			{
+				invokeDragStartCallbacks(button, mousePosition, mouseDelta);
+			}
+		);
+
+		msgBus.inputEvents.onMouseDragEnd.addCallback(
+			[&](sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+			{
+				invokeDragEndCallbacks(button, mousePosition, mouseDelta);
+			}
+		);
+
+		msgBus.inputEvents.onMouseDrag.addCallback(
+			[&](sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+			{
+				invokeDragCallbacks(button, mousePosition, mouseDelta);
+			}
+		);
+
+		msgBus.inputEvents.onMouseMove.addCallback(
+			[&](const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+			{
+				invokeMouseMoveCallbacks(mousePosition, mouseDelta);
+			}
+		);
+
+		msgBus.inputEvents.onMouseWheelScroll.addCallback(
+			[&](float delta)
+			{
+				invokeMouseWheelCallbacks(delta);
+			}
+		);
 	}
 
-	void GameplaySystem::sendMouseHoldCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	void GameplaySystem::invokeKeyPressCallbacks(sf::Keyboard::Key key, const ModifierKeys& modifiers)
 	{
-		for (auto& obj : scenes[currentSceneIndex].objects)
-		{
-			auto handler = obj.second.getComponent<input::IMouseButtonHoldHandler>();
-			if (handler != nullptr)
+		invokeCallbacks<input::IKeyPressHandler>(
+			[&](input::IKeyPressHandler& handler)
 			{
-				handler->onMouseButtonHold(button, mousePosition, mouseDelta);
+				handler.onKeyPressed(key, modifiers);
+			});
+	}
+
+	void GameplaySystem::invokeKeyReleaseCallbacks(sf::Keyboard::Key key, const ModifierKeys& modifiers)
+	{
+		invokeCallbacks<input::IKeyReleaseHandler>(
+			[&](input::IKeyReleaseHandler& handler)
+			{
+				handler.onKeyReleased(key, modifiers);
+			});
+	}
+	
+	void GameplaySystem::invokeKeyHoldCallbacks(sf::Keyboard::Key key, const ModifierKeys& modifiers)
+	{
+		invokeCallbacks<input::IKeyHoldHandler>(
+			[&](input::IKeyHoldHandler& handler)
+			{
+				handler.onKeyHold(key, modifiers);
+			});
+	}
+
+	void GameplaySystem::invokeMousePressCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	{
+		invokeCallbacks<input::IMouseButtonPressHandler>(
+			[&](input::IMouseButtonPressHandler& handler)
+			{
+				handler.onMouseButtonPressed(button, mousePosition, mouseDelta);
+			});
+
+		invokeRaycastCallbacks<input::raycast::IMouseButtonPressHandler>(
+			[&](input::raycast::IMouseButtonPressHandler& handler)
+			{
+				handler.onMouseButtonPressed(button, mousePosition, mouseDelta);
+			}, mousePosition);
+	}
+
+	void GameplaySystem::invokeMouseHoldCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	{
+		invokeCallbacks<input::IMouseButtonHoldHandler>(
+			[&](input::IMouseButtonHoldHandler& handler)
+			{
+				handler.onMouseButtonHold(button, mousePosition, mouseDelta);
+			});
+
+		invokeRaycastCallbacks<input::raycast::IMouseButtonHoldHandler>(
+			[&](input::raycast::IMouseButtonHoldHandler& handler)
+			{
+				handler.onMouseButtonHold(button, mousePosition, mouseDelta);
+			}, mousePosition);
+	}
+
+	void GameplaySystem::invokeMouseReleaseCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	{
+		invokeCallbacks<input::IMouseButtonReleaseHandler>(
+			[&](input::IMouseButtonReleaseHandler& handler)
+			{
+				handler.onMouseButtonReleased(button, mousePosition, mouseDelta);
+			});
+
+		invokeRaycastCallbacks<input::raycast::IMouseButtonReleaseHandler>(
+			[&](input::raycast::IMouseButtonReleaseHandler& handler)
+			{
+				handler.onMouseButtonReleased(button, mousePosition, mouseDelta);
+			}, mousePosition);
+	}
+
+	void GameplaySystem::invokeDragStartCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	{
+		invokeRaycastCallbacks<input::raycast::IMouseDragHandler>(
+			[&](input::raycast::IMouseDragHandler& handler)
+			{
+				handler.onMouseDragStart(button, mousePosition, mouseDelta);
+			}, mousePosition);
+	}
+
+	void GameplaySystem::invokeDragCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	{
+		invokeRaycastCallbacks<input::raycast::IMouseDragHandler>(
+			[&](input::raycast::IMouseDragHandler& handler) 
+			{
+				handler.onMouseDrag(button, mousePosition, mouseDelta);
+			}, mousePosition);
+	}
+
+	void GameplaySystem::invokeDragEndCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	{
+		invokeRaycastCallbacks<input::raycast::IMouseDragHandler>(
+			[&](input::raycast::IMouseDragHandler& handler)
+			{
+				handler.onMouseDragEnd(button, mousePosition, mouseDelta);
+			}, mousePosition);
+	}
+
+	void GameplaySystem::invokeMouseMoveCallbacks(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+	{
+		auto moveInterfaces = getAllComponentsOfType<input::IMouseMoveHandler>();
+		for (auto& inter : moveInterfaces)
+		{
+			inter->onMouseMove(mousePosition, mouseDelta);
+		}
+
+		invokeRaycastCallbacks<input::raycast::IMouseMoveHandler>(
+			[&](input::raycast::IMouseMoveHandler& handler)
+			{
+				handler.onMouseMove(mousePosition, mouseDelta);
+			}, mousePosition);
+
+
+		auto colliders = getAllComponentsOfType<Collider>();
+		for (auto& col : colliders)
+		{
+			if (col->receivesQueries())
+			{
+				auto enterHandler = col->getOwner().getComponent<input::raycast::IMouseEnterHandler>();
+				if (enterHandler != nullptr && col->contains(mousePosition))
+				{
+					auto iter = objectsEntered.find(&col->getOwner());
+					if (iter == objectsEntered.end())
+					{
+						objectsEntered.insert(&col->getOwner());
+						enterHandler->onMouseEnter(mousePosition, mouseDelta);
+					}
+				}
+
+				auto exitHandler = col->getOwner().getComponent<input::raycast::IMouseExitHandler>();
+				if (exitHandler != nullptr && !col->contains(mousePosition))
+				{
+					auto iter = objectsEntered.find(&col->getOwner());
+					if (iter != objectsEntered.end())
+					{
+						objectsEntered.erase(&col->getOwner());
+						exitHandler->onMouseExit(mousePosition, mouseDelta);
+					}
+				}
 			}
+		}		
+	}
+
+	void GameplaySystem::invokeMouseWheelCallbacks(float delta)
+	{
+		auto interfaces = getAllComponentsOfType<input::IMouseWheelHandler>();
+		for (auto& inter : interfaces)
+		{
+			inter->onMouseWheel(delta);
 		}
 	}
 }

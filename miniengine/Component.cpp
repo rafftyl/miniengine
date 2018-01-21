@@ -11,6 +11,16 @@ namespace mini
 	{
 	}
 
+	const GameObject& Component::getOwner() const
+	{
+		return owner;
+	}
+
+	GameObject& Component::getOwner()
+	{
+		return owner;
+	}
+
 	void Component::start()
 	{
 	}

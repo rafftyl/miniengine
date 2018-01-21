@@ -24,7 +24,7 @@
 
 #ifndef SFML_VECTOR2_HPP
 #define SFML_VECTOR2_HPP
-
+#include <cmath>
 
 namespace sf
 {
@@ -74,6 +74,27 @@ public:
     ////////////////////////////////////////////////////////////
     T x; ///< X coordinate of the vector
     T y; ///< Y coordinate of the vector
+	
+	float distanceSqr(const Vector2<T>& other) const
+	{
+		Vector2<T> dif = *this -  other;
+		return dif.x * dif.x + dif.y * dif.y;
+	}
+	
+	float distance(const Vector2<T>& other) const
+	{
+		return std::sqrt(distanceSqr(other));
+	}
+	
+	float magnitudeSqr() const
+	{
+		return x * x + y * y;
+	}
+	
+	float magnitude()
+	{
+		return std::sqrt(magnitudeSqr);
+	}
 };
 
 ////////////////////////////////////////////////////////////

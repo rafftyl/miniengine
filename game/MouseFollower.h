@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "InputInterfaces.h"
 
-class MouseFollower : public mini::Component, public mini::input::IMouseButtonHoldHandler
+class MouseFollower : public mini::Component, public mini::input::IMouseMoveHandler
 {
 public:
 	sf::Vector2f offset{ 0,0 };
@@ -11,6 +11,6 @@ public:
 	~MouseFollower();
 
 	// Inherited via IMouseButtonHoldHandler
-	virtual void onMouseButtonHold(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
+	virtual void onMouseMove(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
 };
 

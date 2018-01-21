@@ -35,4 +35,17 @@ namespace mini
 		sf::RectangleShape shapee;
 		shapee.setFillColor(sf::Color::Red);
 	}
+
+	void ShapeRenderer::getLocalBounds(sf::Vector2f& outMin, sf::Vector2f& outMax) const
+	{
+		auto bounds = shape->getLocalBounds();
+		outMin.x = bounds.left;
+		outMin.y = bounds.top - bounds.height;
+		outMax.x = bounds.left + bounds.width;
+		outMax.y = bounds.top;
+		auto origin = shape->getOrigin();
+		origin.y *= -1;
+		outMin -= origin;
+		outMax -= origin;
+	}	
 }
