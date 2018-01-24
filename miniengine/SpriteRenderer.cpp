@@ -17,7 +17,7 @@ namespace mini
 
 	void SpriteRenderer::setSprite(const std::shared_ptr<sf::Sprite>& sharedSprite)
 	{
-		this->sprite = sprite;
+		sprite = sharedSprite;
 	}
 
 	void SpriteRenderer::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -11,7 +11,7 @@ namespace mini
 	{
 	private:
 		sf::RenderWindow& window;
-		RenderingQueue renderingQueue;
+		std::shared_ptr<class Camera> currentCam = nullptr;
 	public:
 		RenderingSystem(MessageBus& msgBus, sf::RenderWindow& window);
 		virtual ~RenderingSystem();

@@ -1,6 +1,6 @@
 #include "InputSystem.h"
 #include <SFML/Graphics.hpp>
-#include "Time.h"
+#include "Timer.h"
 
 namespace mini
 {

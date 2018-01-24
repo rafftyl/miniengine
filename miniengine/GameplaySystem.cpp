@@ -3,12 +3,14 @@
 #include "InputInterfaces.h"
 #include "Collider.h"
 #include "Renderer.h"
+#include "Camera.h"
 
 namespace mini
 {
 	GameplaySystem::GameplaySystem(MessageBus& msgBus, std::vector<Scene>&& scenes) : 
 		EngineSystem(msgBus), scenes(std::move(scenes))
 	{
+		
 	}
 
 	GameplaySystem::~GameplaySystem()
@@ -17,19 +19,48 @@ namespace mini
 
 	GameObject& GameplaySystem::spawnObject(std::string&& name)
 	{
-		return scenes[currentSceneIndex].addObject(std::move(name));
+		GameObject& obj = scenes[currentSceneIndex].addObject(std::move(name));
+		if (currentCam != nullptr)
+		{
+			auto rend = obj.getComponent<Renderer>();
+			if (rend != nullptr)
+			{
+				currentCam->registerRenderer(rend);
+			}
+		}
+		return obj;
 	}
 
 	void GameplaySystem::destroyObject(GameObject& object)
 	{
+		if (currentCam != nullptr)
+		{
+			auto rend = object.getComponent<Renderer>();
+			if (rend != nullptr)
+			{
+				currentCam->unregisterRenderer(rend);
+			}
+		}
 		scenes[currentSceneIndex].objects.erase(object.getId());
 	}
 
 	void GameplaySystem::loadScene(const std::string& name)
 	{	
-		for (auto& obj : scenes[currentSceneIndex].objects)
+		if (currentSceneIndex > -1)
 		{
-			obj.second.destroy();
+			for (auto& obj : scenes[currentSceneIndex].objects)
+			{
+				if (currentCam != nullptr)
+				{
+					auto rend = obj.second.getComponent<Renderer>();
+					if (rend != nullptr)
+					{
+						currentCam->unregisterRenderer(rend);
+					}					
+				}
+				obj.second.destroy();				
+			}
+			currentCam = nullptr;
 		}
 
 		bool found = false;
@@ -51,24 +82,37 @@ namespace mini
 			for (auto& obj : scenes[currentSceneIndex].objects)
 			{
 				obj.second.start();
+				auto cam = obj.second.getComponent<Camera>();
+				if (cam != nullptr)
+				{
+					currentCam = cam;
+					msgBus.engineEvents.onCameraSet.broadcast(currentCam);
+				}
+			}
+
+			if (currentCam != nullptr)
+			{
+				for (auto& obj : scenes[currentSceneIndex].objects)
+				{
+					auto rend = obj.second.getComponent<Renderer>();
+					if (rend != nullptr)
+					{
+						currentCam->registerRenderer(rend);
+					}
+				}
 			}
 		}
 	}
 
 	void GameplaySystem::update()
 	{
-		RenderingQueue renderingQueue;
-		for (auto& obj : scenes[currentSceneIndex].objects)
+		if (currentCam != nullptr)
 		{
-			obj.second.update();
-			auto rend = obj.second.getComponent<Renderer>();
-			if (rend != nullptr)
+			for (auto& obj : scenes[currentSceneIndex].objects)
 			{
-				//TODO: culling
-				renderingQueue.push(rend);
-			}
+				obj.second.update();
+			}	
 		}
-		msgBus.engineEvents.onCreateRenderingQueue.broadcast(renderingQueue);
 	}
 
 	void GameplaySystem::init()
@@ -82,11 +126,20 @@ namespace mini
 		}
 		registerInputCallbacks();
 
-		currentSceneIndex = 0;
+		if (scenes.size() > 0)
+		{
+			loadScene(scenes[0].name);
+		}
+
 		for (auto& obj : scenes[currentSceneIndex].objects)
 		{
 			obj.second.start();
-		}
+		}		
+	}
+
+	std::shared_ptr<const Camera> GameplaySystem::getCurrentCam() const
+	{
+		return currentCam;
 	}
 
 	void GameplaySystem::registerInputCallbacks()
@@ -276,20 +329,21 @@ namespace mini
 			inter->onMouseMove(mousePosition, mouseDelta);
 		}
 
+		
 		invokeRaycastCallbacks<input::raycast::IMouseMoveHandler>(
 			[&](input::raycast::IMouseMoveHandler& handler)
 			{
 				handler.onMouseMove(mousePosition, mouseDelta);
 			}, mousePosition);
-
-
+		
+		sf::Vector2f transformedPos = currentCam->screenToWorldPoint(mousePosition);
 		auto colliders = getAllComponentsOfType<Collider>();
 		for (auto& col : colliders)
 		{
 			if (col->receivesQueries())
 			{
 				auto enterHandler = col->getOwner().getComponent<input::raycast::IMouseEnterHandler>();
-				if (enterHandler != nullptr && col->contains(mousePosition))
+				if (enterHandler != nullptr && col->contains(transformedPos))
 				{
 					auto iter = objectsEntered.find(&col->getOwner());
 					if (iter == objectsEntered.end())
@@ -300,7 +354,7 @@ namespace mini
 				}
 
 				auto exitHandler = col->getOwner().getComponent<input::raycast::IMouseExitHandler>();
-				if (exitHandler != nullptr && !col->contains(mousePosition))
+				if (exitHandler != nullptr && !col->contains(transformedPos))
 				{
 					auto iter = objectsEntered.find(&col->getOwner());
 					if (iter != objectsEntered.end())

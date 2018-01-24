@@ -78,9 +78,6 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InputInterfaces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,6 +97,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CircleCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,9 +152,6 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,6 +165,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CircleCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,9 +3,9 @@
 #include "SFML/Window/Keyboard.hpp"
 #include "SFML/Window/Mouse.hpp"
 #include "SFML/System/Vector2.hpp"
-#include "RenderingQueue.h"
 #include "ModifierKeys.h"
 #include <set>
+#include <memory>
 
 namespace mini
 {	
@@ -20,7 +20,7 @@ namespace mini
 		BasicEvent onEngineShutdownRequest;
 		BasicEvent onEngineShutdown;
 
-		Event<const RenderingQueue&>  onCreateRenderingQueue;
+		Event<const std::shared_ptr<class Camera>&> onCameraSet;
 	};
 
 	struct InputEvents

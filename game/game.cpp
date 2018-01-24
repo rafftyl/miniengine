@@ -6,38 +6,42 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "ShapeRenderer.h"
+#include "SpriteRenderer.h"
 #include "MouseFollower.h"
 #include "DraggableObject.h"
 #include "BoxCollider.h"
 #include "CircleCollider.h"
-#include <SFML/Graphics/CircleShape.hpp>
+#include "KeyMover.h"
+#include "Camera.h"
+#include <SFML/Graphics.hpp>
 #include <memory>
 
 int main()
 {
-	mini::EngineSettings settings;
-	settings.windowHeight = 480;
-	settings.windowWidth = 640;
-	settings.windowName = "Example Game";
+	sf::Texture texture;
+	texture.loadFromFile("img_1.png");
+	texture.setSmooth(true);
+	auto sharedSprite = std::make_shared<sf::Sprite>();
+	sharedSprite->setTexture(texture);
+	sharedSprite->setOrigin({ texture.getSize().x * 0.5f, texture.getSize().y * 0.5f });
 
 	auto sharedShape = std::make_shared<sf::CircleShape>(80.f);
 	sharedShape->setOrigin({ 80, 80 });
 
 	mini::Scene scene("default_scene");
-	/*auto& obj_1 = scene.addObject("obj_1");	
-	auto& shapeRen = obj_1.addComponent<mini::ShapeRenderer>();
-	shapeRen.setColor(sf::Color::Green);
-	shapeRen.setShape(sharedShape);
-	shapeRen.setLayer(1);
-	auto& follower_1 = obj_1.addComponent<MouseFollower>();
-	follower_1.offset = sf::Vector2f(-50, 0);
+
+	auto& obj_1 = scene.addObject("obj_1");
+	obj_1.setPosition({ 400, 500 });
+	auto& ren = obj_1.addComponent<mini::SpriteRenderer>();
+	ren.setColor(sf::Color::Green);
+	ren.setSprite(sharedSprite);
+	ren.setLayer(1);
 
 	auto& obj_2 = scene.addObject("obj_2");
+	obj_1.setPosition({ 900, 200 });
 	auto& shapeRen_2 = obj_2.addComponent<mini::ShapeRenderer>();
 	shapeRen_2.setColor(sf::Color::Red);
 	shapeRen_2.setShape(sharedShape);
-	auto& follower_2 = obj_2.addComponent<MouseFollower>();
-	follower_2.offset = sf::Vector2f(50, 0);*/
 
 	auto& obj_3 = scene.addObject("obj_3");
 	obj_3.setPosition({ 200, 200 });
@@ -45,10 +49,21 @@ int main()
 	shapeRen_3.setColor(sf::Color::Red);
 	shapeRen_3.setShape(sharedShape);
 	obj_3.addComponent<mini::CircleCollider>();
-	auto& draggable = obj_3.addComponent<DraggableObject>();
+	obj_3.addComponent<DraggableObject>();
 
+	auto& cam = scene.addObject("camera");
+	cam.setPosition({ 200, 200 });
+	auto& camComp = cam.addComponent<mini::Camera>();
+	camComp.setOrthoSize({ 320, 240 });
+	cam.addComponent<KeyMover>();
+
+	mini::EngineSettings settings;
+	settings.windowHeight = 480;
+	settings.windowWidth = 640;
+	settings.windowName = "Example Game";
 	mini::Miniengine engine(settings, { std::move(scene) });
 	engine.Run();
+
 	return 0;
 }
 

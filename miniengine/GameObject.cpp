@@ -19,7 +19,7 @@ namespace mini
 		return id;
 	}
 
-	const std::string & GameObject::getName() const
+	const std::string& GameObject::getName() const
 	{
 		return name;
 	}

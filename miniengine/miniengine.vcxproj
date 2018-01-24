@@ -158,9 +158,10 @@
     <ClInclude Include="RenderingQueue.h" />
     <ClInclude Include="RenderingSystem.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="SpriteRenderer.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioSystem.cpp" />
@@ -181,9 +182,10 @@
     <ClCompile Include="RenderingQueue.cpp" />
     <ClCompile Include="RenderingSystem.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
