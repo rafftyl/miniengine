@@ -138,6 +138,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
@@ -162,9 +164,12 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="SpritesheetAnimation.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -185,6 +190,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="SpritesheetAnimation.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

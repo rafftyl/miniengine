@@ -34,7 +34,7 @@ int main()
 		auto& obj_1 = scene.addObject("obj_1");
 		obj_1.setPosition({ 400, 500 });
 		auto& ren = obj_1.addComponent<mini::SpriteRenderer>();
-		ren.setColor(sf::Color::Green);
+		ren.setColor(sf::Color::White);
 		ren.setSprite(sharedSprite);
 		ren.setLayer(1);
 		obj_1.addComponent<SceneChanger>().currentScene = "default_scene";
@@ -44,12 +44,14 @@ int main()
 		auto& shapeRen_2 = obj_2.addComponent<mini::ShapeRenderer>();
 		shapeRen_2.setColor(sf::Color::Red);
 		shapeRen_2.setShape(sharedShape);
+		shapeRen_2.setLayer(3);
 
 		auto& obj_3 = scene.addObject("obj_3");
 		obj_3.setPosition({ 200, 200 });
 		auto& shapeRen_3 = obj_3.addComponent<mini::ShapeRenderer>();
 		shapeRen_3.setColor(sf::Color::Red);
 		shapeRen_3.setShape(sharedShape);
+		shapeRen_3.setLayer(2);
 		obj_3.addComponent<mini::CircleCollider>();
 		obj_3.addComponent<DraggableObject>();
 
