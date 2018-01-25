@@ -61,10 +61,11 @@ namespace mini
 				obj.second.destroy();				
 			}
 			currentCam = nullptr;
+			scenes[currentSceneIndex].unload();
 		}
 
 		bool found = false;
-		for (size_t i = 0; i < scenes.size()&& !found; ++i)
+		for (size_t i = 0; i < scenes.size() && !found; ++i)
 		{
 			if (scenes[i].name == name)
 			{
@@ -79,7 +80,14 @@ namespace mini
 		}
 		else
 		{
-			for (auto& obj : scenes[currentSceneIndex].objects)
+			Scene& currentScene = scenes[currentSceneIndex];
+			currentScene.load();
+			for (auto& obj : currentScene.objects)
+			{
+				obj.second.setGameplaySystem(shared_from_this());
+			}	
+
+			for (auto& obj : currentScene.objects)
 			{
 				obj.second.start();
 				auto cam = obj.second.getComponent<Camera>();
@@ -92,7 +100,7 @@ namespace mini
 
 			if (currentCam != nullptr)
 			{
-				for (auto& obj : scenes[currentSceneIndex].objects)
+				for (auto& obj : currentScene.objects)
 				{
 					auto rend = obj.second.getComponent<Renderer>();
 					if (rend != nullptr)
@@ -117,23 +125,10 @@ namespace mini
 
 	void GameplaySystem::init()
 	{
-		for (auto& scene : this->scenes)
-		{
-			for (auto& obj : scene.objects)
-			{
-				obj.second.setGameplaySystem(shared_from_this());
-			}
-		}
 		registerInputCallbacks();
-
 		if (scenes.size() > 0)
 		{
 			loadScene(scenes[0].name);
-		}
-
-		for (auto& obj : scenes[currentSceneIndex].objects)
-		{
-			obj.second.start();
 		}		
 	}
 
@@ -300,16 +295,16 @@ namespace mini
 			[&](input::raycast::IMouseDragHandler& handler)
 			{
 				handler.onMouseDragStart(button, mousePosition, mouseDelta);
+				currentDraggedObject = &handler;
 			}, mousePosition);
 	}
 
 	void GameplaySystem::invokeDragCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 	{
-		invokeRaycastCallbacks<input::raycast::IMouseDragHandler>(
-			[&](input::raycast::IMouseDragHandler& handler) 
-			{
-				handler.onMouseDrag(button, mousePosition, mouseDelta);
-			}, mousePosition);
+		if (currentDraggedObject != nullptr)
+		{
+			currentDraggedObject->onMouseDrag(button, mousePosition, mouseDelta);
+		}
 	}
 
 	void GameplaySystem::invokeDragEndCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
@@ -319,6 +314,7 @@ namespace mini
 			{
 				handler.onMouseDragEnd(button, mousePosition, mouseDelta);
 			}, mousePosition);
+		currentDraggedObject = nullptr;
 	}
 
 	void GameplaySystem::invokeMouseMoveCallbacks(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)

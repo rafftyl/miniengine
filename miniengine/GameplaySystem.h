@@ -6,6 +6,13 @@
 
 namespace mini
 {
+	namespace input
+	{
+		namespace raycast
+		{
+			class IMouseDragHandler;
+		}
+	}
 	class GameplaySystem : public EngineSystem, public std::enable_shared_from_this<GameplaySystem>
 	{
 	private:
@@ -15,6 +22,7 @@ namespace mini
 
 		//TODO: move to a separate InputEventHandler class
 		std::set<const GameObject*> objectsEntered;
+		input::raycast::IMouseDragHandler* currentDraggedObject = nullptr;
 	public:
 		GameplaySystem(MessageBus& msgBus, std::vector<Scene>&& scenes);
 		virtual ~GameplaySystem();

@@ -2,7 +2,8 @@
 
 namespace mini
 {
-	Scene::Scene(std::string&& name) : name(std::move(name))
+	Scene::Scene(std::string&& name, std::function<void(Scene&)> initializationRoutine) : 
+		name(std::move(name)), initScene(initializationRoutine)
 	{
 	}
 
@@ -15,5 +16,15 @@ namespace mini
 		auto itr = objects.insert(std::make_pair(nextId, GameObject(std::move(name), nextId)));
 		++nextId;
 		return itr.first->second;
+	}
+
+	void Scene::load()
+	{
+		initScene(*this);
+	}
+
+	void Scene::unload()
+	{
+		objects.clear();
 	}
 }
