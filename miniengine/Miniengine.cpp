@@ -15,7 +15,6 @@ namespace mini
 		systems.push_back(std::make_shared<GameplaySystem>(msgBus, std::move(scenes)));
 		systems.push_back(std::make_shared<AudioSystem>(msgBus));	
 		systems.push_back(std::make_shared<RenderingSystem>(msgBus, *window));
-		systems.push_back(std::make_shared<GUISystem>(msgBus, *window));
 		systems.push_back(std::make_shared<DebugConsole>(msgBus));
 
 		msgBus.engineEvents.onEngineShutdownRequest.addCallback([&] {shouldRun = false;});

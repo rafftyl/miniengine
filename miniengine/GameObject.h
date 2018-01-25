@@ -10,6 +10,7 @@ namespace mini
 	class GameObject : public sf::Transformable
 	{
 		friend class GameplaySystem;
+		friend class Scene;
 	private:
 		std::shared_ptr<GameplaySystem> gameplaySystem;
 		std::vector<std::shared_ptr<Component>> components;

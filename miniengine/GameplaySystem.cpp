@@ -47,19 +47,7 @@ namespace mini
 	void GameplaySystem::loadScene(const std::string& name)
 	{	
 		if (currentSceneIndex > -1)
-		{
-			for (auto& obj : scenes[currentSceneIndex].objects)
-			{
-				if (currentCam != nullptr)
-				{
-					auto rend = obj.second.getComponent<Renderer>();
-					if (rend != nullptr)
-					{
-						currentCam->unregisterRenderer(rend);
-					}					
-				}
-				obj.second.destroy();				
-			}
+		{			
 			currentCam = nullptr;
 			scenes[currentSceneIndex].unload();
 		}
@@ -69,7 +57,7 @@ namespace mini
 		{
 			if (scenes[i].name == name)
 			{
-				currentSceneIndex = i;
+				currentSceneIndex = static_cast<int>(i);
 				found = true;
 			}
 		}

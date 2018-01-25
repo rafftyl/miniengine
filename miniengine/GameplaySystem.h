@@ -17,7 +17,7 @@ namespace mini
 	{
 	private:
 		std::vector<Scene> scenes;
-		size_t currentSceneIndex = -1;
+		int currentSceneIndex = -1;
 		std::shared_ptr<Camera> currentCam = nullptr;
 
 		//TODO: move to a separate InputEventHandler class

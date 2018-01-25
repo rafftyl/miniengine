@@ -25,6 +25,10 @@ namespace mini
 
 	void Scene::unload()
 	{
+		for (auto& obj : objects)
+		{
+			obj.second.destroy();
+		}
 		objects.clear();
 	}
 }
