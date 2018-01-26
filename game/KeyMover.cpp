@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "KeyMover.h"
 #include "GameObject.h"
 #include "Timer.h"

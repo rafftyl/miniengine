@@ -1,13 +1,10 @@
 // game.cpp : Defines the entry point for the console application.
 //
-
-#include "stdafx.h"
 #include "Miniengine.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "ShapeRenderer.h"
 #include "SpriteRenderer.h"
-#include "MouseFollower.h"
 #include "DraggableObject.h"
 #include "BoxCollider.h"
 #include "LayoutElement.h"

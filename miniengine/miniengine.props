@@ -17,7 +17,7 @@
       </AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>C:\glew\lib\Release\x64;$(SolutionDir)\libs\SFML\lib;C:\Program Files (x86)\Windows Kits\10\Lib\10.0.15063.0\um\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\libs\GL;$(SolutionDir)\libs\SFML\lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup />

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "DraggableObject.h"
 #include "Renderer.h"
 #include "GameplaySystem.h"
