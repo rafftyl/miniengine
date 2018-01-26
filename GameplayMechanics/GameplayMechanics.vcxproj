@@ -137,9 +137,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameplayManager.h" />
+    <ClInclude Include="Source\GameState\GameState.h" />
+    <ClInclude Include="Source\Players\DefaultPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp" />
+    <ClCompile Include="Source\GameState\GameState.cpp" />
+    <ClCompile Include="Source\Players\DefaultPlayer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
