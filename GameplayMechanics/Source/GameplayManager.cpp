@@ -1,4 +1,5 @@
 ﻿#include "GameplayManager.h"
+#include "Moves\DefaultMove.h"
 #define ITERATIONS 100
 using namespace Game;
 
@@ -17,22 +18,37 @@ const GameState& GameplayManager::GetCurrentGameState() const
 
 void GameplayManager::RestartGame()
 {
+	movesToAnimate.clear();
 	Initialize();
 }
 
 bool GameplayManager::AI_PerformTurn()
 {
 	int currentPlayer = currentGameState->whoPlay();
-	if (currentPlayer != grailMCTS::TERMINAL)
+	if (movesToAnimate.size() == 0 && currentPlayer != grailMCTS::TERMINAL)
 	{
 		while (currentPlayer == currentGameState->whoPlay())
 		{
 			mcts.setRoot(currentGameState->clone());
 			mcts.runIterationsTotal(ITERATIONS);
-			currentGameState->applyMove({ *mcts.highestResultMove() });
+			std::unique_ptr<grailMCTS::Move> move = mcts.highestResultMove();
+			currentGameState->applyMove({ *move });
+			movesToAnimate.push_back(std::unique_ptr<DefaultMove>(static_cast<DefaultMove*>(move.release())));
 		}
+		return true;
 	}
 	return false;
+}
+
+std::list<std::unique_ptr<DefaultMove>> GameplayManager::GetMovesToAnimate()
+{
+	std::list<std::unique_ptr<DefaultMove>> result = std::list<std::unique_ptr<DefaultMove>>();
+	while (movesToAnimate.size() > 0)
+	{
+		result.push_back(std::move(movesToAnimate.front()));
+		movesToAnimate.pop_front();
+	}
+	return result;
 }
 
 
@@ -45,6 +61,8 @@ void GameplayManager::Initialize()
 
 GameplayManager::GameplayManager()
 {
+	mcts = grailMCTS::MCTS();
+	movesToAnimate = std::list<std::unique_ptr<DefaultMove>>();
 	Initialize();
 }
 

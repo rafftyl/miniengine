@@ -1,7 +1,6 @@
 #pragma once
-#include <mutex>
 #include <memory>
-#include <unordered_map>
+#include <list>
 #include <MCTS.h>
 #include "GameState\GameState.h"
 
@@ -17,10 +16,12 @@ namespace Game
 		const GameState& GetCurrentGameState() const;
 		void RestartGame();
 		bool AI_PerformTurn();
+		std::list<std::unique_ptr<DefaultMove>> GetMovesToAnimate();
 
 	private:
-		grailMCTS::MCTS mcts;
 		std::unique_ptr<GameState> currentGameState;
+		std::list<std::unique_ptr<DefaultMove>> movesToAnimate;
+		grailMCTS::MCTS mcts;
 		void Initialize();
 		GameplayManager();
 		~GameplayManager();
