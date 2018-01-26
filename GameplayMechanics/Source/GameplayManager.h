@@ -5,18 +5,18 @@
 #include "Players\DefaultPlayer.h"
 
 
-class GameManager
+class GameplayManager
 {
 public:
-	static GameManager& GetInstance();
-	GameManager(GameManager const&) = delete;
-	void operator=(GameManager const&) = delete;
+	GameplayManager(GameplayManager const&) = delete;
+	void operator=(GameplayManager const&) = delete;
+	static GameplayManager& GetInstance();
 	void RunGame();
 	GameState* GetCurrentGameState();
 
 private:
-	GameManager();
-	~GameManager();
 	std::unique_ptr<GameState> currentGameState;
 	std::unordered_map<int, std::unique_ptr<DefaultPlayer>> players;
+	GameplayManager();
+	~GameplayManager();
 };

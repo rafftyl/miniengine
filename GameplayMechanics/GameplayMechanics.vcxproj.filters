@@ -11,6 +11,9 @@
     <Filter Include="Source Files\GameState">
       <UniqueIdentifier>{ea1a1f9b-ef3d-4675-a234-36be0016adca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Moves">
+      <UniqueIdentifier>{b4553c44-2172-4bd8-b81f-fef399ce5bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameplayManager.h">
@@ -22,6 +25,9 @@
     <ClInclude Include="Source\Players\DefaultPlayer.h">
       <Filter>Source Files\Players</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Moves\DefaultMove.h">
+      <Filter>Source Files\Moves</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp">
@@ -32,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="Source\Players\DefaultPlayer.cpp">
       <Filter>Source Files\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Moves\DefaultMove.cpp">
+      <Filter>Source Files\Moves</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
