@@ -33,7 +33,8 @@ namespace mini
 		virtual void update() override;
 		virtual void init() override;
 		std::shared_ptr<const Camera> getCurrentCam() const;
-
+		Scene& getCurrentScene();
+		void closeApplication() const;
 	private:
 		void registerInputCallbacks();
 		//TODO: move all these methods to a separate InputEventHandler class

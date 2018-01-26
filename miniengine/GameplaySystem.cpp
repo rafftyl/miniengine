@@ -90,10 +90,10 @@ namespace mini
 			{
 				for (auto& obj : currentScene.objects)
 				{
-					auto rend = obj.second.getComponent<Renderer>();
-					if (rend != nullptr)
+					auto rends = obj.second.getComponents<Renderer>();
+					for (const auto& renderer : rends)
 					{
-						currentCam->registerRenderer(rend);
+						currentCam->registerRenderer(renderer);
 					}
 				}
 			}
@@ -123,6 +123,16 @@ namespace mini
 	std::shared_ptr<const Camera> GameplaySystem::getCurrentCam() const
 	{
 		return currentCam;
+	}
+
+	Scene& GameplaySystem::getCurrentScene()
+	{
+		return scenes[currentSceneIndex];
+	}
+
+	void GameplaySystem::closeApplication() const
+	{
+		msgBus.engineEvents.onEngineShutdownRequest.broadcast();
 	}
 
 	void GameplaySystem::registerInputCallbacks()

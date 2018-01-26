@@ -27,7 +27,7 @@ namespace mini
 		LayoutElementSettings settings;
 		sf::Vector2f elementPosition;
 		sf::Vector2f elementSize;
-		sf::Vector2f uniformPivotPosition;
+		sf::Vector2f uniformPivotPosition{ 0.5f, 0.5f };
 		std::shared_ptr<Renderer> renderer;
 	public:
 		LayoutElement(GameObject& owner);

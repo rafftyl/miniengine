@@ -9,10 +9,9 @@
 #include "BoxCollider.h"
 #include "LayoutElement.h"
 #include "CircleCollider.h"
-#include "KeyMover.h"
 #include "Camera.h"
 #include "UIButton.h"
-#include "SceneChanger.h"
+#include "GameplaySystem.h"
 #include "Prefab.h"
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -20,84 +19,89 @@
 
 int main()
 {
-	sf::Texture texture;
+	mini::EngineSettings settings;
+	settings.windowHeight = 480;
+	settings.windowWidth = 640;
+
+	/*sf::Texture texture;
 	texture.loadFromFile("img_1.png");
 	texture.setSmooth(true);
 	auto sharedSprite = std::make_shared<sf::Sprite>();
 	sharedSprite->setTexture(texture);
-	sharedSprite->setOrigin({ texture.getSize().x * 0.5f, texture.getSize().y * 0.5f });
+	sharedSprite->setOrigin({ texture.getSize().x * 0.5f, texture.getSize().y * 0.5f });*/
+	auto rectShape = std::make_shared<sf::RectangleShape>(sf::Vector2f(10.0f, 10.0f));
+	rectShape->setOrigin({ 5.0f , 5.0f});
 
-	auto sharedShape = std::make_shared<sf::CircleShape>(80.f);
-	sharedShape->setOrigin({ 80, 80 });
-
-	mini::Prefab prefab_1("duda",
+	mini::Prefab buttonPrefab("button",
 		[&](mini::GameObject& object) 
 	{
 		object.setScreenSpace(true);
-		auto ren = object.addComponent<mini::SpriteRenderer>();
+		auto ren = object.addComponent<mini::ShapeRenderer>();
 		ren->setColor(sf::Color::Green);
-		ren->setSprite(sharedSprite);
+		ren->setShape(rectShape);
 		ren->setLayer(1);
-		object.addComponent<SceneChanger>()->currentScene = "default_scene";
 		object.addComponent<mini::BoxCollider>();
-		auto& layoutEl = object.addComponent<mini::LayoutElement>();
-		layoutEl->setPivotPosition({ 0, 0 });
-		layoutEl->setPosition({ 0,0 });
-		layoutEl->setSize({ 0.3f, 0.3f });
-		layoutEl->applySettings({ true, true, false, false });
+		auto layoutEl = object.addComponent<mini::LayoutElement>();
+		layoutEl->applySettings({ false, false, false, false });
+		layoutEl->setPosition({ 0.5f, 0.5f });
+		layoutEl->setPivotPosition({ 0.5f, 0.5f });
+		layoutEl->setSize({ 0.8f, 0.2f });
 		object.addComponent<UIButton>();
 	});
 
-	mini::Scene defaultScene("default_scene", [&](mini::Scene& scene)
+	mini::Scene menu("menu", [&](mini::Scene& scene)
 	{
-		auto& obj_1 = prefab_1.instantiate(scene);
-		obj_1.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {std::cout << "clicked!" << std::endl; });
+		auto& startGame = buttonPrefab.instantiate(scene);
+		startGame.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("game"); });
+		startGame.getComponent<mini::LayoutElement>()->setPosition({ 0.5f, 0.25f });
 
-		auto& testObj = prefab_1.instantiate(scene);
-		testObj.getComponent<mini::LayoutElement>()->setPosition({ 320.0f, 0.0f });
+		auto& howTo = buttonPrefab.instantiate(scene);
+		howTo.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("how_to"); });
+		howTo.getComponent<mini::LayoutElement>()->setPosition({ 0.5f, 0.5f });
 
-		auto& obj_2 = scene.addObject("obj_2");
-		obj_2.setPosition({ 900, 200 });
-		auto& shapeRen_2 = obj_2.addComponent<mini::ShapeRenderer>();
-		shapeRen_2->setColor(sf::Color::Red);
-		shapeRen_2->setShape(sharedShape);
-
-		auto& obj_3 = scene.addObject("obj_3");
-		obj_3.setPosition({ 200, 200 });
-		auto& shapeRen_3 = obj_3.addComponent<mini::ShapeRenderer>();
-		shapeRen_3->setColor(sf::Color::Red);
-		shapeRen_3->setShape(sharedShape);
-		obj_3.addComponent<mini::CircleCollider>();
+		auto& quit = buttonPrefab.instantiate(scene);
+		quit.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().closeApplication(); });
+		quit.getComponent<mini::LayoutElement>()->setPosition({ 0.5f, 0.75f });
 
 		auto& cam = scene.addObject("camera");
-		cam.setPosition({ 200, 200 });
+		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
-		camComp->setOrthoSize({ 1280, 960});
-		cam.addComponent<KeyMover>();
+		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)});
 	});	
 
-	mini::Scene otherScene("other_scene", [&](mini::Scene& scene)
+	mini::Scene game("game", [&](mini::Scene& scene)
 	{
-		auto& obj_1 = scene.addObject("obj_1");
-		obj_1.setPosition({ 400, 500 });
-		auto& ren = obj_1.addComponent<mini::SpriteRenderer>();
-		ren->setColor(sf::Color::Green);
-		ren->setSprite(sharedSprite);
-		ren->setLayer(1);
-		obj_1.addComponent<SceneChanger>()->currentScene = "other_scene";
+		auto& howTo = buttonPrefab.instantiate(scene);
+		howTo.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("menu"); });
+		auto layoutEl = howTo.getComponent<mini::LayoutElement>();
+		layoutEl->setPivotPosition({ 0.0f, 0.0f });
+		layoutEl->setPosition({ 0.0f, 0.0f });	
+		layoutEl->applySettings({ false, false, true, true });
+		layoutEl->setSize({ 100.0f, 100.0f });
 
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 200, 200 });
 		auto& camComp = cam.addComponent<mini::Camera>();
 		camComp->setOrthoSize({ 1280, 960});
-		cam.addComponent<KeyMover>();
 	});
 
-	mini::EngineSettings settings;
-	settings.windowHeight = 480;
-	settings.windowWidth = 640;
+	mini::Scene howTo("how_to", [&](mini::Scene& scene)
+	{
+		auto& menu = buttonPrefab.instantiate(scene);
+		menu.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("menu"); });
+		auto layoutEl = menu.getComponent<mini::LayoutElement>();
+		layoutEl->setPivotPosition({ 0.5f, 1.0f });
+		layoutEl->setPosition({ 0.5f, 1.0f });
+		
+		auto& cam = scene.addObject("camera");
+		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
+		auto& camComp = cam.addComponent<mini::Camera>();
+		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight) });
+	});
+
+	
 	settings.windowName = "Example Game";
-	mini::Miniengine engine(settings, { std::move(defaultScene), std::move(otherScene) });
+	mini::Miniengine engine(settings, { std::move(menu), std::move(howTo), std::move(game) });
 	engine.Run();
 
 	return 0;

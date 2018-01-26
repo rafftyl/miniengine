@@ -21,12 +21,6 @@
     <ClInclude Include="DraggableObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyMover.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneChanger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,12 +33,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DraggableObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyMover.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneChanger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameEvents.cpp">

@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "GameplaySystem.h"
 
 namespace mini
 {

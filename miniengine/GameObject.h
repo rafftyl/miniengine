@@ -28,7 +28,7 @@ namespace mini
 		void setActive(bool on);
 		bool isScreenSpace() const;
 		void setScreenSpace(bool on);
-
+	
 		template<class ComponentType>
 		std::shared_ptr<ComponentType> getComponent() 
 		{
@@ -40,6 +40,20 @@ namespace mini
 				}
 			}
 			return nullptr;
+		}
+
+		template<class ComponentType>
+		std::vector<std::shared_ptr<ComponentType>> getComponents()
+		{
+			std::vector<std::shared_ptr<ComponentType>> result;
+			for (const auto& comp : components)
+			{
+				if (comp->isOfType<ComponentType>())
+				{
+					result.push_back(std::dynamic_pointer_cast<ComponentType>(comp));
+				}
+			}
+			return result;
 		}
 
 		template<class ComponentType>

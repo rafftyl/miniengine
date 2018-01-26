@@ -21,6 +21,11 @@ namespace mini
 		return owner;
 	}
 
+	GameplaySystem& Component::getGameplaySystem()
+	{
+		return *gameplaySystem;
+	}
+
 	void Component::start()
 	{
 	}
