@@ -12,6 +12,7 @@ namespace mini
 		virtual void update(float deltaTime);
 		void reset();
 		virtual void setRenderer(class GameObject& rendererOwner) = 0;
+		bool isFinished() const;
 	protected:
 		Animation(bool shouldLoop);
 		~Animation();

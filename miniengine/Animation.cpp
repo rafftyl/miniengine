@@ -13,15 +13,20 @@ namespace mini
 	void Animation::update(float deltaTime)
 	{
 		timer += deltaTime;
+		if (loop && timer > loopDuration)
+		{
+			timer = 0;
+		}
 	}
 
 	void Animation::reset()
 	{
 		timer = 0;
-		if (loop && timer > loopDuration)
-		{
-			timer = 0;
-		}
+	}
+
+	bool Animation::isFinished() const
+	{
+		return !loop && timer >= loopDuration;
 	}
 
 	void Animation::setLoopDuration(float duration)

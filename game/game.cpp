@@ -7,6 +7,8 @@
 #include "Scene.h"
 #include "ShapeRenderer.h"
 #include "SpriteRenderer.h"
+#include "SpritesheetAnimation.h"
+#include "Animator.h"
 #include "MouseFollower.h"
 #include "DraggableObject.h"
 #include "BoxCollider.h"
@@ -22,12 +24,24 @@ int main()
 	sf::Texture texture;
 	texture.loadFromFile("img_1.png");
 	texture.setSmooth(true);
+
 	auto sharedSprite = std::make_shared<sf::Sprite>();
 	sharedSprite->setTexture(texture);
 	sharedSprite->setOrigin({ texture.getSize().x * 0.5f, texture.getSize().y * 0.5f });
 
+	auto otherSprite = std::make_shared<sf::Sprite>();
+	otherSprite->setTexture(texture);
+	otherSprite->setTextureRect(sf::IntRect(0, 0, texture.getSize().x / 2, texture.getSize().y / 2));
+
 	auto sharedShape = std::make_shared<sf::CircleShape>(80.f);
 	sharedShape->setOrigin({ 80, 80 });
+
+	std::vector<std::pair<float, std::shared_ptr<sf::Sprite>>> spritesheet =
+	{
+		{3.0f, sharedSprite},
+		{1.0f, otherSprite}
+	};
+	auto animation = std::make_shared<mini::SpritesheetAnimation>(std::move(spritesheet), true);
 
 	mini::Scene defaultScene("default_scene", [&](mini::Scene& scene)
 	{
@@ -35,8 +49,11 @@ int main()
 		obj_1.setPosition({ 400, 500 });
 		auto& ren = obj_1.addComponent<mini::SpriteRenderer>();
 		ren.setColor(sf::Color::White);
-		ren.setSprite(sharedSprite);
 		ren.setLayer(1);
+		ren.setSprite(sharedSprite);
+		auto& animator = obj_1.addComponent<mini::Animator>();
+		animator.setAnimations({ {"idle", animation} });
+		animator.setDefaultAnimation("idle");
 		obj_1.addComponent<SceneChanger>().currentScene = "default_scene";
 
 		auto& obj_2 = scene.addObject("obj_2");
