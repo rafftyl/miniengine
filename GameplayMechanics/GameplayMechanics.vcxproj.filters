@@ -22,6 +22,12 @@
     <ClInclude Include="Source\Moves\DefaultMove.h">
       <Filter>Source Files\Moves</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameState\Field.h">
+      <Filter>Source Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameState\Pawn.h">
+      <Filter>Source Files\GameState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp">
@@ -32,6 +38,12 @@
     </ClCompile>
     <ClCompile Include="Source\Moves\DefaultMove.cpp">
       <Filter>Source Files\Moves</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameState\Field.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameState\Pawn.cpp">
+      <Filter>Source Files\GameState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

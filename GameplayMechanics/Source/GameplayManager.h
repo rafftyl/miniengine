@@ -2,11 +2,13 @@
 #include <memory>
 #include <list>
 #include <MCTS.h>
-#include "GameState\GameState.h"
 
 
 namespace Game
 {
+	class GameState;
+	class DefaultMove;
+
 	class GameplayManager
 	{
 		public:

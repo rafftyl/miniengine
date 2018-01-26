@@ -1,4 +1,5 @@
 ﻿#include "GameplayManager.h"
+#include "GameState\GameState.h"
 #include "Moves\DefaultMove.h"
 #define ITERATIONS 100
 using namespace Game;

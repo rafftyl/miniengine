@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -137,12 +137,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameplayManager.h" />
+    <ClInclude Include="Source\GameState\Field.h" />
     <ClInclude Include="Source\GameState\GameState.h" />
+    <ClInclude Include="Source\GameState\Pawn.h" />
     <ClInclude Include="Source\Moves\DefaultMove.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp" />
+    <ClCompile Include="Source\GameState\Field.cpp" />
     <ClCompile Include="Source\GameState\GameState.cpp" />
+    <ClCompile Include="Source\GameState\Pawn.cpp" />
     <ClCompile Include="Source\Moves\DefaultMove.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
