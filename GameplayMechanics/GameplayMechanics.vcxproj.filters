@@ -5,9 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files\Players">
-      <UniqueIdentifier>{339f80fa-94fb-4096-ade7-4d1b979499e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GameState">
       <UniqueIdentifier>{ea1a1f9b-ef3d-4675-a234-36be0016adca}</UniqueIdentifier>
     </Filter>
@@ -22,9 +19,6 @@
     <ClInclude Include="Source\GameState\GameState.h">
       <Filter>Source Files\GameState</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Players\DefaultPlayer.h">
-      <Filter>Source Files\Players</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Moves\DefaultMove.h">
       <Filter>Source Files\Moves</Filter>
     </ClInclude>
@@ -35,9 +29,6 @@
     </ClCompile>
     <ClCompile Include="Source\GameState\GameState.cpp">
       <Filter>Source Files\GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Players\DefaultPlayer.cpp">
-      <Filter>Source Files\Players</Filter>
     </ClCompile>
     <ClCompile Include="Source\Moves\DefaultMove.cpp">
       <Filter>Source Files\Moves</Filter>

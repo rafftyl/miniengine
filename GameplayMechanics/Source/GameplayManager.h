@@ -1,22 +1,28 @@
 #pragma once
+#include <mutex>
 #include <memory>
 #include <unordered_map>
+#include <MCTS.h>
 #include "GameState\GameState.h"
-#include "Players\DefaultPlayer.h"
 
 
-class GameplayManager
+namespace Game
 {
-public:
-	GameplayManager(GameplayManager const&) = delete;
-	void operator=(GameplayManager const&) = delete;
-	static GameplayManager& GetInstance();
-	void RunGame();
-	GameState* GetCurrentGameState();
+	class GameplayManager
+	{
+	public:
+		GameplayManager(GameplayManager const&) = delete;
+		void operator=(GameplayManager const&) = delete;
+		static GameplayManager& GetInstance();
+		const GameState& GetCurrentGameState() const;
+		void RestartGame();
+		bool AI_PerformTurn();
 
-private:
-	std::unique_ptr<GameState> currentGameState;
-	std::unordered_map<int, std::unique_ptr<DefaultPlayer>> players;
-	GameplayManager();
-	~GameplayManager();
-};
+	private:
+		grailMCTS::MCTS mcts;
+		std::unique_ptr<GameState> currentGameState;
+		void Initialize();
+		GameplayManager();
+		~GameplayManager();
+	};
+}

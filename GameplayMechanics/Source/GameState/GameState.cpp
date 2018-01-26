@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "..\Moves\DefaultMove.h"
+using namespace Game;
 
 
 //public

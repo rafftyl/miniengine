@@ -1,4 +1,5 @@
 #include "DefaultMove.h"
+using namespace Game;
 
 
 //public
