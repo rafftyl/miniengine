@@ -105,6 +105,9 @@
     <ClInclude Include="LayoutElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Prefab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Miniengine.cpp">
@@ -171,6 +174,9 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="LayoutElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

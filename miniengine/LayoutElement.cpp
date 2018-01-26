@@ -14,7 +14,8 @@ namespace mini
 
 	void LayoutElement::start()
 	{
-		Component::start();		
+		Component::start();	
+		owner.setScreenSpace(true);
 		renderer = owner.getComponent<Renderer>();
 		sf::Vector2f min, max;
 		renderer->getBounds(min, max);
@@ -24,6 +25,7 @@ namespace mini
 				settings.absoluteSizeX ? elementSize.x / size.x : elementSize.x * Screen::width / size.x,
 				settings.absoluteSizeY ? elementSize.y / size.y : elementSize.y * Screen::height / size.y);
 		owner.setScale(scale);
+
 		renderer->getBounds(min, max);
 		size = max - min;
 		uniformPivotPosition -= sf::Vector2f(0.5f, 0.5f);

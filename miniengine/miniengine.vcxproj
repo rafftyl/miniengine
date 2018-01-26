@@ -156,6 +156,7 @@
     <ClInclude Include="MessageBus.h" />
     <ClInclude Include="Miniengine.h" />
     <ClInclude Include="ModifierKeys.h" />
+    <ClInclude Include="Prefab.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderingQueue.h" />
     <ClInclude Include="RenderingSystem.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="LayoutElement.cpp" />
     <ClCompile Include="MessageBus.cpp" />
     <ClCompile Include="Miniengine.cpp" />
+    <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderingQueue.cpp" />
     <ClCompile Include="RenderingSystem.cpp" />

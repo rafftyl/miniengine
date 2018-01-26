@@ -159,14 +159,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DraggableObject.h" />
+    <ClInclude Include="GameEvents.h" />
     <ClInclude Include="KeyMover.h" />
     <ClInclude Include="SceneChanger.h" />
+    <ClInclude Include="UIButton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DraggableObject.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="KeyMover.cpp" />
     <ClCompile Include="SceneChanger.cpp" />
+    <ClCompile Include="UIButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\miniengine\miniengine.vcxproj">

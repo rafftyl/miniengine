@@ -43,7 +43,7 @@ namespace mini
 		}
 
 		template<class ComponentType>
-		ComponentType& addComponent()
+		std::shared_ptr<ComponentType> addComponent()
 		{
 			auto newComp = std::make_shared<ComponentType>(*this);
 			components.push_back(newComp);
@@ -52,7 +52,7 @@ namespace mini
 				newComp->gameplaySystem = gameplaySystem;			
 				newComp->start();
 			}
-			return *newComp;
+			return newComp;
 		}
 
 	private:
