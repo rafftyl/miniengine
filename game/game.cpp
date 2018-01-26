@@ -44,9 +44,9 @@ int main()
 		obj_1.addComponent<DraggableObject>();
 		auto& layoutEl = obj_1.addComponent<mini::LayoutElement>();
 		layoutEl.setPivotPosition({ 0, 0 });
-		layoutEl.setUniformPosition({ 0,0 });
-		//layoutEl.setUniformSize({ 0.3f, 0.3f });
-		layoutEl.setAbsoluteSize({ 50, 50 });
+		layoutEl.setPosition({ 0,0 });
+		layoutEl.setSize({ 0.3f, 0.3f });
+		layoutEl.applySettings({ true, true, false, false });
 
 		auto& obj_2 = scene.addObject("obj_2");
 		obj_2.setPosition({ 900, 200 });
