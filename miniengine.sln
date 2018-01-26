@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "miniengine", "miniengine\miniengine.vcxproj", "{FC32B294-D8E6-4943-9DA0-E0159FE49E2B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game\game.vcxproj", "{A449FEF1-2750-4901-B6F7-65CC623BCECF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameplayMechanics", "GameplayMechanics\GameplayMechanics.vcxproj", "{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{A449FEF1-2750-4901-B6F7-65CC623BCECF}.Release|x64.Build.0 = Release|x64
 		{A449FEF1-2750-4901-B6F7-65CC623BCECF}.Release|x86.ActiveCfg = Release|Win32
 		{A449FEF1-2750-4901-B6F7-65CC623BCECF}.Release|x86.Build.0 = Release|Win32
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Debug|x64.ActiveCfg = Debug|x64
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Debug|x64.Build.0 = Debug|x64
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Debug|x86.ActiveCfg = Debug|Win32
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Debug|x86.Build.0 = Debug|Win32
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Release|x64.ActiveCfg = Release|x64
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Release|x64.Build.0 = Release|x64
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Release|x86.ActiveCfg = Release|Win32
+		{2ED1F0F9-A7A3-4A9D-AF38-B5B3BEFE8577}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
