@@ -1,4 +1,4 @@
-#include "GameState.h"
+﻿#include "GameState.h"
 #include "..\Moves\DefaultMove.h"
 using namespace Game;
 
@@ -43,14 +43,20 @@ std::vector<std::unique_ptr<const grailMCTS::Move>> GameState::getMoves() const
 	return result;
 }
 
+//Rafał nie ruszaj plz (to je dla MCTS), używaj "PerformMove(const DefaultMove& move)"
 void GameState::applyMove(const grailMCTS::Move& move)
 {
-
+	PerformMove(static_cast<const DefaultMove&>(move));
 }
 
-void GameState::applyMove(const DefaultMove& move)
+bool GameState::PerformMove(const DefaultMove& move)
 {
-
+	if (move.IsValid(*this))
+	{
+		move.ApplyMove(*this);
+		return true;
+	}
+	return false;
 }
 
 

@@ -18,7 +18,7 @@ namespace Game
 			int whoPlay() const override;
 			std::vector<std::unique_ptr<const grailMCTS::Move>> getMoves() const override;
 			void applyMove(const grailMCTS::Move& move) override;
-			void applyMove(const DefaultMove& move);
+			bool PerformMove(const DefaultMove& move);
 
 		private:
 	};
