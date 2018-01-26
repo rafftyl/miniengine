@@ -164,6 +164,7 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +190,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
