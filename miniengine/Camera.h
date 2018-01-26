@@ -12,7 +12,8 @@ namespace mini
 		friend class RenderingSystem;
 		friend class GameplaySystem;
 	private:
-		std::set<std::shared_ptr<class Renderer>> renderers;		
+		std::set<std::shared_ptr<class Renderer>> renderers;	
+		std::set<std::shared_ptr<class Renderer>> overlayRenderers;
 		sf::Vector2f orthoSize;
 	public:
 		Camera(GameObject& owner);
@@ -25,5 +26,6 @@ namespace mini
 		void render(sf::RenderWindow& window) const;
 		void registerRenderer(const std::shared_ptr<Renderer>& renderer);
 		void unregisterRenderer(const std::shared_ptr<Renderer>& renderer);
+		void renderSet(const std::set<std::shared_ptr<Renderer>>& rendererSet, sf::RenderWindow& window, bool cull) const;
 	};
 }

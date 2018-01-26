@@ -312,8 +312,7 @@ namespace mini
 		{
 			inter->onMouseMove(mousePosition, mouseDelta);
 		}
-
-		
+				
 		invokeRaycastCallbacks<input::raycast::IMouseMoveHandler>(
 			[&](input::raycast::IMouseMoveHandler& handler)
 			{
@@ -326,8 +325,9 @@ namespace mini
 		{
 			if (col->receivesQueries())
 			{
+				bool colContainsPointer = col->getOwner().isScreenSpace() ? col->contains(mousePosition) : col->contains(transformedPos);
 				auto enterHandler = col->getOwner().getComponent<input::raycast::IMouseEnterHandler>();
-				if (enterHandler != nullptr && col->contains(transformedPos))
+				if (enterHandler != nullptr && colContainsPointer)
 				{
 					auto iter = objectsEntered.find(&col->getOwner());
 					if (iter == objectsEntered.end())
@@ -338,7 +338,7 @@ namespace mini
 				}
 
 				auto exitHandler = col->getOwner().getComponent<input::raycast::IMouseExitHandler>();
-				if (exitHandler != nullptr && !col->contains(transformedPos))
+				if (exitHandler != nullptr && !colContainsPointer)
 				{
 					auto iter = objectsEntered.find(&col->getOwner());
 					if (iter != objectsEntered.end())

@@ -19,11 +19,21 @@ namespace mini
 	{
 		sf::View view(owner.getPosition(), orthoSize);
 		window.setView(view);
+		renderSet(renderers, window, true);
+		window.setView(window.getDefaultView());
+		renderSet(overlayRenderers, window, false);
+	}
+
+	void Camera::renderSet(const std::set<std::shared_ptr<Renderer>>& rendererSet, sf::RenderWindow& window, bool cull) const
+	{
 		RenderingQueue renderingQueue;
-		for (auto& rend : renderers)
+		for (auto& rend : rendererSet)
 		{
-			//TODO: culling
-			renderingQueue.push(rend);
+			if (rend->getOwner().isActive())
+			{
+				//TODO: culling
+				renderingQueue.push(rend);
+			}
 		}
 
 		while (!renderingQueue.empty())
@@ -35,12 +45,26 @@ namespace mini
 
 	void Camera::registerRenderer(const std::shared_ptr<Renderer>& renderer)
 	{
-		renderers.insert(renderer);
+		if (renderer->getOwner().isScreenSpace())
+		{
+			overlayRenderers.insert(renderer);
+		}
+		else
+		{
+			renderers.insert(renderer);
+		}		
 	}
 
 	void Camera::unregisterRenderer(const std::shared_ptr<Renderer>& renderer)
 	{
-		renderers.erase(renderer);
+		if (renderer->getOwner().isScreenSpace())
+		{
+			overlayRenderers.erase(renderer);
+		}
+		else
+		{
+			renderers.erase(renderer);
+		}				
 	}
 
 	sf::Vector2f Camera::screenToWorldPoint(const sf::Vector2f& screenPoint) const
