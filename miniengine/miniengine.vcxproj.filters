@@ -109,6 +109,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpritesheetAnimation.h">
+    <ClInclude Include="LayoutElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -183,6 +184,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpritesheetAnimation.cpp">
+    <ClCompile Include="LayoutElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

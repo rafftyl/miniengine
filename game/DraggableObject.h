@@ -9,7 +9,7 @@ class DraggableObject :	public mini::Component,
 	public mini::input::raycast::IMouseExitHandler
 {
 private:
-	sf::Vector2f offset;
+	sf::Vector2f offset;	
 public:
 	DraggableObject(mini::GameObject& owner);
 	~DraggableObject();

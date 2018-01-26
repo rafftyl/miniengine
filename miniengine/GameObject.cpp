@@ -34,6 +34,16 @@ namespace mini
 		active = on;
 	}
 
+	bool GameObject::isScreenSpace() const
+	{
+		return screenSpace;
+	}
+
+	void GameObject::setScreenSpace(bool on)
+	{
+		screenSpace = on;
+	}
+
 	void GameObject::start()
 	{
 		for (const auto& comp : components)

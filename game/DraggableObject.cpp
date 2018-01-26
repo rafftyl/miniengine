@@ -14,7 +14,7 @@ DraggableObject::~DraggableObject()
 
 void DraggableObject::onMouseDragStart(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 {
-	sf::Vector2f pos = gameplaySystem->getCurrentCam()->screenToWorldPoint(mousePosition);
+	sf::Vector2f pos = owner.isScreenSpace() ? mousePosition : gameplaySystem->getCurrentCam()->screenToWorldPoint(mousePosition);
 	offset = owner.getPosition() - pos;
 }
 
@@ -24,7 +24,7 @@ void DraggableObject::onMouseDragEnd(sf::Mouse::Button mouseButton, const sf::Ve
 
 void DraggableObject::onMouseDrag(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 {
-	sf::Vector2f pos = gameplaySystem->getCurrentCam()->screenToWorldPoint(mousePosition);
+	sf::Vector2f pos = owner.isScreenSpace() ? mousePosition : gameplaySystem->getCurrentCam()->screenToWorldPoint(mousePosition);
 	owner.setPosition(pos + offset);
 }
 

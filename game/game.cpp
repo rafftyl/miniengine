@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include <Miniengine.h>
+#include "Miniengine.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "ShapeRenderer.h"
@@ -12,6 +12,7 @@
 #include "MouseFollower.h"
 #include "DraggableObject.h"
 #include "BoxCollider.h"
+#include "LayoutElement.h"
 #include "CircleCollider.h"
 #include "KeyMover.h"
 #include "Camera.h"
@@ -46,7 +47,8 @@ int main()
 	mini::Scene defaultScene("default_scene", [&](mini::Scene& scene)
 	{
 		auto& obj_1 = scene.addObject("obj_1");
-		obj_1.setPosition({ 400, 500 });
+		obj_1.setScreenSpace(true);
+		obj_1.setPosition({ 320, 240 });
 		auto& ren = obj_1.addComponent<mini::SpriteRenderer>();
 		ren.setColor(sf::Color::White);
 		ren.setLayer(1);
@@ -55,9 +57,16 @@ int main()
 		animator.setAnimations({ {"idle", animation} });
 		animator.setDefaultAnimation("idle");
 		obj_1.addComponent<SceneChanger>().currentScene = "default_scene";
+		obj_1.addComponent<mini::BoxCollider>();
+		obj_1.addComponent<DraggableObject>();
+		auto& layoutEl = obj_1.addComponent<mini::LayoutElement>();
+		layoutEl.setPivotPosition({ 0, 0 });
+		layoutEl.setPosition({ 0,0 });
+		layoutEl.setSize({ 0.3f, 0.3f });
+		layoutEl.applySettings({ true, true, false, false });
 
 		auto& obj_2 = scene.addObject("obj_2");
-		obj_1.setPosition({ 900, 200 });
+		obj_2.setPosition({ 900, 200 });
 		auto& shapeRen_2 = obj_2.addComponent<mini::ShapeRenderer>();
 		shapeRen_2.setColor(sf::Color::Red);
 		shapeRen_2.setShape(sharedShape);

@@ -17,6 +17,7 @@ namespace mini
 		unsigned int id = 0;
 		std::string name;
 		bool active = true;
+		bool screenSpace = false;
 	public:
 		GameObject(unsigned int id = 0);
 		GameObject(std::string&& name, unsigned int id = 0);
@@ -25,6 +26,8 @@ namespace mini
 		const std::string& getName() const;
 		bool isActive() const;
 		void setActive(bool on);
+		bool isScreenSpace() const;
+		void setScreenSpace(bool on);
 
 		template<class ComponentType>
 		std::shared_ptr<ComponentType> getComponent() 

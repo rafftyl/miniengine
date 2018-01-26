@@ -154,6 +154,7 @@
     <ClInclude Include="GameplaySystem.h" />
     <ClInclude Include="InputInterfaces.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="LayoutElement.h" />
     <ClInclude Include="MessageBus.h" />
     <ClInclude Include="Miniengine.h" />
     <ClInclude Include="ModifierKeys.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameplaySystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="LayoutElement.cpp" />
     <ClCompile Include="MessageBus.cpp" />
     <ClCompile Include="Miniengine.cpp" />
     <ClCompile Include="Renderer.cpp" />

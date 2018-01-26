@@ -85,8 +85,10 @@ namespace mini
 			{
 				if (col->receivesQueries())
 				{
-					auto inter = col->getOwner().getComponent<RaycastInterfaceType>();
-					if (inter != nullptr && col->contains(transformedPos))
+					GameObject& owner = col->getOwner();
+					auto inter = owner.getComponent<RaycastInterfaceType>();
+					bool colContainsPointer = owner.isScreenSpace() ? col->contains(mousePosition) : col->contains(transformedPos);
+					if (inter != nullptr && colContainsPointer)
 					{
 						fun(*inter);
 					}
