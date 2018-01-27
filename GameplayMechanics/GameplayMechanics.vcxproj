@@ -155,6 +155,7 @@
     <ClInclude Include="Source\Moves\DefaultMove.h" />
     <ClInclude Include="Source\Moves\EndTurn.h" />
     <ClInclude Include="Source\Moves\MctsMove.h" />
+    <ClInclude Include="Source\Moves\UnitOrder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Source\Moves\DefaultMove.cpp" />
     <ClCompile Include="Source\Moves\EndTurn.cpp" />
     <ClCompile Include="Source\Moves\MctsMove.cpp" />
+    <ClCompile Include="Source\Moves\UnitOrder.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
