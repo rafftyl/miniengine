@@ -59,15 +59,15 @@ std::list<std::unique_ptr<const DefaultMove>> GameplayManager::GetMovesToAnimate
 //private
 void GameplayManager::Initialize()
 {
-	currentGameState = std::make_unique<GameState>();
-	mcts->setRoot(*new MctsGameState(currentGameState->Clone().release()));
+	
 }
 
 GameplayManager::GameplayManager()
 {
-	mcts = std::unique_ptr<grailMCTS::MCTS>(new grailMCTS::MCTS());
 	movesToAnimate = std::list<std::unique_ptr<const DefaultMove>>();
-	Initialize();
+	currentGameState = std::make_unique<GameState>();
+	MctsGameState state(currentGameState->Clone().release());
+	mcts = std::make_unique<grailMCTS::MCTS>(state);
 }
 
 GameplayManager::~GameplayManager()
