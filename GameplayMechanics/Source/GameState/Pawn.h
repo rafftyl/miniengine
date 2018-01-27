@@ -34,7 +34,9 @@ namespace Game
 	class Pawn
 	{
 		public:
-			Pawn(PawnType _unitType, std::shared_ptr<Field> _field, int _owner);
+			Pawn(PawnType _unitType, int _owner);
+			bool SetField(std::pair<int, int> _boardCoordinates, GameState& gameState);
+			std::pair<int, int> GetBoardCoordinates() const;
 			PawnType GetUnitType() const;
 			int GetOwner() const;
 			std::unique_ptr<Pawn> Clone() const;
@@ -42,7 +44,7 @@ namespace Game
 			void PerformAction(GameState& gameState);
 
 		private:
-			std::shared_ptr<Field> field;
+			std::pair<int, int> boardCoordinates;
 			const PawnType unitType;
 			const int owner;
 	};

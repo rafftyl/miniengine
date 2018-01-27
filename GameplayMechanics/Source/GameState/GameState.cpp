@@ -1,5 +1,6 @@
 ﻿#include "GameState.h"
 #include "Field.h"
+#include "Pawn.h"
 #include "..\Moves\DefaultMove.h"
 #include "..\Moves\EndTurn.h"
 using namespace Game;
@@ -20,6 +21,26 @@ GameState::GameState()
 			board[row][column] = std::shared_ptr<Field>(new Field(4));
 		}
 	}
+	std::shared_ptr<Pawn> newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
+	if (newPawn->SetField(std::pair<int, int>(0, 0), *this))
+	{
+		unitsOnBoard.push_back(newPawn);
+	}
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
+	if (newPawn->SetField(std::pair<int, int>(0, 0), *this))
+	{
+		unitsOnBoard.push_back(newPawn);
+	}
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
+	if (newPawn->SetField(std::pair<int, int>(3, 4), *this))
+	{
+		unitsOnBoard.push_back(newPawn);
+	}
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
+	if (newPawn->SetField(std::pair<int, int>(0, 4), *this))
+	{
+		unitsOnBoard.push_back(newPawn);
+	}
 }
 
 std::unique_ptr<GameState> GameState::Clone() const
@@ -34,6 +55,12 @@ std::unique_ptr<GameState> GameState::Clone() const
 		{
 			copy->board[row][column] = std::move(board[row][column]->Clone());
 		}
+	}
+	for (auto iterator = unitsOnBoard.begin(); iterator != unitsOnBoard.end(); ++iterator)
+	{
+		Pawn* newPawn = iterator->get()->Clone().release();
+		newPawn->SetField(newPawn->GetBoardCoordinates(), *copy);
+		copy->unitsOnBoard.push_back(std::shared_ptr<Pawn>(newPawn));
 	}
 	return copy;
 }
@@ -116,6 +143,11 @@ std::pair<int, int> GameState::GetBoardDimensions() const
 }
 
 std::shared_ptr<const Field> GameState::GetField(int row, int column) const
+{
+	return board.at(row).at(column);
+}
+
+std::shared_ptr<Field> GameState::GetField(int row, int column)
 {
 	return board[row][column];
 }

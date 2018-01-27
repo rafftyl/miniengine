@@ -26,6 +26,7 @@ namespace Game
 			bool PerformMove(const DefaultMove& move);
 			std::pair<int, int> GetBoardDimensions() const;
 			std::shared_ptr<const Field> GetField(int row, int column) const;
+			std::shared_ptr<Field> GetField(int row, int column);
 
 		private:
 			int currentPlayer;

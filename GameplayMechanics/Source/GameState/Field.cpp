@@ -53,10 +53,6 @@ bool Field::RemovePawn(std::shared_ptr<Pawn> pawn)
 std::shared_ptr<Field> Field::Clone() const
 {
 	std::shared_ptr<Field> result = std::shared_ptr<Field>(new Field(capacity));
-	for (auto iterator = presentPawns.begin(); iterator != presentPawns.end(); ++iterator)
-	{
-		result->presentPawns.push_back(iterator->get()->Clone());
-	}
 	return result;
 }
 
