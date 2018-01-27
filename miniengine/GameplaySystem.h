@@ -27,6 +27,7 @@ namespace mini
 		virtual ~GameplaySystem();
 
 		GameObject& spawnObject(std::string&& name);
+		GameObject& spawnObject(std::string&& name, std::function<void(GameObject&)> initFunction);
 		void destroyObject(GameObject& object);
 		void loadScene(const std::string& name);
 		virtual void update() override;
@@ -56,10 +57,13 @@ namespace mini
 			std::vector<std::shared_ptr<ComponentType>> result;
 			for (auto& obj : scenes[currentSceneIndex].objects)
 			{
-				auto comp = obj.second.getComponent<ComponentType>();
-				if (comp != nullptr)
+				if (obj.second.isActive())
 				{
-					result.push_back(comp);
+					auto comp = obj.second.getComponent<ComponentType>();
+					if (comp != nullptr)
+					{
+						result.push_back(comp);
+					}
 				}
 			}
 			return result;

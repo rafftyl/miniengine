@@ -19,6 +19,7 @@ namespace mini
 		~Prefab();
 
 		GameObject& instantiate(Scene& scene);
+		GameObject& instantiate(GameplaySystem& gameplaySystem);
 	};
 }
 

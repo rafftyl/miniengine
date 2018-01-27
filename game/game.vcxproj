@@ -162,6 +162,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="OrderPanel.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="PositionInterpolator.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="OrderPanel.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="PositionInterpolator.cpp" />

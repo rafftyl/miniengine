@@ -17,6 +17,7 @@
 #include "Camera.h"
 #include "UIButton.h"
 #include "GameplaySystem.h"
+#include "OrderPanel.h"
 #include "GameManager.h"
 #include "Prefab.h"
 #include <SFML/Graphics.hpp>
@@ -42,6 +43,13 @@ int main()
 	auto backButtonSprite = std::make_shared<sf::Sprite>();
 	backButtonSprite->setTexture(texture_2);
 	backButtonSprite->setOrigin({ texture_2.getSize().x * 0.5f, texture_2.getSize().y * 0.5f });
+
+	sf::Texture texture_3;
+	texture_3.loadFromFile("Assets/up_arrow.png");
+	texture_3.setSmooth(true);
+	auto upArrowSprite = std::make_shared<sf::Sprite>();
+	upArrowSprite->setTexture(texture_3);
+	upArrowSprite->setOrigin({ texture_3.getSize().x * 0.5f, texture_3.getSize().y * 0.5f });
 
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("Assets/background.jpg");
@@ -135,6 +143,42 @@ int main()
 		object.setScale({ 200, 200 });
 	});
 
+	mini::Prefab orderButtonPrefab("orderButton",
+		[&](mini::GameObject& object)
+	{
+		object.setScreenSpace(true);
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(upArrowSprite);
+		ren->setLayer(5);
+		
+
+		object.addComponent<mini::BoxCollider>();
+		auto layoutEl = object.addComponent<mini::LayoutElement>();
+		layoutEl->applySettings({ false, false, true, true });
+		layoutEl->setPivotPosition({ 0.5f, 0.5f });
+		layoutEl->setSize({ 100.0f, 100.0f });
+		object.addComponent<UIButton>()->onClicked().addCallback([](UIButton& button)
+		{
+			std::cout << "clicked" << std::endl; 
+		});
+	});
+
+	mini::Prefab orderPanelPrefab("orderPanel",
+		[&](mini::GameObject& object)
+	{
+		auto ren = object.addComponent<mini::ShapeRenderer>();
+		ren->setShape(rectShape);
+		ren->setColor(sf::Color::Yellow);
+
+		auto layoutEl = object.addComponent<mini::LayoutElement>();
+		layoutEl->applySettings({ false, false, true, true });
+		layoutEl->setPosition({ 0.5f, 1.0f });
+		layoutEl->setPivotPosition({ 0.5f, 1.0f });
+		layoutEl->setSize({ 500.0f, 120.0f });
+
+		object.addComponent<OrderPanel>()->setParams({ -200, 0 }, { 4, 1 }, 120, orderButtonPrefab);
+	});
+
 	mini::Prefab textPrefab("label", 
 		[&](mini::GameObject& object)
 	{
@@ -216,6 +260,8 @@ int main()
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setSize({ 100.0f, 100.0f });
 
+		orderPanelPrefab.instantiate(scene);
+
 		auto& pawn_1 = pawnPrefab.instantiate(scene);
 		pawn_1.setPosition({ 200, 200 });
 
@@ -231,7 +277,7 @@ int main()
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
-		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight) });
+		camComp->setOrthoSize(1.5f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
 
 		GameManager::getInstance().setupGame(0, scene, pawnPrefab, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 	});

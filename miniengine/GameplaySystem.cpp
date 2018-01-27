@@ -28,6 +28,26 @@ namespace mini
 				currentCam->registerRenderer(rend);
 			}
 		}
+		obj.gameplaySystem = shared_from_this();
+		obj.start();
+		return obj;
+	}
+
+	GameObject & GameplaySystem::spawnObject(std::string && name, std::function<void(GameObject&)> initFunction)
+	{
+		GameObject& obj = scenes[currentSceneIndex].addObject(std::move(name));
+		initFunction(obj);
+		obj.gameplaySystem = shared_from_this();
+		if (currentCam != nullptr)
+		{
+			auto rend = obj.getComponent<Renderer>();
+			if (rend != nullptr)
+			{
+				currentCam->registerRenderer(rend);
+			}
+		}
+		
+		obj.start();
 		return obj;
 	}
 

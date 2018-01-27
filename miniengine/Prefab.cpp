@@ -1,4 +1,5 @@
 #include "Prefab.h"
+#include "GameplaySystem.h"
 
 namespace mini
 {
@@ -16,6 +17,14 @@ namespace mini
 		ss << name << "_" << instanceCounter++;
 		GameObject& object = scene.addObject(ss.str());
 		initFunction(object);
+		return object;
+	}
+
+	GameObject& Prefab::instantiate(GameplaySystem& gameplaySystem)
+	{
+		std::stringstream ss;
+		ss << name << "_" << instanceCounter++;
+		GameObject& object = gameplaySystem.spawnObject(ss.str(), initFunction);
 		return object;
 	}
 }
