@@ -63,6 +63,14 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::
 				pawnComp->setOwnerIndex(pawn->GetOwner());
 				pawnComp->setGameStatePawn(pawn);
 				pawnComp->setCurrentField(fieldComp.get());
+				if (pawnComp->getOwnerIndex() == 0)
+				{
+					pawnComp->setColors(sf::Color::Green, sf::Color::Blue);
+				}
+				else
+				{
+					pawnComp->setColors(sf::Color::Red, sf::Color::Red);
+				}
 				fieldComp->addPawn(pawnComp.get());				
 			}
 		}

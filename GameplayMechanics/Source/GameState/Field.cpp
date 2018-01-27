@@ -1,6 +1,7 @@
 #include "Field.h"
 #include <list>
 #include "Pawn.h"
+#include <iostream>
 using namespace Game;
 
 

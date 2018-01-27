@@ -152,16 +152,13 @@ int main()
 		ren->setSprite(upArrowSprite);
 		ren->setLayer(5);
 		
-
 		object.addComponent<mini::BoxCollider>();
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
 		layoutEl->setSize({ 100.0f, 100.0f });
-		object.addComponent<UIButton>()->onClicked().addCallback([](UIButton& button)
-		{
-			std::cout << "clicked" << std::endl; 
-		});
+
+		object.addComponent<UIButton>();
 	});
 
 	mini::Prefab orderPanelPrefab("orderPanel",
@@ -268,7 +265,6 @@ int main()
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
 		camComp->setOrthoSize(1.5f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
-
 
 		GameManager::getInstance().setupGame(0, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 	});
