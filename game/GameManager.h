@@ -1,7 +1,6 @@
 #pragma once
 #include "Prefab.h"
 #include "Scene.h"
-#include "GameplayManager.h"
 
 class GameManager
 {
@@ -9,7 +8,6 @@ private:
 	const int playerCount = 2;
 	int currentPlayerIndex = -1;
 	int humanPlayerIndex = -1;
-	Game::GameplayManager* gameplayManager;
 public:
 	static GameManager& getInstance()
 	{

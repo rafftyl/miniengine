@@ -28,7 +28,7 @@ namespace Game
 		private:
 			int currentPlayer;
 			std::vector<std::vector<std::unique_ptr<Field>>> board;
-			std::unordered_map<int, std::vector<std::shared_ptr<Pawn>>> unitsByInitiative;
+//			std::unordered_map<int, std::vector<std::shared_ptr<Pawn>>> unitsByInitiative;
 			void TurnEnd();
 			void BoardCycle();
 			bool IsWon();

@@ -3,7 +3,6 @@
 #include <list>
 #include <MCTS.h>
 
-
 namespace Game
 {
 	class GameState;

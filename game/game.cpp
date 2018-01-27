@@ -233,7 +233,7 @@ int main()
 		auto& camComp = cam.addComponent<mini::Camera>();
 		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight) });
 
-		GameManager::getInstance().setupGame(0, scene, fieldPrefab, { 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 4, 4, 3 }, 5, sf::Vector2f(0.5f * settings.windowWidth, 260), 220);
+		GameManager::getInstance().setupGame(0, scene, pawnPrefab, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 	});
 
 	mini::Scene howTo("how_to", [&](mini::Scene& scene)
