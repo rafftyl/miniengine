@@ -15,9 +15,11 @@ GameState::GameState()
 	board.reserve(4);
 	for (int row = 0; row < board.size(); ++row)
 	{
+		board.push_back(std::vector<std::shared_ptr<Field>>());
 		board[row].reserve(5);
 		for (int column = 0; column < board[row].size(); ++column)
 		{
+			board[row].push_back(std::shared_ptr<Field>());
 			board[row][column] = std::shared_ptr<Field>(new Field(4));
 		}
 	}
