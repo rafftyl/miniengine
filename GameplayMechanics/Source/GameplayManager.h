@@ -28,7 +28,6 @@ namespace Game
 			std::unique_ptr<grailMCTS::MCTS> mcts;
 			std::unique_ptr<GameState> currentGameState;
 			std::list<std::unique_ptr<const DefaultMove>> movesToAnimate;
-			void Initialize();
 			GameplayManager();
 			~GameplayManager();
 	};

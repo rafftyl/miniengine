@@ -23,7 +23,9 @@ const GameState& GameplayManager::GetCurrentGameState() const
 void GameplayManager::RestartGame()
 {
 	movesToAnimate.clear();
-	Initialize();
+	currentGameState = std::make_unique<GameState>();
+	MctsGameState state(currentGameState->Clone().release());
+	mcts->setRoot(state);
 }
 
 bool GameplayManager::AI_PerformTurn()
@@ -33,7 +35,8 @@ bool GameplayManager::AI_PerformTurn()
 	{
 		while (currentPlayer == currentGameState->WhoPlay())
 		{
-			mcts->setRoot(*new MctsGameState(currentGameState->Clone().release()));
+			MctsGameState state(currentGameState->Clone().release());
+			mcts->setRoot(state);
 			mcts->runIterationsTotal(ITERATIONS);
 			std::unique_ptr<const DefaultMove> move = static_cast<Game::MctsMove&>(*mcts->highestResultMove()).GetMove();
 			currentGameState->PerformMove(*move);
@@ -57,11 +60,6 @@ std::list<std::unique_ptr<const DefaultMove>> GameplayManager::GetMovesToAnimate
 
 
 //private
-void GameplayManager::Initialize()
-{
-	
-}
-
 GameplayManager::GameplayManager()
 {
 	movesToAnimate = std::list<std::unique_ptr<const DefaultMove>>();
