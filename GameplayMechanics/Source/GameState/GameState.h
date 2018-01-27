@@ -27,7 +27,8 @@ namespace Game
 			std::pair<int, int> GetBoardDimensions() const;
 			std::shared_ptr<const Field> GetField(int row, int column) const;
 			std::shared_ptr<Field> GetField(int row, int column);
-			//void RemovePawn(std::shared_ptr<Pawn>);
+			bool AddPawn(std::shared_ptr<Pawn>, int row, int column);
+			void RemovePawn(std::shared_ptr<Pawn>);
 
 		private:
 			int currentPlayer;

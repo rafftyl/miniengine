@@ -12,35 +12,23 @@ GameState::GameState()
 	currentPlayer = 0;
 	board = std::vector<std::vector<std::shared_ptr<Field>>>();
 	//TODO: przeniesienie konstrukcji planszy
-	board.resize(4);
+	board.reserve(4);
 	for (int row = 0; row < board.size(); ++row)
 	{
-		board[row].resize(5);
+		board[row].reserve(5);
 		for (int column = 0; column < board[row].size(); ++column)
 		{
 			board[row][column] = std::shared_ptr<Field>(new Field(4));
 		}
 	}
 	std::shared_ptr<Pawn> newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	if (newPawn->SetField(std::pair<int, int>(0, 0), *this))
-	{
-		unitsOnBoard.push_back(newPawn);
-	}
+	AddPawn(newPawn, 0, 0);
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	if (newPawn->SetField(std::pair<int, int>(0, 0), *this))
-	{
-		unitsOnBoard.push_back(newPawn);
-	}
+	AddPawn(newPawn, 0, 0);
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
-	if (newPawn->SetField(std::pair<int, int>(3, 4), *this))
-	{
-		unitsOnBoard.push_back(newPawn);
-	}
+	AddPawn(newPawn, 0, 4);
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
-	if (newPawn->SetField(std::pair<int, int>(0, 4), *this))
-	{
-		unitsOnBoard.push_back(newPawn);
-	}
+	AddPawn(newPawn, 3, 4);
 }
 
 std::unique_ptr<GameState> GameState::Clone() const
@@ -152,6 +140,21 @@ std::shared_ptr<Field> GameState::GetField(int row, int column)
 	return board[row][column];
 }
 
+bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, int row, int column)
+{
+	if (pawn->SetField(std::pair<int, int>(row, column), *this))
+	{
+		unitsOnBoard.push_back(pawn);
+		return true;
+	}
+	return false;
+}
+
+void GameState::RemovePawn(std::shared_ptr<Pawn>)
+{
+
+}
+
 
 //private
 void GameState::TurnEnd()
@@ -166,7 +169,6 @@ void GameState::TurnEnd()
 
 void GameState::BoardCycle()
 {
-	//TODO: cykl planszy
 	for (auto iterator = unitsOnBoard.begin(); iterator == unitsOnBoard.end(); ++iterator)
 	{
 		iterator->get()->PerformAction(*this);
