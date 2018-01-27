@@ -31,9 +31,6 @@
     <ClInclude Include="Source\Moves\EndTurn.h">
       <Filter>Source Files\Moves</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MctsWrapper.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Moves\MctsMove.h">
       <Filter>Source Files\Moves</Filter>
     </ClInclude>
@@ -59,9 +56,6 @@
     </ClCompile>
     <ClCompile Include="Source\Moves\EndTurn.cpp">
       <Filter>Source Files\Moves</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MctsWrapper.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Moves\MctsMove.cpp">
       <Filter>Source Files\Moves</Filter>

@@ -17,8 +17,8 @@ namespace Game
 
 		public:
 			GameState();
-			std::unique_ptr<GameState> Clone() const;
-			bool Equals(const GameState& other) const;
+			std::unique_ptr<GameState> clone() const;
+			bool equals(const GameState& other) const;
 			int PlayersCount() const;
 			std::vector<double> GetResult() const;
 			int WhoPlay() const;

@@ -114,6 +114,9 @@
     <Link>
       <AdditionalDependencies>$(SolutionDir)\MCTS\bin\libs\Debug\json.lib;$(SolutionDir)\MCTS\bin\libs\Debug\timer.lib;$(SolutionDir)\MCTS\bin\Debug\mcts.lib;$(SolutionDir)\MCTS\bin\Debug\mcontrollers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)\MCTS\bin\libs\Debug\json.lib;$(SolutionDir)\MCTS\bin\libs\Debug\timer.lib;$(SolutionDir)\MCTS\bin\Debug\mcts.lib;$(SolutionDir)\MCTS\bin\Debug\mcontrollers.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -149,7 +152,6 @@
     <ClInclude Include="Source\GameState\GameState.h" />
     <ClInclude Include="Source\GameState\MctsGameState.h" />
     <ClInclude Include="Source\GameState\Pawn.h" />
-    <ClInclude Include="Source\MctsWrapper.h" />
     <ClInclude Include="Source\Moves\DefaultMove.h" />
     <ClInclude Include="Source\Moves\EndTurn.h" />
     <ClInclude Include="Source\Moves\MctsMove.h" />
@@ -160,7 +162,6 @@
     <ClCompile Include="Source\GameState\GameState.cpp" />
     <ClCompile Include="Source\GameState\MctsGameState.cpp" />
     <ClCompile Include="Source\GameState\Pawn.cpp" />
-    <ClCompile Include="Source\MctsWrapper.cpp" />
     <ClCompile Include="Source\Moves\DefaultMove.cpp" />
     <ClCompile Include="Source\Moves\EndTurn.cpp" />
     <ClCompile Include="Source\Moves\MctsMove.cpp" />

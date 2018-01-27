@@ -14,7 +14,7 @@ namespace Game
 		Thug, Max
 	};
 
-	std::string GetUnitTypeName(PawnType unitType)
+	static std::string GetUnitTypeName(PawnType unitType)
 	{
 		std::stringstream result;
 		switch (unitType)

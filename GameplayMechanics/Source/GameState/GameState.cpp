@@ -22,7 +22,7 @@ GameState::GameState()
 	}
 }
 
-std::unique_ptr<GameState> GameState::Clone() const
+std::unique_ptr<GameState> GameState::clone() const
 {
 	std::unique_ptr<GameState> copy = std::unique_ptr<GameState>();
 	copy->currentPlayer = currentPlayer;
@@ -38,7 +38,7 @@ std::unique_ptr<GameState> GameState::Clone() const
 	return copy;
 }
 
-bool GameState::Equals(const GameState& other) const
+bool GameState::equals(const GameState& other) const
 {
 	const GameState* temp = dynamic_cast<const GameState*>(&other);
 	if (temp != nullptr)
