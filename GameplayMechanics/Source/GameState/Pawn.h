@@ -34,8 +34,9 @@ namespace Game
 	class Pawn
 	{
 		public:
-			Pawn(PawnType _unitType, std::shared_ptr<Field> _field);
-			PawnType GetUnitType();
+			Pawn(PawnType _unitType, std::shared_ptr<Field> _field, int _owner);
+			PawnType GetUnitType() const;
+			int GetOwner() const;
 			std::unique_ptr<Pawn> Clone() const;
 			bool Equals(const Pawn& other) const;
 			void PerformAction(GameState& gameState);
@@ -43,5 +44,6 @@ namespace Game
 		private:
 			std::shared_ptr<Field> field;
 			const PawnType unitType;
+			const int owner;
 	};
 }

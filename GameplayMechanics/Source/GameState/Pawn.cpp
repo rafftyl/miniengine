@@ -5,7 +5,7 @@ using namespace Game;
 
 
 //public
-Pawn::Pawn(PawnType _unitType, std::shared_ptr<Field> _field) : unitType(_unitType)
+Pawn::Pawn(PawnType _unitType, std::shared_ptr<Field> _field, int _owner) : unitType(_unitType), owner(_owner)
 {
 	switch (_unitType)
 	{
@@ -22,9 +22,14 @@ Pawn::Pawn(PawnType _unitType, std::shared_ptr<Field> _field) : unitType(_unitTy
 	field = _field;
 }
 
-PawnType Pawn::GetUnitType()
+PawnType Pawn::GetUnitType() const
 {
 	return unitType;
+}
+
+int Pawn::GetOwner() const
+{
+	return owner;
 }
 
 std::unique_ptr<Pawn> Pawn::Clone() const

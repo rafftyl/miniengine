@@ -29,7 +29,7 @@ bool EndTurn::IsValid(const GameState& gameState) const
 
 void EndTurn::ApplyMove(GameState& gameState) const
 {
-
+	gameState.TurnEnd();
 }
 
 
