@@ -1,20 +1,18 @@
 #pragma once
-#include <Move.h>
+#include <memory>
 
 
 namespace Game
 {
 	class GameState;
 
-	class DefaultMove : public grailMCTS::Move
+	class DefaultMove
 	{
 		public:
-			std::unique_ptr<grailMCTS::Move> clone() const override;
-			virtual std::unique_ptr<DefaultMove> SpecificClone() const = 0;
-			bool equals(const grailMCTS::Move& other) const override;
-			virtual bool SpecificEquals(const DefaultMove* other) const = 0;
-			std::size_t hash() const override;
+			virtual std::unique_ptr<DefaultMove> Clone() const = 0;
+			virtual bool Equals(const DefaultMove* other) const = 0;
 			virtual bool IsValid(const GameState& gameState) const = 0;
 			virtual void ApplyMove(GameState& gameState) const = 0;
+			int Hash() const;
 	};
 }

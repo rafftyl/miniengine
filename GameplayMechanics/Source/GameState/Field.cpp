@@ -5,6 +5,50 @@ using namespace Game;
 
 
 //public
+Field::Field(int _capacity) : capacity(_capacity)
+{
+	presentPawns.resize(capacity);
+}
+
+bool Field::InsertPawn(std::shared_ptr<Pawn> pawn)
+{
+	if (presentPawns.size() < capacity)
+	{
+		for (auto iterator = presentPawns.begin(); iterator != presentPawns.end(); ++iterator)
+		{
+			if (iterator->get() == pawn.get())
+			{
+				return false;
+			}
+		}
+		presentPawns.push_back(pawn);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool Field::RemovePawn(std::shared_ptr<Pawn> pawn)
+{
+	if (presentPawns.size() > 0)
+	{
+		for (auto iterator = presentPawns.begin(); iterator != presentPawns.end(); ++iterator)
+		{
+			if (iterator->get() == pawn.get())
+			{
+				presentPawns.erase(iterator);
+				return true;
+			}
+		}
+		return false;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 std::unique_ptr<Field> Field::clone() const
 {
 	std::unique_ptr<Field> result = std::unique_ptr<Field>();

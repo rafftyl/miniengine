@@ -7,6 +7,7 @@
 namespace Game
 {
 	class GameState;
+	class Field;
 
 	enum class PawnType
 	{
@@ -33,12 +34,13 @@ namespace Game
 	class Pawn
 	{
 		public:
-			Pawn(PawnType _unitType);
+			Pawn(PawnType _unitType, std::shared_ptr<Field> _field);
 			std::unique_ptr<Pawn> clone() const;
 			bool equals(const Pawn& other) const;
 			void PerformAction(GameState& gameState);
 
 		private:
+			std::shared_ptr<Field> field;
 			PawnType unitType;
 	};
 }
