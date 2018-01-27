@@ -158,14 +158,28 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DraggableObject.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="GameEvents.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Pawn.h" />
+    <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="PositionInterpolator.h" />
+    <ClInclude Include="ScaleInterpolator.h" />
+    <ClInclude Include="VectorInterpolator.h" />
+    <ClInclude Include="Targetable.h" />
     <ClInclude Include="UIButton.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DraggableObject.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameEvents.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Pawn.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="PositionInterpolator.cpp" />
+    <ClCompile Include="ScaleInterpolator.cpp" />
+    <ClCompile Include="VectorInterpolator.cpp" />
+    <ClCompile Include="Targetable.cpp" />
     <ClCompile Include="UIButton.cpp" />
   </ItemGroup>
   <ItemGroup>

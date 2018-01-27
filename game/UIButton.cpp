@@ -33,7 +33,7 @@ void UIButton::start()
 	}
 }
 
-void UIButton::onMouseButtonPressed(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+void UIButton::onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 {
 	isPressed = true;
 }

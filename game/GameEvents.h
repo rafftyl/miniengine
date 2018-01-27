@@ -9,7 +9,12 @@ public:
 		static GameEvents instance;
 		return instance;
 	}
-	mini::Event<> onPlayerFinishedMove;
+
+	mini::Event<class Pawn&> onPawnSelected;
+	mini::Event<> onPawnUnselected;
+	mini::Event<> onTurnFinished;
+
+	void clearEvents();
 private:
 	GameEvents();
 	~GameEvents();

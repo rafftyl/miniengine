@@ -7,10 +7,10 @@
 typedef mini::Event<class UIButton&> ButtonEvent;
 class UIButton :
 	public mini::Component, 
-	public mini::input::raycast::IMouseButtonPressHandler,
+	public mini::input::IMouseButtonPressHandlerRaycast,
 	public mini::input::IMouseButtonReleaseHandler,
-	public mini::input::raycast::IMouseEnterHandler,
-	public mini::input::raycast::IMouseExitHandler
+	public mini::input::IMouseEnterHandler,
+	public mini::input::IMouseExitHandler
 {	
 private:
 	ButtonEvent onClickedEvent;
@@ -28,7 +28,7 @@ public:
 
 	virtual void start() override;
 
-	virtual void onMouseButtonPressed(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
+	virtual void onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
 	virtual void onMouseButtonReleased(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
 	virtual void onMouseEnter(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
 	virtual void onMouseExit(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;

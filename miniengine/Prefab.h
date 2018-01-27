@@ -14,6 +14,7 @@ namespace mini
 		int instanceCounter = 0;
 		std::function<void(GameObject&)> initFunction;
 	public:
+		Prefab() = default;
 		Prefab(const std::string& name, std::function<void(GameObject&)> initFunction);
 		~Prefab();
 
