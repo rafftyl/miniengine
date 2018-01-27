@@ -11,7 +11,7 @@ MctsMove::MctsMove(const DefaultMove* _move)
 
 std::unique_ptr<grailMCTS::Move> MctsMove::clone() const
 {
-	std::unique_ptr<grailMCTS::Move> copy = std::unique_ptr<MctsMove>(new MctsMove(move->Clone().release()));
+	std::unique_ptr<grailMCTS::Move> copy = std::unique_ptr<MctsMove>(new MctsMove(move->clone().release()));
 	return copy;
 }
 
@@ -20,7 +20,7 @@ bool MctsMove::equals(const grailMCTS::Move& other) const
 	const MctsMove* temp = dynamic_cast<const MctsMove*>(&other);
 	if (temp != nullptr)
 	{
-		if (!move->Equals(temp->move.get()))
+		if (!move->equals(temp->move.get()))
 		{
 			return false;
 		}
