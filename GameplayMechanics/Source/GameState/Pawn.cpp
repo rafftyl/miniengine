@@ -5,8 +5,10 @@ using namespace Game;
 
 
 //public
-Pawn::Pawn(PawnType _unitType, std::shared_ptr<Field> _field, int _owner) : unitType(_unitType), owner(_owner)
+Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 {
+	boardCoordinates.first = -1;
+	boardCoordinates.second = -1;
 	switch (_unitType)
 	{
 		case PawnType::Thug:
@@ -19,7 +21,21 @@ Pawn::Pawn(PawnType _unitType, std::shared_ptr<Field> _field, int _owner) : unit
 			assert(false && stream.str().c_str());
 		break;
 	}
-	field = _field;
+}
+
+bool Pawn::SetField(std::pair<int, int> _boardCoordinates, GameState& gameState)
+{
+	if (gameState.GetField(_boardCoordinates.first, _boardCoordinates.second)->InsertPawn(std::shared_ptr<Pawn>(this)))
+	{
+		boardCoordinates = _boardCoordinates;
+		return true;
+	}
+	return false;
+}
+
+std::pair<int, int> Pawn::GetBoardCoordinates() const
+{
+	return boardCoordinates;
 }
 
 PawnType Pawn::GetUnitType() const
@@ -34,7 +50,9 @@ int Pawn::GetOwner() const
 
 std::unique_ptr<Pawn> Pawn::Clone() const
 {
-	std::unique_ptr<Pawn> copy = std::unique_ptr<Pawn>(new Pawn(unitType, field));
+	std::unique_ptr<Pawn> copy = std::unique_ptr<Pawn>(new Pawn(unitType, owner));
+	copy->boardCoordinates.first = boardCoordinates.first;
+	copy->boardCoordinates.second = boardCoordinates.second;
 	return copy;
 }
 
