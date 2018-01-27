@@ -1,11 +1,15 @@
 #pragma once
 #include <memory>
 #include <list>
-#include <MCTS.h>
 
+namespace grailMCTS
+{
+	class MCTS;
+}
 
 namespace Game
 {
+	
 	class GameState;
 	class DefaultMove;
 
@@ -18,12 +22,12 @@ namespace Game
 			const GameState& GetCurrentGameState() const;
 			void RestartGame();
 			bool AI_PerformTurn();
-			std::list<std::unique_ptr<DefaultMove>> GetMovesToAnimate();
+			std::list<std::unique_ptr<const DefaultMove>> GetMovesToAnimate();
 
 		private:
+			std::unique_ptr<grailMCTS::MCTS> mcts;
 			std::unique_ptr<GameState> currentGameState;
-			std::list<std::unique_ptr<DefaultMove>> movesToAnimate;
-			grailMCTS::MCTS mcts;
+			std::list<std::unique_ptr<const DefaultMove>> movesToAnimate;
 			void Initialize();
 			GameplayManager();
 			~GameplayManager();

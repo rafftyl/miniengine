@@ -139,17 +139,23 @@
     <ClInclude Include="Source\GameplayManager.h" />
     <ClInclude Include="Source\GameState\Field.h" />
     <ClInclude Include="Source\GameState\GameState.h" />
+    <ClInclude Include="Source\GameState\MctsGameState.h" />
     <ClInclude Include="Source\GameState\Pawn.h" />
+    <ClInclude Include="Source\MctsWrapper.h" />
     <ClInclude Include="Source\Moves\DefaultMove.h" />
     <ClInclude Include="Source\Moves\EndTurn.h" />
+    <ClInclude Include="Source\Moves\MctsMove.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp" />
     <ClCompile Include="Source\GameState\Field.cpp" />
     <ClCompile Include="Source\GameState\GameState.cpp" />
+    <ClCompile Include="Source\GameState\MctsGameState.cpp" />
     <ClCompile Include="Source\GameState\Pawn.cpp" />
+    <ClCompile Include="Source\MctsWrapper.cpp" />
     <ClCompile Include="Source\Moves\DefaultMove.cpp" />
     <ClCompile Include="Source\Moves\EndTurn.cpp" />
+    <ClCompile Include="Source\Moves\MctsMove.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

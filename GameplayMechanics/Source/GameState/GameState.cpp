@@ -22,7 +22,7 @@ GameState::GameState()
 	}
 }
 
-std::unique_ptr<grailMCTS::GameState> GameState::clone() const
+std::unique_ptr<GameState> GameState::Clone() const
 {
 	std::unique_ptr<GameState> copy = std::unique_ptr<GameState>();
 	copy->currentPlayer = currentPlayer;
@@ -38,7 +38,7 @@ std::unique_ptr<grailMCTS::GameState> GameState::clone() const
 	return copy;
 }
 
-bool GameState::equals(const grailMCTS::GameState& other) const
+bool GameState::Equals(const GameState& other) const
 {
 	const GameState* temp = dynamic_cast<const GameState*>(&other);
 	if (temp != nullptr)
@@ -69,38 +69,32 @@ bool GameState::equals(const grailMCTS::GameState& other) const
 	return false;
 }
 
-std::size_t GameState::playersCount() const
+int GameState::PlayersCount() const
 {
 	return 2;
 }
 
-grailMCTS::Result GameState::getResult() const
+std::vector<double> GameState::GetResult() const
 {
-	std::valarray<double> result;
-	result.resize(playersCount());
+	std::vector<double> result;
+	result.resize(PlayersCount());
 	//TODO: określanie wyniku w stanie terminalnym
 	return result;
 }
 
-int GameState::whoPlay() const
+int GameState::WhoPlay() const
 {
 	return currentPlayer;
 }
 
-std::vector<std::unique_ptr<const grailMCTS::Move>> GameState::getMoves() const
+std::vector<std::unique_ptr<const DefaultMove>> GameState::GetAllMoves() const
 {
-	std::vector<std::unique_ptr<const grailMCTS::Move>> result = std::vector<std::unique_ptr<const grailMCTS::Move>>();
-	if (whoPlay() != grailMCTS::TERMINAL)
+	std::vector<std::unique_ptr<const DefaultMove>> result = std::vector<std::unique_ptr<const DefaultMove>>();
+	if(WhoPlay() != END_GAME)
 	{
 		result.push_back(std::make_unique<EndTurn>());
 	}
 	return result;
-}
-
-//Rafał nie ruszaj plz (to je dla MCTS), używaj "PerformMove()"
-void GameState::applyMove(const grailMCTS::Move& move)
-{
-	PerformMove(static_cast<const DefaultMove&>(move));
 }
 
 bool GameState::PerformMove(const DefaultMove& move)
@@ -118,17 +112,16 @@ bool GameState::PerformMove(const DefaultMove& move)
 void GameState::TurnEnd()
 {
 	++currentPlayer;
-	if (currentPlayer >= playersCount())
+	if (currentPlayer >= PlayersCount())
 	{
 		BoardCycle();
-		currentPlayer = IsWon() ? grailMCTS::TERMINAL : 0;
+		currentPlayer = IsWon() ? END_GAME : 0;
 	}
 }
 
 void GameState::BoardCycle()
 {
 	//TODO: cykl planszy
-
 }
 
 bool GameState::IsWon()

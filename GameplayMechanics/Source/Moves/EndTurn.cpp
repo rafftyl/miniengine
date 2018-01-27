@@ -3,12 +3,12 @@
 using namespace Game;
 
 //public
-std::unique_ptr<DefaultMove> EndTurn::SpecificClone() const
+std::unique_ptr<DefaultMove> EndTurn::Clone() const
 {
 	return std::unique_ptr<DefaultMove>(new EndTurn());
 }
 
-bool EndTurn::SpecificEquals(const DefaultMove* other) const
+bool EndTurn::Equals(const DefaultMove* other) const
 {
 	const EndTurn* temp = dynamic_cast<const EndTurn*>(other);
 	if (temp != nullptr)
@@ -20,7 +20,7 @@ bool EndTurn::SpecificEquals(const DefaultMove* other) const
 
 bool EndTurn::IsValid(const GameState& gameState) const
 {
-	if (gameState.whoPlay() != grailMCTS::TERMINAL)
+	if (gameState.WhoPlay() >= 0)
 	{
 		return true;
 	}
