@@ -107,6 +107,19 @@ bool GameState::PerformMove(const DefaultMove& move)
 	return false;
 }
 
+std::pair<int, int> GameState::GetBoardDimensions() const
+{
+	std::pair<int, int> result;
+	result.first = board.size();
+	result.second = board[0].size();
+	return result;
+}
+
+std::shared_ptr<const Field> GameState::GetField(int row, int column) const
+{
+	return board[row][column];
+}
+
 
 //private
 void GameState::TurnEnd()
