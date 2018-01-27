@@ -29,7 +29,7 @@ void GameplayManager::RestartGame()
 	mcts->setRoot(state);
 }
 
-bool GameplayManager::AI_PerformTurn()
+void GameplayManager::AI_PerformTurn()
 {
 	int currentPlayer = currentGameState->WhoPlay();
 	if (movesToAnimate.size() == 0 && currentPlayer >= 0)
@@ -43,20 +43,18 @@ bool GameplayManager::AI_PerformTurn()
 			currentGameState->PerformMove(*move);
 			movesToAnimate.push_back(std::move(move));
 		}
-		return true;
-	}
-	return false;
-}
 
-std::list<std::unique_ptr<const DefaultMove>> GameplayManager::GetMovesToAnimate()
-{
-	std::list<std::unique_ptr<const DefaultMove>> result = std::list<std::unique_ptr<const DefaultMove>>();
-	while (movesToAnimate.size() > 0)
-	{
-		result.push_back(std::move(movesToAnimate.front()));
-		movesToAnimate.pop_front();
+		if (onAnimationQueueCreated != nullptr)
+		{
+			onAnimationQueueCreated(movesToAnimate);
+		}
+
+		movesToAnimate.clear();
+		if (onNewGameStateFound != nullptr)
+		{
+			onNewGameStateFound(*currentGameState);
+		}
 	}
-	return result;
 }
 
 

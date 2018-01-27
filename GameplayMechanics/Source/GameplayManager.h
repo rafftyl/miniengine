@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <list>
+#include <functional>
 
 namespace grailMCTS
 {
@@ -21,9 +22,9 @@ namespace Game
 			static GameplayManager& GetInstance();
 			const GameState& GetCurrentGameState() const;
 			void RestartGame();
-			bool AI_PerformTurn();
-			std::list<std::unique_ptr<const DefaultMove>> GetMovesToAnimate();
-
+			void AI_PerformTurn();
+			std::function<void(const std::list<std::unique_ptr<const DefaultMove>>&)> onAnimationQueueCreated;
+			std::function<void(const GameState&)> onNewGameStateFound;
 		private:
 			std::unique_ptr<grailMCTS::MCTS> mcts;
 			std::unique_ptr<GameState> currentGameState;

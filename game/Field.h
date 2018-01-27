@@ -6,8 +6,7 @@
 #include <set>
 
 class Field :
-	public Targetable,
-	public mini::input::IMouseButtonPressHandlerRaycast
+	public Targetable
 {
 	std::set<class Pawn*> pawns;
 	size_t maxPawns;
@@ -23,5 +22,5 @@ public:
 	void setSlotCount(size_t slotCount);
 	void addPawn(Pawn* pawn);
 	void removePawn(Pawn* pawn);
-	virtual void onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
+	void movePawnToField(Pawn* pawn);
 };

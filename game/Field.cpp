@@ -71,9 +71,9 @@ void Field::removePawn(Pawn* pawn)
 	}
 }
 
-void Field::onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+void Field::movePawnToField(Pawn* pawn)
 {
-	if (Pawn::selectedPawn != nullptr && pawns.size() < maxPawns && pawns.find(Pawn::selectedPawn) == pawns.end())
+	if (pawns.size() < maxPawns && pawns.find(Pawn::selectedPawn) == pawns.end())
 	{
 		if (Pawn::selectedPawn->getCurrentField() != nullptr)
 		{
