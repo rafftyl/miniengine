@@ -1,7 +1,9 @@
 #include "OrderPanel.h"
 #include "GameEvents.h"
 #include "GameplaySystem.h"
+#include "GameObject.h"
 #include "Pawn.h"
+#include "UIButton.h"
 
 OrderPanel::OrderPanel(mini::GameObject& owner) : mini::Component(owner)
 {
@@ -38,7 +40,7 @@ void OrderPanel::setParams(const sf::Vector2f& origin, const sf::Vector2i& layou
 void OrderPanel::initForPawn(const Pawn& pawn)
 {
 	owner.setActive(true);
-	for (int i = 0; i < buttonLayoutDimensions.x * buttonLayoutDimensions.y; ++i)
+	for (int i = 0; i < buttonLayoutDimensions.x * buttonLayoutDimensions.y; ++i) //iterate over actions
 	{
 		int row = i / buttonLayoutDimensions.x;
 		int col = i - row * buttonLayoutDimensions.x;
@@ -48,5 +50,6 @@ void OrderPanel::initForPawn(const Pawn& pawn)
 		localPos.y += row * buttonSeparation;
 		buttonObj.setPosition(owner.getPosition() + buttonLayoutOrigin - localPos);
 		spawnedButtons.push_back(&buttonObj);
+		buttonObj.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {}); //launch ability
 	}
 }

@@ -34,7 +34,7 @@ GameState::GameState()
 
 std::unique_ptr<GameState> GameState::Clone() const
 {
-	std::unique_ptr<GameState> copy = std::unique_ptr<GameState>(new GameState());
+	std::unique_ptr<GameState> copy = std::make_unique<GameState>();
 	copy->currentPlayer = currentPlayer;
 	copy->board.resize(board.size());
 	for (int row = 0; row < board.size(); ++row)

@@ -158,10 +158,6 @@ int main()
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
 		layoutEl->setSize({ 100.0f, 100.0f });
-		object.addComponent<UIButton>()->onClicked().addCallback([](UIButton& button)
-		{
-			std::cout << "clicked" << std::endl; 
-		});
 	});
 
 	mini::Prefab orderPanelPrefab("orderPanel",

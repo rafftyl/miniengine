@@ -11,6 +11,8 @@ private:
 	float buttonSeparation;
 	mini::Prefab upArrowPrefab;
 	std::vector<mini::GameObject*> spawnedButtons;
+
+	//TODO: spawned abilities
 public:
 	OrderPanel(mini::GameObject& owner);
 	~OrderPanel();
