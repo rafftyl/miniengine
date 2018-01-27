@@ -28,6 +28,9 @@
     <ClInclude Include="Source\GameState\Pawn.h">
       <Filter>Source Files\GameState</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Moves\EndTurn.h">
+      <Filter>Source Files\Moves</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="Source\GameState\Pawn.cpp">
       <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Moves\EndTurn.cpp">
+      <Filter>Source Files\Moves</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

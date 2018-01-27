@@ -5,11 +5,14 @@
 
 namespace Game
 {
-	class DefaultMove;
 	class Field;
+	class DefaultMove;
+	class EndTurn;
 
 	class GameState : public grailMCTS::GameState
 	{
+		friend EndTurn;
+
 		public:
 			GameState();
 			std::unique_ptr<grailMCTS::GameState> clone() const override;
@@ -22,6 +25,10 @@ namespace Game
 			bool PerformMove(const DefaultMove& move);
 
 		private:
+			int currentPlayer;
 			std::vector<std::vector<std::unique_ptr<Field>>> board;
+			void TurnEnd();
+			void BoardCycle();
+			bool IsWon();
 	};
 }

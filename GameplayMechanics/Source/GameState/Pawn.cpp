@@ -1,4 +1,5 @@
 #include "Pawn.h"
+#include "..\GameState\GameState.h"
 using namespace Game;
 
 
@@ -23,18 +24,6 @@ Pawn::Pawn(PawnType _unitType)
 std::unique_ptr<Pawn> Pawn::clone() const
 {
 	std::unique_ptr<Pawn> copy = std::unique_ptr<Pawn>(new Pawn(unitType));
-	switch (unitType)
-	{
-		case PawnType::Thug:
-
-		break;
-
-		default:
-			std::stringstream stream;
-			stream << "Missing clone() implementation for pawn type: " << GetUnitTypeName(unitType);
-			assert(false && stream.str().c_str());
-		break;
-	}
 	return copy;
 }
 
@@ -44,19 +33,11 @@ bool Pawn::equals(const Pawn& other) const
 	{
 		return false;
 	}
-	switch (unitType)
-	{
-		case PawnType::Thug:
-
-		break;
-
-		default:
-			std::stringstream stream;
-			stream << "Missing equals() implementation for pawn type: " << GetUnitTypeName(unitType);
-			assert(false && stream.str().c_str());
-		break;
-	}
 	return true;
+}
+
+void Pawn::PerformAction(GameState& gameState)
+{
 }
 
 

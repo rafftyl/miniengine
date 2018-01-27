@@ -6,6 +6,8 @@
 
 namespace Game
 {
+	class GameState;
+
 	enum class PawnType
 	{
 		Thug, Max
@@ -34,6 +36,7 @@ namespace Game
 			Pawn(PawnType _unitType);
 			std::unique_ptr<Pawn> clone() const;
 			bool equals(const Pawn& other) const;
+			void PerformAction(GameState& gameState);
 
 		private:
 			PawnType unitType;
