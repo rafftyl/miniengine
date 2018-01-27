@@ -2,6 +2,7 @@
 #include "GameEvents.h"
 #include "GameplayManager.h"
 #include "GameState/GameState.h"
+#include "GameState/Field.h"
 #include "Field.h"
 
 GameManager::GameManager()
@@ -30,10 +31,10 @@ bool GameManager::isCurrentPlayerHuman() const
 void GameManager::setupGame(int humanPlayer, mini::Scene& scene, mini::Prefab& pawnPrefab, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation)
 {
 	Game::GameplayManager& manager = Game::GameplayManager::GetInstance();
-	int cols = 5;
-	int rows = 4;
 	const auto& state = manager.GetCurrentGameState();
-	//state.
+	auto dim = state.GetBoardDimensions();
+	int rows = dim.first;
+	int cols = dim.second;
 	humanPlayerIndex = humanPlayer;
 	currentPlayerIndex = 0;
 	for (int index = 0; index < cols * rows; ++index)
@@ -41,7 +42,7 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, mini::Prefab& p
 		int row = index / cols;
 		int col = index - row * cols;
 		auto& field = fieldPrefab.instantiate(scene);
-		field.getComponent<Field>()->setSlotCount(4);
+		field.getComponent<Field>()->setSlotCount(state.GetField(row, col)->GetCapacity());
 		field.getComponent<Field>()->setCoordinates({ row, col });
 		sf::Vector2f pos = origin;
 		float mult = cols / 2.0f - col - 0.5f;

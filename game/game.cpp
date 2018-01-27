@@ -262,18 +262,6 @@ int main()
 
 		orderPanelPrefab.instantiate(scene);
 
-		auto& pawn_1 = pawnPrefab.instantiate(scene);
-		pawn_1.setPosition({ 200, 200 });
-
-		auto& pawn_2 = pawnPrefab.instantiate(scene);
-		pawn_2.setPosition({ 500, 200 });
-
-		auto& pawn_3 = pawnPrefab.instantiate(scene);
-		pawn_3.setPosition({ 400, 300 });
-
-		auto& pawn_4 = pawnPrefab.instantiate(scene);
-		pawn_4.setPosition({ 300, 400 });
-
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
