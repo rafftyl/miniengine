@@ -3,8 +3,8 @@
 #include "Pawn.h"
 #include "..\Moves\DefaultMove.h"
 #include "..\Moves\EndTurn.h"
+#include <iostream>
 using namespace Game;
-
 
 //public
 void GameState::Initialize()
@@ -162,6 +162,7 @@ bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, int row, int column)
 	if (pawn->SetField(std::pair<int, int>(row, column), *this))
 	{
 		unitsOnBoard.push_back(pawn);
+		board[row][column]->InsertPawn(pawn);
 		return true;
 	}
 	return false;

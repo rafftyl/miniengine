@@ -1,12 +1,11 @@
 #pragma once
 #include <GameState.h>
 #include <Move.h>
+#include "GameState.h"
 
 
 namespace Game
 {
-	class GameState;
-
 	class MctsGameState : public grailMCTS::GameState
 	{
 		public:

@@ -16,7 +16,6 @@ class Field :
 	sf::Vector2i coordinates;
 public:
 	Field(mini::GameObject& owner);
-	~Field();
 	void start() override;
 	void setCoordinates(const sf::Vector2i& coords);
 	sf::Vector2i getCoordinates() const;

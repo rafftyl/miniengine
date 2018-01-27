@@ -8,10 +8,6 @@ Field::Field(mini::GameObject& owner) : Targetable(owner)
 {
 }
 
-Field::~Field()
-{
-}
-
 void Field::start()
 {
 	sf::Vector2f min, max;
@@ -25,6 +21,15 @@ void Field::start()
 		sf::Vector2f pos(min.x +  slotSeparation.x * (col + 0.5f), min.y +  slotSeparation.y * (row + 0.5f));
 		slot.setPosition(pos);
 		slots.push_back(&slot);
+	}
+	
+	int index = 0;
+	for (auto pawn : pawns)
+	{
+		std::queue<std::pair<float, sf::Vector2f>> movementQueue;
+		movementQueue.push({ 1.0f, slots[index]->getPosition() });
+		pawn->getOwner().getComponent<PositionInterpolator>()->startMovement(std::move(movementQueue));
+		index++;
 	}
 }
 
@@ -76,11 +81,9 @@ void Field::onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf:
 		}
 		addPawn(Pawn::selectedPawn);
 		Pawn::selectedPawn->setCurrentField(this);
-
 		std::queue<std::pair<float, sf::Vector2f>> movementQueue;
 		movementQueue.push({ 1.0f, slots[pawns.size() - 1]->getPosition() });
 		Pawn::selectedPawn->getOwner().getComponent<PositionInterpolator>()->startMovement(std::move(movementQueue));
-		
 		Pawn::selectedPawn->setHighlighted(false);
 	}
 }

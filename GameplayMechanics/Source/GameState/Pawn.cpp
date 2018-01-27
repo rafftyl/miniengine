@@ -25,12 +25,8 @@ Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 
 bool Pawn::SetField(std::pair<int, int> _boardCoordinates, GameState& gameState)
 {
-	if (gameState.GetField(_boardCoordinates.first, _boardCoordinates.second)->InsertPawn(std::shared_ptr<Pawn>(this)))
-	{
-		boardCoordinates = _boardCoordinates;
-		return true;
-	}
-	return false;
+	boardCoordinates = _boardCoordinates;
+	return true;
 }
 
 std::pair<int, int> Pawn::GetBoardCoordinates() const

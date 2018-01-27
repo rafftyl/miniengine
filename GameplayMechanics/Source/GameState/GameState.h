@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include "Field.h"
 #define END_GAME -1
 
 
 namespace Game
 {
-	class Field;
 	class Pawn;
 	class DefaultMove;
 	class EndTurn;
