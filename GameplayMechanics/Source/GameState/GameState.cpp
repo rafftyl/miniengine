@@ -44,9 +44,9 @@ std::unique_ptr<GameState> GameState::Clone() const
 			copy->board[row][column] = std::move(board[row][column]->Clone());
 		}
 	}
-	for (auto iterator = unitsOnBoard.begin(); iterator != unitsOnBoard.end(); ++iterator)
+	for (auto& unit : unitsOnBoard)
 	{
-		Pawn* newPawn = iterator->get()->Clone().release();
+		Pawn* newPawn = unit->Clone().release();
 		newPawn->SetField(newPawn->GetBoardCoordinates(), *copy);
 		copy->unitsOnBoard.push_back(std::shared_ptr<Pawn>(newPawn));
 	}
