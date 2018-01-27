@@ -1,5 +1,6 @@
 #include "MctsGameState.h"
 #include "GameState.h"
+#include "..\Moves\DefaultMove.h"
 #include "..\Moves\MctsMove.h"
 using namespace Game;
 
@@ -57,20 +58,16 @@ int MctsGameState::whoPlay() const
 
 std::vector<std::unique_ptr<const grailMCTS::Move>> MctsGameState::getMoves() const
 {
-	/*
-	std::vector<std::unique_ptr<const DefaultMove>> myMoves = gameState->GetAllMoves();
 	std::vector<std::unique_ptr<const grailMCTS::Move>> result;
+	std::vector<std::unique_ptr<const DefaultMove>> myMoves = gameState->GetAllMoves();
 	for (auto iterator = myMoves.begin(); iterator != myMoves.end(); ++iterator)
 	{
 		result.push_back(std::unique_ptr<const MctsMove>(new MctsMove(iterator->release())));
 	}
 	return result;
-	*/
-	std::vector<std::unique_ptr<const grailMCTS::Move>> result;
-	return result;
 }
 
 void MctsGameState::applyMove(const grailMCTS::Move& move)
 {
-
+	gameState->PerformMove(*static_cast<Game::MctsMove&>(*move.clone()).GetMove());
 }
