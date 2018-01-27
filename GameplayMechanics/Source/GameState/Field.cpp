@@ -1,6 +1,6 @@
 #include "Field.h"
-#include "Pawn.h"
 #include <list>
+#include "Pawn.h"
 using namespace Game;
 
 
@@ -22,6 +22,7 @@ bool Field::InsertPawn(std::shared_ptr<Pawn> pawn)
 			}
 		}
 		presentPawns.push_back(pawn);
+		return true;
 	}
 	else
 	{
@@ -98,6 +99,26 @@ bool Field::equals(const Field& other) const
 		}
 		foundMatch = false;
 	}
+}
+
+int Field::GetCapacity() const
+{
+	return capacity;
+}
+
+std::vector<std::shared_ptr<Pawn>> Field::GetPawns()
+{
+	return presentPawns;
+}
+
+std::vector<std::shared_ptr<const Pawn>> Field::GetPawns() const
+{
+	std::vector<std::shared_ptr<const Pawn>> result;
+	for (const auto& pawn : presentPawns)
+	{
+		result.push_back(pawn);
+	}
+	return result;
 }
 
 
