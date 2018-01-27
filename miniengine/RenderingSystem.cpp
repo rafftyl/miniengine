@@ -22,7 +22,7 @@ namespace mini
 	void RenderingSystem::update()
 	{		
 		EngineSystem::update();
-		window.clear();
+		window.clear(sf::Color::Magenta);
 		if (currentCam != nullptr)
 		{
 			currentCam->render(window);

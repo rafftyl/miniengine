@@ -21,7 +21,8 @@ void Pawn::start()
 	{
 		if (isSelected && this != &pawn) 
 		{ 
-			setHighlighted(false);
+			isSelected = false;
+			renderer->setColor(normalColor);
 		}
 	});
 	

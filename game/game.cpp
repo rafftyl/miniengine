@@ -29,12 +29,26 @@ int main()
 	settings.windowHeight = 960;
 	settings.windowWidth = 1280;
 
-	sf::Texture texture;
-	texture.loadFromFile("Assets/img_1.png");
-	texture.setSmooth(true);
+	sf::Texture texture_1;
+	texture_1.loadFromFile("Assets/img_1.png");
+	texture_1.setSmooth(true);
 	auto sharedSprite = std::make_shared<sf::Sprite>();
-	sharedSprite->setTexture(texture);
-	sharedSprite->setOrigin({ texture.getSize().x * 0.5f, texture.getSize().y * 0.5f });
+	sharedSprite->setTexture(texture_1);
+	sharedSprite->setOrigin({ texture_1.getSize().x * 0.5f, texture_1.getSize().y * 0.5f });
+
+	sf::Texture texture_2;
+	texture_2.loadFromFile("Assets/back_button.png");
+	texture_2.setSmooth(true);
+	auto backButtonSprite = std::make_shared<sf::Sprite>();
+	backButtonSprite->setTexture(texture_2);
+	backButtonSprite->setOrigin({ texture_2.getSize().x * 0.5f, texture_2.getSize().y * 0.5f });
+
+	sf::Texture backgroundTexture;
+	backgroundTexture.loadFromFile("Assets/background.jpg");
+	backgroundTexture.setSmooth(true);
+	auto backgroundSprite = std::make_shared<sf::Sprite>();
+	backgroundSprite->setTexture(backgroundTexture);
+	backgroundSprite->setOrigin({ backgroundTexture.getSize().x * 0.5f, backgroundTexture.getSize().y * 0.5f });
 
 	auto rectShape = std::make_shared<sf::RectangleShape>(sf::Vector2f(1.0f, 1.0f));
 	rectShape->setOrigin({ .5f , .5f});
@@ -42,12 +56,21 @@ int main()
 	auto font = std::make_shared<sf::Font>();
 	font->loadFromFile("Assets/die_hard.ttf");
 
+	mini::Prefab backgroundPrefab("background",
+		[&](mini::GameObject& object)
+	{
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(backgroundSprite);
+		ren->setLayer(-1);
+		object.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
+	});
+
 	mini::Prefab buttonPrefab("button",
 		[&](mini::GameObject& object) 
 	{
 		object.setScreenSpace(true);
 		auto ren = object.addComponent<mini::ShapeRenderer>();
-		ren->setColor(sf::Color::Blue);
+		ren->setColor(sf::Color::Black);
 		ren->setShape(rectShape);
 		
 		object.addComponent<mini::BoxCollider>();		
@@ -56,6 +79,23 @@ int main()
 		layoutEl->setPosition({ 0.5f, 0.5f });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
 		layoutEl->setSize({ 0.8f, 0.2f });
+		object.addComponent<UIButton>();
+	});
+
+	mini::Prefab backButtonPrefab("backButton",
+		[&](mini::GameObject& object)
+	{
+		object.setScreenSpace(true);
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(backButtonSprite);
+		ren->setColor(sf::Color::White);
+
+		object.addComponent<mini::BoxCollider>();
+		auto layoutEl = object.addComponent<mini::LayoutElement>();
+		layoutEl->applySettings({ false, false, true, true });
+		layoutEl->setPosition({ 0.0f, 0.0f });
+		layoutEl->setPivotPosition({ 0.0f, 0.0f });
+		layoutEl->setSize({ 100.0f, 100.0f});
 		object.addComponent<UIButton>();
 	});
 
@@ -76,7 +116,7 @@ int main()
 	{
 		auto ren = object.addComponent<mini::ShapeRenderer>();
 		ren->setShape(rectShape);
-		ren->setColor(sf::Color::Cyan);
+		ren->setColor(sf::Color(0, 255, 255, 100));
 		ren->setLayer(1);
 		object.setScale({ 80, 80 });
 	});
@@ -86,9 +126,10 @@ int main()
 	{
 		auto ren = object.addComponent<mini::ShapeRenderer>();
 		ren->setShape(rectShape);
+		ren->setColor(sf::Color(120, 120, 120, 100));
 		object.addComponent<mini::BoxCollider>();
 		auto fieldComp = object.addComponent<Field>();
-		fieldComp->setColors(sf::Color::Yellow, sf::Color::White);
+		fieldComp->setColors(sf::Color(0, 255, 255, 100), sf::Color(120,120,120,100));
 		fieldComp->setSlotCount(3);
 		fieldComp->setSlotPrefab(slotPrefab);
 		object.setScale({ 200, 200 });
@@ -108,6 +149,8 @@ int main()
 
 	mini::Scene menu("menu", [&](mini::Scene& scene)
 	{
+		backgroundPrefab.instantiate(scene);
+
 		auto& startGame = buttonPrefab.instantiate(scene);
 		startGame.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("game");  });
 		sf::Vector2f buttonPos{ 0.5f, 0.25f };
@@ -138,14 +181,13 @@ int main()
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
-		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)});
-
-		GameManager::getInstance().setupGame(0);
+		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)});		
 	});	
 
 	mini::Scene game("game", [&](mini::Scene& scene)
 	{
-		auto& menu = buttonPrefab.instantiate(scene);
+		backgroundPrefab.instantiate(scene);
+		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback(
 			[&](UIButton& button) 
 		{
@@ -153,11 +195,6 @@ int main()
 			GameEvents::getInstance().clearEvents();
 			Pawn::selectedPawn = nullptr; 
 		});
-		auto layoutEl = menu.getComponent<mini::LayoutElement>();
-		layoutEl->setPivotPosition({ 0.0f, 0.0f });
-		layoutEl->setPosition({ 0.0f, 0.0f });	
-		layoutEl->applySettings({ false, false, true, true });
-		layoutEl->setSize({ 100.0f, 100.0f });
 
 		auto& endTurn = buttonPrefab.instantiate(scene);
 		endTurn.getComponent<UIButton>()->onClicked().addCallback(
@@ -173,7 +210,7 @@ int main()
 				GameManager::getInstance().endTurn(); 
 			} 
 		});
-		layoutEl = endTurn.getComponent<mini::LayoutElement>();
+		auto layoutEl = endTurn.getComponent<mini::LayoutElement>();
 		layoutEl->setPivotPosition({ 1.0f, 1.0f });
 		layoutEl->setPosition({ 1.0f, 1.0f });
 		layoutEl->applySettings({ false, false, true, true });
@@ -185,28 +222,26 @@ int main()
 		auto& pawn_2 = pawnPrefab.instantiate(scene);
 		pawn_2.setPosition({ 500, 200 });
 
-		auto& field_1 = fieldPrefab.instantiate(scene);
-		field_1.setPosition({ 500, 500 });
+		auto& pawn_3 = pawnPrefab.instantiate(scene);
+		pawn_3.setPosition({ 400, 300 });
 
-		auto& field_2 = fieldPrefab.instantiate(scene);
-		field_2.setPosition({ 200, 500 });
-		field_2.getComponent<Field>()->setSlotCount(1);
+		auto& pawn_4 = pawnPrefab.instantiate(scene);
+		pawn_4.setPosition({ 300, 400 });
 
 		auto& cam = scene.addObject("camera");
-		cam.setPosition({ 200, 200 });
+		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
 		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight) });
+
+		GameManager::getInstance().setupGame(0, scene, fieldPrefab, { 1, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 4, 4, 3 }, 5, sf::Vector2f(0.5f * settings.windowWidth, 260), 220);
 	});
 
 	mini::Scene howTo("how_to", [&](mini::Scene& scene)
 	{
-		auto& menu = buttonPrefab.instantiate(scene);
+		backgroundPrefab.instantiate(scene);
+
+		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("menu"); });
-		auto layoutEl = menu.getComponent<mini::LayoutElement>();
-		layoutEl->setPivotPosition({ 0.0f, 0.0f });
-		layoutEl->setPosition({ 0.0f, 0.0f });
-		layoutEl->applySettings({ false, false, true, true });
-		layoutEl->setSize({ 100.0f, 100.0f });
 
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
