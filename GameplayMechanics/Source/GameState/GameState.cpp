@@ -167,6 +167,10 @@ void GameState::TurnEnd()
 void GameState::BoardCycle()
 {
 	//TODO: cykl planszy
+	for (auto iterator = unitsOnBoard.begin(); iterator == unitsOnBoard.end(); ++iterator)
+	{
+		iterator->get()->PerformAction(*this);
+	}
 }
 
 bool GameState::IsWon()

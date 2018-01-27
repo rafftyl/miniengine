@@ -95,6 +95,7 @@ bool Field::Equals(const Field& other) const
 		}
 		foundMatch = false;
 	}
+	return true;
 }
 
 int Field::GetCapacity() const
