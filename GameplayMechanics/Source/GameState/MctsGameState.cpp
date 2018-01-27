@@ -13,7 +13,7 @@ MctsGameState::MctsGameState(Game::GameState* _gameState)
 
 std::unique_ptr<grailMCTS::GameState> MctsGameState::clone() const
 {
-	return std::unique_ptr<MctsGameState>(new MctsGameState(gameState->clone().release()));
+	return std::unique_ptr<MctsGameState>(new MctsGameState(gameState->Clone().release()));
 }
 
 bool MctsGameState::equals(const grailMCTS::GameState& other) const
@@ -21,7 +21,7 @@ bool MctsGameState::equals(const grailMCTS::GameState& other) const
 	const MctsGameState* temp = dynamic_cast<const MctsGameState*>(&other);
 	if (temp != nullptr)
 	{
-		return gameState->equals(*temp->gameState);
+		return gameState->Equals(*temp->gameState);
 	}
 }
 

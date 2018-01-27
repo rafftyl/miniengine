@@ -3,12 +3,12 @@
 using namespace Game;
 
 //public
-std::unique_ptr<DefaultMove> EndTurn::clone() const
+std::unique_ptr<DefaultMove> EndTurn::Clone() const
 {
 	return std::unique_ptr<DefaultMove>(new EndTurn());
 }
 
-bool EndTurn::equals(const DefaultMove* other) const
+bool EndTurn::Equals(const DefaultMove* other) const
 {
 	const EndTurn* temp = dynamic_cast<const EndTurn*>(other);
 	if (temp != nullptr)

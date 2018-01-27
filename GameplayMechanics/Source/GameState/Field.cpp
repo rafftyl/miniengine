@@ -7,7 +7,7 @@ using namespace Game;
 //public
 Field::Field(int _capacity) : capacity(_capacity)
 {
-	presentPawns.resize(capacity);
+	presentPawns.reserve(capacity);
 }
 
 bool Field::InsertPawn(std::shared_ptr<Pawn> pawn)
@@ -50,17 +50,17 @@ bool Field::RemovePawn(std::shared_ptr<Pawn> pawn)
 	}
 }
 
-std::unique_ptr<Field> Field::clone() const
+std::shared_ptr<Field> Field::Clone() const
 {
-	std::unique_ptr<Field> result = std::unique_ptr<Field>();
+	std::shared_ptr<Field> result = std::shared_ptr<Field>(new Field(capacity));
 	for (auto iterator = presentPawns.begin(); iterator != presentPawns.end(); ++iterator)
 	{
-		result->presentPawns.push_back(iterator->get()->clone());
+		result->presentPawns.push_back(iterator->get()->Clone());
 	}
 	return result;
 }
 
-bool Field::equals(const Field& other) const
+bool Field::Equals(const Field& other) const
 {
 	if (presentPawns.size() != other.presentPawns.size())
 	{
@@ -85,7 +85,7 @@ bool Field::equals(const Field& other) const
 	{
 		for (auto iterator = theirPawns.begin(); iterator != theirPawns.end(); ++iterator)
 		{
-			if (ourPawns.front()->equals(**iterator))
+			if (ourPawns.front()->Equals(**iterator))
 			{
 				ourPawns.pop_front();
 				theirPawns.erase(iterator);

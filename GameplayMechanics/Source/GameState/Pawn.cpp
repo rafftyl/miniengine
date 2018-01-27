@@ -23,13 +23,13 @@ Pawn::Pawn(PawnType _unitType, std::shared_ptr<Field> _field)
 	field = _field;
 }
 
-std::unique_ptr<Pawn> Pawn::clone() const
+std::unique_ptr<Pawn> Pawn::Clone() const
 {
 	std::unique_ptr<Pawn> copy = std::unique_ptr<Pawn>(new Pawn(unitType, field));
 	return copy;
 }
 
-bool Pawn::equals(const Pawn& other) const
+bool Pawn::Equals(const Pawn& other) const
 {
 	if (unitType != other.unitType)
 	{

@@ -22,7 +22,7 @@ GameState::GameState()
 	}
 }
 
-std::unique_ptr<GameState> GameState::clone() const
+std::unique_ptr<GameState> GameState::Clone() const
 {
 	std::unique_ptr<GameState> copy = std::unique_ptr<GameState>(new GameState());
 	copy->currentPlayer = currentPlayer;
@@ -32,13 +32,13 @@ std::unique_ptr<GameState> GameState::clone() const
 		copy->board[row].resize(board[row].size());
 		for (int column = 0; column < board[row].size(); ++column)
 		{
-			copy->board[row][column] = std::move(board[row][column]->clone());
+			copy->board[row][column] = std::move(board[row][column]->Clone());
 		}
 	}
 	return copy;
 }
 
-bool GameState::equals(const GameState& other) const
+bool GameState::Equals(const GameState& other) const
 {
 	const GameState* temp = dynamic_cast<const GameState*>(&other);
 	if (temp != nullptr)
@@ -57,7 +57,7 @@ bool GameState::equals(const GameState& other) const
 			{
 				for (int column = 0; column < board[row].size(); ++column)
 				{
-					if (!board[row][column]->equals(*temp->board[row][column]))
+					if (!board[row][column]->Equals(*temp->board[row][column]))
 					{
 						return false;
 					}

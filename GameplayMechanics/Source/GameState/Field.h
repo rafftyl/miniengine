@@ -13,8 +13,8 @@ namespace Game
 			Field(int _capacity);
 			bool InsertPawn(std::shared_ptr<Pawn> pawn);
 			bool RemovePawn(std::shared_ptr<Pawn> pawn);
-			std::unique_ptr<Field> clone() const;
-			bool equals(const Field& other) const;
+			std::shared_ptr<Field> Clone() const;
+			bool Equals(const Field& other) const;
 			int GetCapacity() const;
 			std::vector<std::shared_ptr<Pawn>> GetPawns();
 			std::vector<std::shared_ptr<const Pawn>> GetPawns() const;

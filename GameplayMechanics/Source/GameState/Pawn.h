@@ -35,8 +35,8 @@ namespace Game
 	{
 		public:
 			Pawn(PawnType _unitType, std::shared_ptr<Field> _field);
-			std::unique_ptr<Pawn> clone() const;
-			bool equals(const Pawn& other) const;
+			std::unique_ptr<Pawn> Clone() const;
+			bool Equals(const Pawn& other) const;
 			void PerformAction(GameState& gameState);
 
 		private:
