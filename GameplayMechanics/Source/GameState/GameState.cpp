@@ -3,8 +3,8 @@
 #include "Pawn.h"
 #include "..\Moves\DefaultMove.h"
 #include "..\Moves\EndTurn.h"
-#include <iostream>
 using namespace Game;
+
 
 //public
 void GameState::Initialize()
@@ -23,18 +23,18 @@ void GameState::Initialize()
 		}
 	}
 	std::shared_ptr<Pawn> newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	AddPawn(newPawn, 0, 0);
+	AddPawn(newPawn, std::pair<int, int>(0, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	AddPawn(newPawn, 0, 0);
+	AddPawn(newPawn, std::pair<int, int>(0, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
-	AddPawn(newPawn, 0, 4);
+	AddPawn(newPawn, std::pair<int, int>(0, 4));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
-	AddPawn(newPawn, 3, 4);
+	AddPawn(newPawn, std::pair<int, int>(3, 4));
 }
 
 std::unique_ptr<GameState> GameState::Clone() const
 {
-	std::unique_ptr<GameState> copy = std::make_unique<GameState>();
+	std::unique_ptr<GameState> copy = std::unique_ptr<GameState>(new GameState());
 	copy->currentPlayer = currentPlayer;
 	copy->board.reserve(board.size());
 	for (int row = 0; row < board.size(); ++row)
@@ -46,11 +46,11 @@ std::unique_ptr<GameState> GameState::Clone() const
 			copy->board[row].push_back(board[row][column]->Clone());
 		}
 	}
-	for (auto& unit : unitsOnBoard)
+	for (auto& unit : pawnsOnBoard)
 	{
 		Pawn* newPawn = unit->Clone().release();
-		newPawn->SetField(newPawn->GetBoardCoordinates(), *copy);
-		copy->unitsOnBoard.push_back(std::shared_ptr<Pawn>(newPawn));
+		newPawn->SetBoardCoordinates(newPawn->GetBoardCoordinates());
+		copy->pawnsOnBoard.push_back(std::shared_ptr<Pawn>(newPawn));
 	}
 	return copy;
 }
@@ -147,30 +147,54 @@ std::pair<int, int> GameState::GetBoardDimensions() const
 	return result;
 }
 
-std::shared_ptr<const Field> GameState::GetField(int row, int column) const
-{
-	return board.at(row).at(column);
-}
 
-std::shared_ptr<Field> GameState::GetField(int row, int column)
+bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, std::pair<int, int> coordinates)
 {
-	return board[row][column];
-}
-
-bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, int row, int column)
-{
-	if (pawn->SetField(std::pair<int, int>(row, column), *this))
+	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
 	{
-		unitsOnBoard.push_back(pawn);
-		board[row][column]->InsertPawn(pawn);
+		if (iterator->get() == pawn.get())
+		{
+			return false;
+		}
+	}
+	if (coordinates.first < 0 || coordinates.first >= board.size() || coordinates.second < 0 || coordinates.second >= board[0].size())
+	{
+		return false;
+	}
+	if (board[coordinates.first][coordinates.second]->slotsTaken < board[coordinates.first][coordinates.second]->GetCapacity())
+	{
+		pawnsOnBoard.push_back(pawn);
+		++board[coordinates.first][coordinates.second]->slotsTaken;
+		pawn->SetBoardCoordinates(coordinates);
 		return true;
 	}
 	return false;
 }
 
-void GameState::RemovePawn(std::shared_ptr<Pawn>)
+void GameState::RemovePawn(std::shared_ptr<Pawn> pawn)
 {
+	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+	{
+		if (iterator->get() == pawn.get())
+		{
+			--board[iterator->get()->GetBoardCoordinates().first][iterator->get()->GetBoardCoordinates().second]->slotsTaken;
+			pawnsOnBoard.erase(iterator);
+			break;
+		}
+	}
+}
 
+std::vector<std::shared_ptr<Pawn>> GameState::GetPawnsOnCoordinates(std::pair<int, int> coordinates)
+{
+	std::vector<std::shared_ptr<Pawn>> result;
+	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+	{
+		if (iterator->get()->GetBoardCoordinates() == coordinates)
+		{
+			result.push_back(*iterator);
+		}
+	}
+	return result;
 }
 
 
@@ -187,7 +211,7 @@ void GameState::TurnEnd()
 
 void GameState::BoardCycle()
 {
-	for (auto iterator = unitsOnBoard.begin(); iterator == unitsOnBoard.end(); ++iterator)
+	for (auto iterator = pawnsOnBoard.begin(); iterator == pawnsOnBoard.end(); ++iterator)
 	{
 		iterator->get()->PerformAction(*this);
 	}
