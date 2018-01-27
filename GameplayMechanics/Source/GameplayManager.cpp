@@ -24,6 +24,7 @@ void GameplayManager::RestartGame()
 {
 	movesToAnimate.clear();
 	currentGameState = std::make_unique<GameState>();
+	currentGameState->Initialize();
 	MctsGameState state(currentGameState->Clone().release());
 	mcts->setRoot(state);
 }
@@ -64,6 +65,7 @@ GameplayManager::GameplayManager()
 {
 	movesToAnimate = std::list<std::unique_ptr<const DefaultMove>>();
 	currentGameState = std::make_unique<GameState>();
+	currentGameState->Initialize();
 	MctsGameState state(currentGameState->Clone().release());
 	mcts = std::make_unique<grailMCTS::MCTS>(state);
 }

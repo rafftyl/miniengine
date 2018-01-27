@@ -7,11 +7,11 @@ using namespace Game;
 
 
 //public
-GameState::GameState()
+void GameState::Initialize()
 {
+	//TODO: przeniesienie konstrukcji planszy
 	currentPlayer = 0;
 	board = std::vector<std::vector<std::shared_ptr<Field>>>();
-	//TODO: przeniesienie konstrukcji planszy
 	board.reserve(4);
 	for (int row = 0; row < 4; ++row)
 	{
@@ -36,13 +36,14 @@ std::unique_ptr<GameState> GameState::Clone() const
 {
 	std::unique_ptr<GameState> copy = std::unique_ptr<GameState>(new GameState());
 	copy->currentPlayer = currentPlayer;
-	copy->board.resize(board.size());
+	copy->board.reserve(board.size());
 	for (int row = 0; row < board.size(); ++row)
 	{
-		copy->board[row].resize(board[row].size());
+		copy->board.push_back(std::vector<std::shared_ptr<Field>>());
+		copy->board[row].reserve(board[row].size());
 		for (int column = 0; column < board[row].size(); ++column)
 		{
-			copy->board[row][column] = std::move(board[row][column]->Clone());
+			copy->board[row].push_back(board[row][column]->Clone());
 		}
 	}
 	for (auto& unit : unitsOnBoard)
@@ -126,8 +127,23 @@ bool GameState::PerformMove(const DefaultMove& move)
 std::pair<int, int> GameState::GetBoardDimensions() const
 {
 	std::pair<int, int> result;
-	result.first = board.size();
-	result.second = board[0].size();
+	if (board.size() > 0)
+	{
+		result.first = board.size();
+		if (board[0].size() > 0)
+		{
+			result.second = board[0].size();
+		}
+		else
+		{
+			result.second = 0;
+		}
+	}
+	else
+	{
+		result.first = 0;
+		result.second = 0;
+	}
 	return result;
 }
 
