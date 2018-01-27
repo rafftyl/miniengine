@@ -27,14 +27,14 @@ namespace mini
 		target.draw(*shape, states);
 	}
 
-	void ShapeRenderer::tempUglyHack() const
-	{
-		//temporary hack to force linker to include sfml shape definition (to avoid wrapping sfml shape classes)
-		sf::CircleShape shape;
-		shape.setFillColor(sf::Color::Blue);
-		sf::RectangleShape shapee;
-		shapee.setFillColor(sf::Color::Red);
-	}
+	//void ShapeRenderer::tempUglyHack() const
+	//{
+	//	//temporary hack to force linker to include sfml shape definition (to avoid wrapping sfml shape classes)
+	//	sf::CircleShape shape;
+	//	shape.setFillColor(sf::Color::Blue);
+	//	sf::RectangleShape shapee;
+	//	shapee.setFillColor(sf::Color::Red);
+	//}
 
 	void ShapeRenderer::getLocalBounds(sf::Vector2f& outMin, sf::Vector2f& outMax) const
 	{

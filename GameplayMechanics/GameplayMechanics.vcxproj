@@ -96,6 +96,14 @@
     <Link>
       <AdditionalDependencies>$(SolutionDir)\MCTS\bin\libs\Debug\json.lib;$(SolutionDir)\MCTS\bin\libs\Debug\timer.lib;$(SolutionDir)\MCTS\bin\Debug\mcts.lib;$(SolutionDir)\MCTS\bin\Debug\mcontrollers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <AdditionalDependencies>mcts.lib; json.lib; timer.lib; vector2.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\MCTS\bin\Debug; $(SolutionDir)\MCTS\bin\libs\Debug;</AdditionalLibraryDirectories>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

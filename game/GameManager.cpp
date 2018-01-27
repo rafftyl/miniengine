@@ -1,5 +1,7 @@
 #include "GameManager.h"
 #include "GameEvents.h"
+#include "GameplayManager.h"
+#include "GameState/GameState.h"
 #include "Field.h"
 
 GameManager::GameManager()
@@ -27,8 +29,11 @@ bool GameManager::isCurrentPlayerHuman() const
 
 void GameManager::setupGame(int humanPlayer, mini::Scene& scene, mini::Prefab& pawnPrefab, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation)
 {
+	Game::GameplayManager& manager = Game::GameplayManager::GetInstance();
 	int cols = 5;
 	int rows = 4;
+	const auto& state = manager.GetCurrentGameState();
+	//state.
 	humanPlayerIndex = humanPlayer;
 	currentPlayerIndex = 0;
 	for (int index = 0; index < cols * rows; ++index)

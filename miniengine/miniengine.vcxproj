@@ -100,6 +100,9 @@
     <Lib>
       <AdditionalDependencies>sfml-graphics-s-d.lib;freetype.lib;glew32.lib;jpeg.lib;sfml-window-s-d.lib;opengl32.lib;gdi32.lib;sfml-system-s-d.lib;winmm.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

@@ -2,12 +2,12 @@
 #include <sstream>
 #include <cassert>
 #include <memory>
+#include "Field.h"
 
 
 namespace Game
 {
 	class GameState;
-	class Field;
 
 	enum class PawnType
 	{
