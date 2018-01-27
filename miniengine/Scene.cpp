@@ -18,6 +18,11 @@ namespace mini
 		return itr.first->second;
 	}
 
+	const std::string& Scene::getName() const
+	{
+		return name;
+	}
+
 	void Scene::load()
 	{
 		initScene(*this);

@@ -1,6 +1,9 @@
 #pragma once
 #include "Prefab.h"
 #include "Scene.h"
+#include "GameState/Pawn.h"
+#include "GameplaySystem.h"
+#include <map>
 
 class GameManager
 {
@@ -18,7 +21,8 @@ public:
 	int getCurrentPlayerIndex() const;
 	int getHumanPlayerIndex() const;
 	bool isCurrentPlayerHuman() const;
-	void setupGame(int humanPlayer, mini::Scene& scene, mini::Prefab& pawnPrefab, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation);
+	void setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::PawnType, mini::Prefab>& pawnPrefabs, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation);
+	void reloadSceneWithNewState(mini::GameplaySystem& gameplaySys, std::map<Game::PawnType, mini::Prefab>& pawnPrefabs, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation);
 	void endTurn();
 private:
 	GameManager();

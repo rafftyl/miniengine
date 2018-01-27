@@ -18,6 +18,7 @@
 #include "UIButton.h"
 #include "GameplaySystem.h"
 #include "OrderPanel.h"
+#include "GameState/Pawn.h"
 #include "GameManager.h"
 #include "Prefab.h"
 #include <SFML/Graphics.hpp>
@@ -267,7 +268,7 @@ int main()
 		auto& camComp = cam.addComponent<mini::Camera>();
 		camComp->setOrthoSize(1.5f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
 
-		GameManager::getInstance().setupGame(0, scene, pawnPrefab, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
+		GameManager::getInstance().setupGame(0, scene, { {Game::PawnType::Thug, pawnPrefab} }, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 	});
 
 	mini::Scene howTo("how_to", [&](mini::Scene& scene)

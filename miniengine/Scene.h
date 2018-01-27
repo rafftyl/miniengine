@@ -18,6 +18,7 @@ namespace mini
 		Scene(std::string&& name, std::function<void(Scene&)> initializationRoutine);
 		~Scene();
 		GameObject& addObject(std::string&& name);
+		const std::string& getName() const;
 		void load();
 		void unload();
 	};

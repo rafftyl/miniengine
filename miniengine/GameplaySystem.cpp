@@ -33,7 +33,7 @@ namespace mini
 		return obj;
 	}
 
-	GameObject & GameplaySystem::spawnObject(std::string && name, std::function<void(GameObject&)> initFunction)
+	GameObject& GameplaySystem::spawnObject(std::string && name, std::function<void(GameObject&)> initFunction)
 	{
 		GameObject& obj = scenes[currentSceneIndex].addObject(std::move(name));
 		initFunction(obj);

@@ -63,6 +63,11 @@ Field* Pawn::getCurrentField()
 	return currentField;
 }
 
+void Pawn::setGameStatePawn(const std::shared_ptr<const Game::Pawn>& pawn)
+{
+	gameStatePawn = pawn;
+}
+
 void Pawn::onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 {
 	bool isHumanControlled = ownerIndex == GameManager::getInstance().getCurrentPlayerIndex() && ownerIndex == GameManager::getInstance().getCurrentPlayerIndex();
