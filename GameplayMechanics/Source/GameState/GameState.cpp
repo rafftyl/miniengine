@@ -13,14 +13,13 @@ GameState::GameState()
 	board = std::vector<std::vector<std::shared_ptr<Field>>>();
 	//TODO: przeniesienie konstrukcji planszy
 	board.reserve(4);
-	for (int row = 0; row < board.size(); ++row)
+	for (int row = 0; row < 4; ++row)
 	{
 		board.push_back(std::vector<std::shared_ptr<Field>>());
 		board[row].reserve(5);
-		for (int column = 0; column < board[row].size(); ++column)
+		for (int column = 0; column < 5; ++column)
 		{
-			board[row].push_back(std::shared_ptr<Field>());
-			board[row][column] = std::shared_ptr<Field>(new Field(4));
+			board[row].push_back(std::make_shared<Field>(4));
 		}
 	}
 	std::shared_ptr<Pawn> newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
