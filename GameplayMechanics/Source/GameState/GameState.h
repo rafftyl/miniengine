@@ -16,7 +16,7 @@ namespace Game
 		friend EndTurn;
 
 		public:
-			GameState();
+			void Initialize();
 			std::unique_ptr<GameState> Clone() const;
 			bool Equals(const GameState& other) const;
 			int PlayersCount() const;
