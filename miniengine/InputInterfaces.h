@@ -67,77 +67,76 @@ namespace mini
 				const sf::Vector2f& mouseDelta) = 0;
 		};		
 
-		namespace raycast
+
+		class IMouseButtonPressHandlerRaycast
 		{
-			class IMouseButtonPressHandler
-			{
-			public:
-				virtual void onMouseButtonPressed(
-					sf::Mouse::Button mouseButton,
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
-			};
+		public:
+			virtual void onMouseButtonPressedRaycast(
+				sf::Mouse::Button mouseButton,
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
+		};
 
-			class IMouseButtonReleaseHandler
-			{
-			public:
-				virtual void onMouseButtonReleased(
-					sf::Mouse::Button mouseButton,
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
-			};
+		class IMouseButtonReleaseHandlerRaycast
+		{
+		public:
+			virtual void onMouseButtonReleasedRaycast(
+				sf::Mouse::Button mouseButton,
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
+		};
 
-			class IMouseButtonHoldHandler
-			{
-			public:
-				virtual void onMouseButtonHold(
-					sf::Mouse::Button mouseButton,
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
-			};
+		class IMouseButtonHoldHandlerRaycast
+		{
+		public:
+			virtual void onMouseButtonHoldRaycast(
+				sf::Mouse::Button mouseButton,
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
+		};
 
-			class IMouseDragHandler
-			{
-			public:
-				virtual void onMouseDragStart(
-					sf::Mouse::Button mouseButton,
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
+		class IMouseDragHandler
+		{
+		public:
+			virtual void onMouseDragStart(
+				sf::Mouse::Button mouseButton,
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
 
-				virtual void onMouseDragEnd(
-					sf::Mouse::Button mouseButton,
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
+			virtual void onMouseDragEnd(
+				sf::Mouse::Button mouseButton,
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
 
-				virtual void onMouseDrag(
-					sf::Mouse::Button mouseButton,
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
-			};
+			virtual void onMouseDrag(
+				sf::Mouse::Button mouseButton,
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
+		};
 
-			class IMouseMoveHandler
-			{
-			public:
-				virtual void onMouseMove(
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
-			};
+		class IMouseMoveHandlerRaycast
+		{
+		public:
+			virtual void onMouseMoveRaycast(
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
+		};
 
-			class IMouseEnterHandler
-			{
-			public:
-				virtual void onMouseEnter(
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
-			};
+		class IMouseEnterHandler
+		{
+		public:
+			virtual void onMouseEnter(
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
+		};
 
-			class IMouseExitHandler
-			{
-			public:
-				virtual void onMouseExit(
-					const sf::Vector2f& mousePosition,
-					const sf::Vector2f& mouseDelta) = 0;
-			};
-		}
+		class IMouseExitHandler
+		{
+		public:
+			virtual void onMouseExit(
+				const sf::Vector2f& mousePosition,
+				const sf::Vector2f& mouseDelta) = 0;
+		};
+		
 	}	
 }

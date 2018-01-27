@@ -13,7 +13,7 @@ namespace mini
 	public:
 		Renderer(GameObject& owner);
 		virtual ~Renderer();
-		void setColor(const sf::Color& newColor);
+		virtual void setColor(const sf::Color& newColor);
 		int getLayer() const;
 		void setLayer(int newLayer);
 		virtual void getBounds(sf::Vector2f& outMin, sf::Vector2f& outMax) const;

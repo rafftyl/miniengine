@@ -30,5 +30,10 @@ namespace mini
 				callback.second(args...);
 			}
 		}
+
+		void clear()
+		{
+			callbacks.clear();
+		}
 	};
 }

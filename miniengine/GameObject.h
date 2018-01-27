@@ -28,7 +28,7 @@ namespace mini
 		void setActive(bool on);
 		bool isScreenSpace() const;
 		void setScreenSpace(bool on);
-
+	
 		template<class ComponentType>
 		std::shared_ptr<ComponentType> getComponent() 
 		{
@@ -43,7 +43,21 @@ namespace mini
 		}
 
 		template<class ComponentType>
-		ComponentType& addComponent()
+		std::vector<std::shared_ptr<ComponentType>> getComponents()
+		{
+			std::vector<std::shared_ptr<ComponentType>> result;
+			for (const auto& comp : components)
+			{
+				if (comp->isOfType<ComponentType>())
+				{
+					result.push_back(std::dynamic_pointer_cast<ComponentType>(comp));
+				}
+			}
+			return result;
+		}
+
+		template<class ComponentType>
+		std::shared_ptr<ComponentType> addComponent()
 		{
 			auto newComp = std::make_shared<ComponentType>(*this);
 			components.push_back(newComp);
@@ -52,7 +66,7 @@ namespace mini
 				newComp->gameplaySystem = gameplaySystem;			
 				newComp->start();
 			}
-			return *newComp;
+			return newComp;
 		}
 
 	private:

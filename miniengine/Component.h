@@ -13,6 +13,7 @@ namespace mini
 		virtual ~Component();
 		const GameObject& getOwner() const;
 		GameObject& getOwner();
+		GameplaySystem& getGameplaySystem();
 
 		template<class ComponentType>
 		bool isOfType() const

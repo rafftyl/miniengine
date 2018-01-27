@@ -90,10 +90,10 @@ namespace mini
 			{
 				for (auto& obj : currentScene.objects)
 				{
-					auto rend = obj.second.getComponent<Renderer>();
-					if (rend != nullptr)
+					auto rends = obj.second.getComponents<Renderer>();
+					for (const auto& renderer : rends)
 					{
-						currentCam->registerRenderer(rend);
+						currentCam->registerRenderer(renderer);
 					}
 				}
 			}
@@ -123,6 +123,16 @@ namespace mini
 	std::shared_ptr<const Camera> GameplaySystem::getCurrentCam() const
 	{
 		return currentCam;
+	}
+
+	Scene& GameplaySystem::getCurrentScene()
+	{
+		return scenes[currentSceneIndex];
+	}
+
+	void GameplaySystem::closeApplication() const
+	{
+		msgBus.engineEvents.onEngineShutdownRequest.broadcast();
 	}
 
 	void GameplaySystem::registerInputCallbacks()
@@ -240,10 +250,10 @@ namespace mini
 				handler.onMouseButtonPressed(button, mousePosition, mouseDelta);
 			});
 
-		invokeRaycastCallbacks<input::raycast::IMouseButtonPressHandler>(
-			[&](input::raycast::IMouseButtonPressHandler& handler)
+		invokeRaycastCallbacks<input::IMouseButtonPressHandlerRaycast>(
+			[&](input::IMouseButtonPressHandlerRaycast& handler)
 			{
-				handler.onMouseButtonPressed(button, mousePosition, mouseDelta);
+				handler.onMouseButtonPressedRaycast(button, mousePosition, mouseDelta);
 			}, mousePosition);
 	}
 
@@ -255,10 +265,10 @@ namespace mini
 				handler.onMouseButtonHold(button, mousePosition, mouseDelta);
 			});
 
-		invokeRaycastCallbacks<input::raycast::IMouseButtonHoldHandler>(
-			[&](input::raycast::IMouseButtonHoldHandler& handler)
+		invokeRaycastCallbacks<input::IMouseButtonHoldHandlerRaycast>(
+			[&](input::IMouseButtonHoldHandlerRaycast& handler)
 			{
-				handler.onMouseButtonHold(button, mousePosition, mouseDelta);
+				handler.onMouseButtonHoldRaycast(button, mousePosition, mouseDelta);
 			}, mousePosition);
 	}
 
@@ -270,17 +280,17 @@ namespace mini
 				handler.onMouseButtonReleased(button, mousePosition, mouseDelta);
 			});
 
-		invokeRaycastCallbacks<input::raycast::IMouseButtonReleaseHandler>(
-			[&](input::raycast::IMouseButtonReleaseHandler& handler)
+		invokeRaycastCallbacks<input::IMouseButtonReleaseHandlerRaycast>(
+			[&](input::IMouseButtonReleaseHandlerRaycast& handler)
 			{
-				handler.onMouseButtonReleased(button, mousePosition, mouseDelta);
+				handler.onMouseButtonReleasedRaycast(button, mousePosition, mouseDelta);
 			}, mousePosition);
 	}
 
 	void GameplaySystem::invokeDragStartCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 	{
-		invokeRaycastCallbacks<input::raycast::IMouseDragHandler>(
-			[&](input::raycast::IMouseDragHandler& handler)
+		invokeRaycastCallbacks<input::IMouseDragHandler>(
+			[&](input::IMouseDragHandler& handler)
 			{
 				handler.onMouseDragStart(button, mousePosition, mouseDelta);
 				currentDraggedObject = &handler;
@@ -297,8 +307,8 @@ namespace mini
 
 	void GameplaySystem::invokeDragEndCallbacks(sf::Mouse::Button button, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 	{
-		invokeRaycastCallbacks<input::raycast::IMouseDragHandler>(
-			[&](input::raycast::IMouseDragHandler& handler)
+		invokeRaycastCallbacks<input::IMouseDragHandler>(
+			[&](input::IMouseDragHandler& handler)
 			{
 				handler.onMouseDragEnd(button, mousePosition, mouseDelta);
 			}, mousePosition);
@@ -313,8 +323,8 @@ namespace mini
 			inter->onMouseMove(mousePosition, mouseDelta);
 		}
 				
-		invokeRaycastCallbacks<input::raycast::IMouseMoveHandler>(
-			[&](input::raycast::IMouseMoveHandler& handler)
+		invokeRaycastCallbacks<input::IMouseMoveHandler>(
+			[&](input::IMouseMoveHandler& handler)
 			{
 				handler.onMouseMove(mousePosition, mouseDelta);
 			}, mousePosition);
@@ -326,7 +336,7 @@ namespace mini
 			if (col->receivesQueries())
 			{
 				bool colContainsPointer = col->getOwner().isScreenSpace() ? col->contains(mousePosition) : col->contains(transformedPos);
-				auto enterHandler = col->getOwner().getComponent<input::raycast::IMouseEnterHandler>();
+				auto enterHandler = col->getOwner().getComponent<input::IMouseEnterHandler>();
 				if (enterHandler != nullptr && colContainsPointer)
 				{
 					auto iter = objectsEntered.find(&col->getOwner());
@@ -337,7 +347,7 @@ namespace mini
 					}
 				}
 
-				auto exitHandler = col->getOwner().getComponent<input::raycast::IMouseExitHandler>();
+				auto exitHandler = col->getOwner().getComponent<input::IMouseExitHandler>();
 				if (exitHandler != nullptr && !colContainsPointer)
 				{
 					auto iter = objectsEntered.find(&col->getOwner());

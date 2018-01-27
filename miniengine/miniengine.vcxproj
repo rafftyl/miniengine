@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FC32B294-D8E6-4943-9DA0-E0159FE49E2B}</ProjectGuid>
     <RootNamespace>miniengine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -156,6 +156,7 @@
     <ClInclude Include="MessageBus.h" />
     <ClInclude Include="Miniengine.h" />
     <ClInclude Include="ModifierKeys.h" />
+    <ClInclude Include="Prefab.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderingQueue.h" />
     <ClInclude Include="RenderingSystem.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ShapeRenderer.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +182,7 @@
     <ClCompile Include="LayoutElement.cpp" />
     <ClCompile Include="MessageBus.cpp" />
     <ClCompile Include="Miniengine.cpp" />
+    <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderingQueue.cpp" />
     <ClCompile Include="RenderingSystem.cpp" />
@@ -187,6 +190,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ShapeRenderer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
