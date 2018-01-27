@@ -5,15 +5,45 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source Files\GameState">
+      <UniqueIdentifier>{ea1a1f9b-ef3d-4675-a234-36be0016adca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Moves">
+      <UniqueIdentifier>{b4553c44-2172-4bd8-b81f-fef399ce5bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameplayManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameState\GameState.h">
+      <Filter>Source Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Moves\DefaultMove.h">
+      <Filter>Source Files\Moves</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameState\Field.h">
+      <Filter>Source Files\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameState\Pawn.h">
+      <Filter>Source Files\GameState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameplayManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameState\GameState.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Moves\DefaultMove.cpp">
+      <Filter>Source Files\Moves</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameState\Field.cpp">
+      <Filter>Source Files\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameState\Pawn.cpp">
+      <Filter>Source Files\GameState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
