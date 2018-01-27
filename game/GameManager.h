@@ -1,9 +1,13 @@
 #pragma once
 #include "Prefab.h"
 #include "Scene.h"
-#include "GameState/Pawn.h"
 #include "GameplaySystem.h"
 #include <map>
+
+namespace Game
+{
+	enum class PawnType;
+}
 
 class GameManager
 {

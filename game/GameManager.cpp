@@ -2,7 +2,7 @@
 #include "GameEvents.h"
 #include "GameplayManager.h"
 #include "GameState/GameState.h"
-#include "GameState/Field.h"
+#include "GameState/Pawn.h"
 #include "Pawn.h"
 #include "Field.h"
 
@@ -32,8 +32,9 @@ bool GameManager::isCurrentPlayerHuman() const
 void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::PawnType, mini::Prefab>& pawnPrefabs, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation)
 {
 	Game::GameplayManager& manager = Game::GameplayManager::GetInstance();
-	const auto& state = manager.GetCurrentGameState();
+	auto& state = manager.GetCurrentGameState();
 	auto dim = state.GetBoardDimensions();
+	const auto& board = state.board;
 	int rows = dim.first;
 	int cols = dim.second;
 	humanPlayerIndex = humanPlayer;
@@ -44,7 +45,7 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::
 		int col = index - row * cols;
 		auto& field = fieldPrefab.instantiate(scene);
 		auto fieldComp = field.getComponent<Field>();
-		fieldComp->setSlotCount(state.GetField(row, col)->GetCapacity());
+		fieldComp->setSlotCount(board[row][col]->GetCapacity());
 		fieldComp->setCoordinates({ row, col });
 		sf::Vector2f pos = origin;
 		float mult = cols / 2.0f - col - 0.5f;
@@ -52,16 +53,15 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::
 		pos.y += row * fieldSeparation;
 		field.setPosition(pos);
 
-		auto pawns = state.GetField(row, col)->GetPawns();
+		auto pawns = state.GetPawnsOnCoordinates({ row, col });
 		for (auto& pawn : pawns)
 		{
-			auto iter = pawnPrefabs.find(const_cast<Game::Pawn*>(pawn.get())->GetUnitType());
+			auto iter = pawnPrefabs.find(pawn->GetUnitType());
 			if (iter != pawnPrefabs.end())
 			{
 				auto& pawnObj = iter->second.instantiate(scene);
 				auto pawnComp = pawnObj.getComponent<Pawn>();
 				pawnComp->setOwnerIndex(pawn->GetOwner());
-				pawnComp->setGameStatePawn(pawn);
 				pawnComp->setCurrentField(fieldComp.get());
 				if (pawnComp->getOwnerIndex() == 0)
 				{

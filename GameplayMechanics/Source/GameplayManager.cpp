@@ -15,7 +15,7 @@ GameplayManager& GameplayManager::GetInstance()
 	return instance;
 }
 
-const GameState& GameplayManager::GetCurrentGameState() const
+GameState& GameplayManager::GetCurrentGameState() 
 {
 	return *currentGameState;
 }

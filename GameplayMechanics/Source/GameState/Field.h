@@ -1,11 +1,8 @@
 #pragma once
 #include <memory>
 
-
 namespace Game
 {
-	class Pawn;
-
 	class Field
 	{
 		public:

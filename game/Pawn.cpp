@@ -2,6 +2,7 @@
 #include "GameEvents.h"
 #include "GameObject.h"
 #include "GameManager.h"
+#include "GameState/Pawn.h"
 
 Pawn* Pawn::selectedPawn = nullptr;
 
@@ -61,11 +62,6 @@ void Pawn::setCurrentField(Field* field)
 Field* Pawn::getCurrentField()
 {
 	return currentField;
-}
-
-void Pawn::setGameStatePawn(const std::shared_ptr<const Game::Pawn>& pawn)
-{
-	gameStatePawn = pawn;
 }
 
 void Pawn::onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)

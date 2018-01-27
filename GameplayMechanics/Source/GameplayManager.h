@@ -20,7 +20,7 @@ namespace Game
 			GameplayManager(GameplayManager const&) = delete;
 			void operator=(GameplayManager const&) = delete;
 			static GameplayManager& GetInstance();
-			const GameState& GetCurrentGameState() const;
+			GameState& GetCurrentGameState();
 			void RestartGame();
 			void AI_PerformTurn();
 			std::function<void(const std::list<std::unique_ptr<const DefaultMove>>&)> onAnimationQueueCreated;

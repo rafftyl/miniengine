@@ -173,3 +173,44 @@ std::shared_ptr<Pawn> Pawn::FindTarget(GameState& gameState)
 	}
 	return target;
 }
+
+std::pair<int, int> Game::TranslateDirections(Directions direction)
+{
+	std::pair<int, int> result(0, 0);
+	switch (direction)
+	{
+	case Directions::North:
+		result.first = -1;
+		break;
+
+	case Directions::East:
+		result.second = 1;
+		break;
+
+	case Directions::South:
+		result.first = 1;
+		break;
+
+	case Directions::West:
+		result.second = -1;
+		break;
+	}
+	return result;
+}
+
+std::string Game::GetUnitTypeName(PawnType unitType)
+{
+	std::stringstream result;
+	switch (unitType)
+	{
+	case PawnType::Thug:
+		result << "Thug";
+		break;
+
+	default:
+		result << "No designated name for unit type!";
+		assert(false && result.str().c_str());
+		break;
+	}
+	return result.str();
+}

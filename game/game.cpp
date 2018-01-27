@@ -53,12 +53,12 @@ int main()
 	upArrowSprite->setOrigin({ texture_3.getSize().x * 0.5f, texture_3.getSize().y * 0.5f });
 
 	sf::Texture backgroundTexture;
-	backgroundTexture.loadFromFile("Assets/background.jpg");
+	backgroundTexture.loadFromFile("Assets/camo.png");
 	backgroundTexture.setSmooth(true);
+	backgroundTexture.setRepeated(true);
 	auto backgroundSprite = std::make_shared<sf::Sprite>();
 	backgroundSprite->setTexture(backgroundTexture);
 	backgroundSprite->setOrigin({ backgroundTexture.getSize().x * 0.5f, backgroundTexture.getSize().y * 0.5f });
-
 	auto rectShape = std::make_shared<sf::RectangleShape>(sf::Vector2f(1.0f, 1.0f));
 	rectShape->setOrigin({ .5f , .5f});
 
