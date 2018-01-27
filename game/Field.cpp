@@ -28,6 +28,16 @@ void Field::start()
 	}
 }
 
+void Field::setCoordinates(const sf::Vector2i& coords)
+{
+	coordinates = coords;
+}
+
+sf::Vector2i Field::getCoordinates() const
+{
+	return coordinates;
+}
+
 void Field::setSlotPrefab(const mini::Prefab& prefab)
 {
 	slotPrefab = prefab;
@@ -46,11 +56,19 @@ void Field::addPawn(Pawn* pawn)
 void Field::removePawn(Pawn* pawn)
 {
 	pawns.erase(pawn);
+	int index = 0;
+	for (auto remaining : pawns)
+	{
+		std::queue<std::pair<float, sf::Vector2f>> movementQueue;
+		movementQueue.push({ 1.0f, slots[index]->getPosition() });
+		remaining->getOwner().getComponent<PositionInterpolator>()->startMovement(std::move(movementQueue));
+		index++;
+	}
 }
 
 void Field::onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
 {
-	if (Pawn::selectedPawn != nullptr && pawns.size() < maxPawns)
+	if (Pawn::selectedPawn != nullptr && pawns.size() < maxPawns && pawns.find(Pawn::selectedPawn) == pawns.end())
 	{
 		if (Pawn::selectedPawn->getCurrentField() != nullptr)
 		{

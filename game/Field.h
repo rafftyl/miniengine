@@ -13,10 +13,13 @@ class Field :
 	size_t maxPawns;
 	mini::Prefab slotPrefab;
 	std::vector<mini::GameObject*> slots;
+	sf::Vector2i coordinates;
 public:
 	Field(mini::GameObject& owner);
 	~Field();
 	void start() override;
+	void setCoordinates(const sf::Vector2i& coords);
+	sf::Vector2i getCoordinates() const;
 	void setSlotPrefab(const mini::Prefab& prefab);
 	void setSlotCount(size_t slotCount);
 	void addPawn(Pawn* pawn);
