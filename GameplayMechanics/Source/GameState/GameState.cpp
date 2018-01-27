@@ -9,7 +9,17 @@ using namespace Game;
 GameState::GameState()
 {
 	currentPlayer = 0;
-	board = std::vector<std::vector<std::unique_ptr<Field>>>();
+	board = std::vector<std::vector<std::shared_ptr<Field>>>();
+	//TODO: przeniesienie konstrukcji planszy
+	board.resize(4);
+	for (int row = 0; row < board.size(); ++row)
+	{
+		board[row].resize(5);
+		for (int column = 0; column < board[row].size(); ++column)
+		{
+			board[row][column] = std::shared_ptr<Field>(new Field(4));
+		}
+	}
 }
 
 std::unique_ptr<grailMCTS::GameState> GameState::clone() const

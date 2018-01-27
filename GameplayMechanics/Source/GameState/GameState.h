@@ -1,5 +1,4 @@
 #pragma once
-#include <unordered_map>
 #include <GameState.h>
 #include <Move.h>
 
@@ -7,9 +6,10 @@
 namespace Game
 {
 	class Field;
+	class Pawn;
 	class DefaultMove;
 	class EndTurn;
-
+	
 	class GameState : public grailMCTS::GameState
 	{
 		friend EndTurn;
@@ -27,8 +27,8 @@ namespace Game
 
 		private:
 			int currentPlayer;
-			std::vector<std::vector<std::unique_ptr<Field>>> board;
-			std::unordered_map<int, std::vector<std::shared_ptr<Pawn>>> unitsByInitiative;
+			std::vector<std::vector<std::shared_ptr<Field>>> board;
+			std::vector<std::shared_ptr<Pawn>> unitsOnBoard;
 			void TurnEnd();
 			void BoardCycle();
 			bool IsWon();
