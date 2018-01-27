@@ -118,6 +118,7 @@ void GameState::TurnEnd()
 void GameState::BoardCycle()
 {
 	//TODO: cykl planszy
+
 }
 
 bool GameState::IsWon()
