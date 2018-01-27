@@ -24,6 +24,8 @@ namespace Game
 			int WhoPlay() const;
 			std::vector<std::unique_ptr<const DefaultMove>> GetAllMoves() const;
 			bool PerformMove(const DefaultMove& move);
+			std::pair<int, int> GetBoardDimensions() const;
+			std::shared_ptr<const Field> GetField(int row, int column) const;
 
 		private:
 			int currentPlayer;
