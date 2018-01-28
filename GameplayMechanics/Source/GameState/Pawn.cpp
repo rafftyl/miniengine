@@ -147,12 +147,12 @@ void Pawn::ChangeHealth(int ammount)
 	}
 }
 
-std::vector<UnitOrder*> Pawn::GetAvailableOrders(const GameState& gameState)
+std::vector<UnitOrder*> Pawn::GetAvailableOrders(const GameState& gameState, int index)
 {
 	std::vector<UnitOrder*> result;
 	if (lastOrder != OrderType::Stop)
 	{
-		result.push_back(new UnitOrder(this, OrderType::Stop, Directions::North));
+		result.push_back(new UnitOrder(this, index, OrderType::Stop, Directions::North));
 	}
 	for (int type = 1; type < static_cast<int>(OrderType::Max); ++type)
 	{
@@ -165,7 +165,7 @@ std::vector<UnitOrder*> Pawn::GetAvailableOrders(const GameState& gameState)
 			{
 				if (static_cast<OrderType>(type) != lastOrder || direction != static_cast<Directions>(dir))
 				{
-					result.push_back(new UnitOrder(this, static_cast<OrderType>(type), static_cast<Directions>(dir)));
+					result.push_back(new UnitOrder(this, index, static_cast<OrderType>(type), static_cast<Directions>(dir)));
 				}
 			}
 		}

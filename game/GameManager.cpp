@@ -6,6 +6,7 @@
 #include "Moves/EndTurn.h"
 #include "Pawn.h"
 #include "Field.h"
+#include <thread>
 
 GameManager::GameManager()
 {
@@ -97,6 +98,12 @@ void GameManager::endTurn(bool requestAIMove)
 		GameEvents::getInstance().onGameStateChanged.broadcast(Game::GameplayManager::GetInstance().GetCurrentGameState());
 	}
 	GameEvents::getInstance().onTurnFinished.broadcast();
-	if(requestAIMove && !isCurrentPlayerHuman())
-		Game::GameplayManager::GetInstance().AI_PerformTurn();	
+	if (requestAIMove && !isCurrentPlayerHuman())
+	{
+		if (aiOrderThread != nullptr)
+		{
+			aiOrderThread->join();
+		}
+		aiOrderThread = std::make_unique<std::thread>([] {Game::GameplayManager::GetInstance().AI_PerformTurn(); });		
+	}		
 }

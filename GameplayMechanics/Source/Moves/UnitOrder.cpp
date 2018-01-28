@@ -2,13 +2,13 @@
 #include "..\GameState\GameState.h"
 using namespace Game;
 
-UnitOrder::UnitOrder(Pawn* _targetPawn, OrderType _orderType, Directions _direction) : targetPawn(_targetPawn), orderType(_orderType), direction(_direction)
+UnitOrder::UnitOrder(Pawn* _targetPawn, int _pawnIndex, OrderType _orderType, Directions _direction) : targetPawn(_targetPawn), pawnIndex(_pawnIndex), orderType(_orderType), direction(_direction)
 {
 }
 
 std::unique_ptr<DefaultMove> UnitOrder::Clone() const
 {
-	std::unique_ptr<UnitOrder> result = std::unique_ptr<UnitOrder>(new UnitOrder(targetPawn, orderType, direction));
+	std::unique_ptr<UnitOrder> result = std::unique_ptr<UnitOrder>(new UnitOrder(targetPawn, pawnIndex, orderType, direction));
 	return result;
 }
 
@@ -32,6 +32,12 @@ bool UnitOrder::IsValid(const GameState& gameState) const
 
 void UnitOrder::ApplyMove(GameState& gameState) const
 {
+	auto iter = gameState.pawnsOnBoard.begin();
+	for (int i = 0; i < pawnIndex; ++i)
+	{
+		++iter;
+	}
+	targetPawn = iter->get();
 	targetPawn->SetNewOrder(orderType, direction);
 	gameState.TurnEnd();
 }

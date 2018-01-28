@@ -5,6 +5,7 @@
 #include "GameplaySystem.h"
 #include <map>
 #include <set>
+#include <thread>
 
 namespace Game
 {
@@ -19,6 +20,7 @@ private:
 	const int playerCount = 2;
 	int currentPlayerIndex = -1;
 	std::set<int> humanPlayerIndices;
+	std::unique_ptr<std::thread> aiOrderThread;
 public:
 	static GameManager& getInstance()
 	{

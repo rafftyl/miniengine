@@ -52,7 +52,7 @@ namespace Game
 			void SetNewOrder(OrderType newOrder, Directions newDirections);
 			PawnActionResult PerformAction(GameState& gameState);
 			void ChangeHealth(int ammount);
-			std::vector<UnitOrder*> GetAvailableOrders(const GameState& gameState);
+			std::vector<UnitOrder*> GetAvailableOrders(const GameState& gameState, int index);
 
 		private:
 			std::pair<int, int> boardCoordinates;

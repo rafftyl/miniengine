@@ -19,6 +19,7 @@ void VectorInterpolator::update()
 		{
 			if (waypoints.size() == 0)
 			{
+				applyVector(owner, segmentEnd);
 				onMovementFinishedEvent.broadcast();
 				isMoving = false;
 				return;
