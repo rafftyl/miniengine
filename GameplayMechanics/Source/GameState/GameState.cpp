@@ -5,6 +5,8 @@
 #include "..\Moves\DefaultMove.h"
 #include "..\Moves\EndTurn.h"
 #include "..\Moves\UnitOrder.h"
+#define ROWS 3
+#define COLUMNS 4
 using namespace Game;
 
 
@@ -15,28 +17,34 @@ void GameState::Initialize()
 	currentPlayer = 0;
 	turnCounter = 0;
 	board = std::vector<std::vector<std::shared_ptr<Field>>>();
-	board.reserve(4);
-	for (int row = 0; row < 4; ++row)
+	board.reserve(ROWS);
+	for (int row = 0; row < ROWS; ++row)
 	{
 		board.push_back(std::vector<std::shared_ptr<Field>>());
-		board[row].reserve(5);
-		for (int column = 0; column < 5; ++column)
+		board[row].reserve(COLUMNS);
+		for (int column = 0; column < COLUMNS; ++column)
 		{
 			board[row].push_back(std::make_shared<Field>(4));
 		}
 	}
 	std::shared_ptr<Pawn> newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
 	AddPawn(newPawn, std::pair<int, int>(0, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
-	AddPawn(newPawn, std::pair<int, int>(0, 4));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
-	AddPawn(newPawn, std::pair<int, int>(1, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 1));
-	AddPawn(newPawn, std::pair<int, int>(1, 4));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
 	AddPawn(newPawn, std::pair<int, int>(2, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
+	AddPawn(newPawn, std::pair<int, int>(0, 3));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
+	AddPawn(newPawn, std::pair<int, int>(2, 3));
+	
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
+	AddPawn(newPawn, std::pair<int, int>(0, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 1));
+	AddPawn(newPawn, std::pair<int, int>(2, 3));
+
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 0));
+	AddPawn(newPawn, std::pair<int, int>(1, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 1));
-	AddPawn(newPawn, std::pair<int, int>(2, 4));
+	AddPawn(newPawn, std::pair<int, int>(1, 3));
 }
 
 std::unique_ptr<GameState> GameState::Clone() const
