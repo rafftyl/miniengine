@@ -4,7 +4,7 @@
 #include "GameState\MctsGameState.h"
 #include "Moves\DefaultMove.h"
 #include "Moves\MctsMove.h"
-#define ITERATIONS 2
+#define ITERATIONS 5
 using namespace Game;
 
 

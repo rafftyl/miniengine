@@ -44,6 +44,9 @@ namespace Game
 			int GetOwner() const;
 			int GetHealth() const;
 			int GetMaxHealth() const;
+			int GetSpeed() const;
+			int GetMeeleAttack() const;
+			int GetCounterAttack() const;
 			std::unique_ptr<Pawn> Clone() const;
 			bool Equals(const Pawn& other) const;
 			void SetNewOrder(OrderType newOrder, Directions newDirections);
@@ -61,6 +64,7 @@ namespace Game
 			int maxHealth;
 			int speed;
 			int meeleAttack;
+			int counterAttack;
 			PawnActionResult Stop(GameState& gameState);
 			PawnActionResult Advance(GameState& gameState);
 			bool Fight(GameState& gameState, PawnActionResult& result);

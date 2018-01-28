@@ -295,9 +295,25 @@ void GameState::TurnEnd()
 
 void GameState::BoardCycle()
 {
-	for(const auto& pawn :pawnsOnBoard)
+	std::list<std::shared_ptr<Pawn>> pawnsToRemove;
+	for(auto& pawn : pawnsOnBoard)
 	{
-		pawn->PerformAction(*this);
+		if (pawn->GetHealth() > 0)
+		{
+			pawn->PerformAction(*this);
+		}
+	}
+	for (auto& pawn : pawnsOnBoard)
+	{
+		if (pawn->GetHealth() <= 0)
+		{
+			pawnsToRemove.push_back(pawn);
+		}
+	}
+	while(pawnsToRemove.size() > 0)
+	{
+		RemovePawn(pawnsToRemove.front());
+		pawnsToRemove.pop_front();
 	}
 }
 

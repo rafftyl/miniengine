@@ -12,25 +12,27 @@ Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 	boardCoordinates.second = -1;
 	lastOrder = OrderType::Stop;
 	direction = Directions::North;
-	health = maxHealth;
 	switch (_unitType)
 	{
 		case PawnType::Thug:
 			maxHealth = 3;
 			speed = 2;
 			meeleAttack = 2;
+			counterAttack = 1;
 		break;
 
 		case PawnType::Sentinel:
 			maxHealth = 5;
 			speed = 1;
-			meeleAttack = 2;
+			meeleAttack = 1;
+			counterAttack = 3;
 		break;
 
 		case PawnType::Brawler:
-			maxHealth = 2;
+			maxHealth = 1;
 			speed = 3;
 			meeleAttack = 3;
+			counterAttack = 0;
 		break;
 
 		default:
@@ -39,6 +41,7 @@ Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 			assert(false && stream.str().c_str());
 		break;
 	}
+	health = maxHealth;
 }
 
 void Pawn::SetBoardCoordinates(std::pair<int, int> newCoordinates)
@@ -71,6 +74,21 @@ int Pawn::GetMaxHealth() const
 	return maxHealth;
 }
 
+int Pawn::GetSpeed() const
+{
+	return speed;
+}
+
+int Pawn::GetMeeleAttack() const
+{
+	return meeleAttack;
+}
+
+int Pawn::GetCounterAttack() const
+{
+	return counterAttack;
+}
+
 std::unique_ptr<Pawn> Pawn::Clone() const
 {
 	std::unique_ptr<Pawn> copy = std::unique_ptr<Pawn>(new Pawn(unitType, owner));
@@ -98,20 +116,26 @@ void Pawn::SetNewOrder(OrderType newOrder, Directions newDirection)
 
 PawnActionResult Pawn::PerformAction(GameState& gameState)
 {
-	switch (lastOrder)
+	if (health > 0)
 	{
-		case OrderType::Stop:
-			return Stop(gameState);
-		break;
+		switch (lastOrder)
+		{
+			case OrderType::Stop:
+				return Stop(gameState);
+			break;
 
-		case OrderType::Advance:
-			return Advance(gameState);
-		break;
+			case OrderType::Advance:
+				return Advance(gameState);
+			break;
 
-		default:
-			assert(false && "Missing action implementation for order!");
-		break;
+			default:
+				assert(false && "Missing action implementation for order!");
+			break;
+		}
 	}
+	assert(false && "Perform action on dead pawn!");
+	PawnActionResult result;
+	return result;
 }
 
 void Pawn::ChangeHealth(int ammount)
@@ -154,7 +178,7 @@ std::vector<UnitOrder*> Pawn::GetAvailableOrders(const GameState& gameState)
 PawnActionResult Pawn::Stop(GameState& gameState)
 {	
 	PawnActionResult result = PawnActionResult();
-	//TODO: efect stop do result
+	Fight(gameState, result);
 	return result;
 }
 
@@ -187,13 +211,9 @@ bool Pawn::Fight(GameState& gameState, PawnActionResult& result)
 	{
 		//TODO: efekt ataku do result
 		target->ChangeHealth(-meeleAttack);
-		if (target->health <= 0)
+		if (target->health > 0)
 		{
-			gameState.RemovePawn(target);
-		}
-		else
-		{
-			//TODO: defense
+			ChangeHealth(-target->counterAttack);
 		}
 		return true;
 	}
@@ -210,10 +230,15 @@ bool Pawn::Move(GameState& gameState, PawnActionResult& result)
 	{
 		if (gameState.board[nextField.first][nextField.second]->slotsTaken < gameState.board[nextField.first][nextField.second]->GetCapacity())
 		{
+			--gameState.board[boardCoordinates.first][boardCoordinates.second]->slotsTaken;
 			boardCoordinates = nextField;
 			++gameState.board[nextField.first][nextField.second]->slotsTaken;
 			return true;
 		}
+	}
+	else
+	{
+		lastOrder = OrderType::Stop;
 	}
 	return false;
 }
@@ -224,7 +249,7 @@ std::shared_ptr<Pawn> Pawn::FindTarget(GameState& gameState)
 	std::shared_ptr<Pawn> target = std::shared_ptr<Pawn>(nullptr);
 	for (auto iterator = pawns.begin(); iterator != pawns.end(); ++iterator)
 	{
-		if (iterator->get()->GetOwner() != owner)
+		if (iterator->get()->GetOwner() != owner && iterator->get()->GetHealth() > 0)
 		{
 			target = *iterator;
 			break;
