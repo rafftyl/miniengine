@@ -171,7 +171,7 @@ std::valarray<double> GameState::GetResult() const
 		return { 0.5, 0.5 };
 	}
 
-	return { playersPower[0] / playersPower[1],  playersPower[1] / playersPower[0] };
+	return { playersPower[0] / (playersPower[0] + playersPower[1]),  playersPower[1] / (playersPower[0] + playersPower[1]) };
 }
 
 int GameState::WhoPlay() const
@@ -306,11 +306,17 @@ void GameState::BoardCycle()
 
 bool GameState::IsWon()
 {
-	if (turnCounter >= TURN_LIMIT || currentPlayer == END_GAME)
+	if (currentPlayer == END_GAME)
+	{
+		return true;
+	}
+
+	if (turnCounter >= TURN_LIMIT)
 	{
 		currentPlayer = END_GAME;
 		return true;
 	}
+
 	std::valarray<double> result = GetResult();
 	for (int i = 0; i < result.size(); ++i)
 	{

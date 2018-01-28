@@ -63,6 +63,10 @@ void Pawn::destroy()
 	Targetable::destroy();
 	GameEvents::getInstance().onPawnSelected.removeCallback(pawnSelectedCallbackHandle);
 	GameEvents::getInstance().onGameStateChanged.removeCallback(stateChangedCallbackHandle);
+	if (currentField != nullptr)
+	{
+		currentField->removePawn(this);
+	}
 }
 
 void Pawn::setOwnerIndex(int index)
