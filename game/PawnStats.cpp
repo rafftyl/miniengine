@@ -38,7 +38,7 @@ void PawnStats::start()
 		std::string lastOrderName = "Stop";
 		if (pwn->lastOrder == Game::OrderType::Advance)
 		{
-			lastOrderName = "Go ";
+			lastOrderName = "Go";
 			switch (pwn->direction)
 			{
 			case Game::Directions::North:

@@ -339,12 +339,7 @@ int main()
 		auto& unitStats = textPrefab.instantiate(scene);
 		unitStats.getComponent<mini::TextRenderer>()->setColor(sf::Color::White);
 		unitStats.setScreenSpace(true);
-		unitStats.setPosition({ 500, 500 });
-		/*layoutEl = unitStats.addComponent<mini::LayoutElement>();
-		layoutEl->setPivotPosition({ 0.5f, 0.5f });
-		layoutEl->setPosition({ 0.5f, 0.5f });
-		layoutEl->applySettings({ false, false, false, false });
-		layoutEl->setSize({ 0.3f, 0.3f });*/
+		unitStats.setPosition({ 640, 780 });
 		unitStats.addComponent<PawnStats>();
 
 		orderPanelPrefab.instantiate(scene);
