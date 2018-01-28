@@ -91,6 +91,5 @@ void GameManager::endTurn()
 	currentPlayerIndex++;
 	currentPlayerIndex %= playerCount;
 	GameEvents::getInstance().onTurnFinished.broadcast();
-	Game::GameplayManager::GetInstance().GetCurrentGameState().PerformMove(Game::EndTurn());	
 	Game::GameplayManager::GetInstance().AI_PerformTurn();	
 }
