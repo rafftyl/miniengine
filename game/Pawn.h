@@ -7,7 +7,9 @@
 class Pawn : 
 	public Targetable, 
 	public mini::input::IMouseButtonPressHandlerRaycast,
-	public mini::input::IMouseButtonPressHandler
+	public mini::input::IMouseButtonPressHandler,
+	public mini::input::IMouseEnterHandler,
+	public mini::input::IMouseExitHandler
 {
 public:
 	static Pawn* selectedPawn;
@@ -36,6 +38,12 @@ public:
 	virtual void onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
 	// Inherited via IMouseButtonPressHandler
 	virtual void onMouseButtonPressed(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
+
+	// Inherited via IMouseEnterHandler
+	virtual void onMouseEnter(const sf::Vector2f & mousePosition, const sf::Vector2f & mouseDelta) override;
+
+	// Inherited via IMouseExitHandler
+	virtual void onMouseExit(const sf::Vector2f & mousePosition, const sf::Vector2f & mouseDelta) override;
 };
 
 

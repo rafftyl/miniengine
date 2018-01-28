@@ -37,5 +37,6 @@ namespace mini
 		void setSize(const sf::Vector2f& size);
 		void setPivotPosition(const sf::Vector2f& position);
 		void applySettings(const LayoutElementSettings& layoutSettings);
+		void refresh();
 	};
 }

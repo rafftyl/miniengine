@@ -12,6 +12,8 @@ public:
 	}
 
 	mini::Event<class Pawn&> onPawnSelected;
+	mini::Event<class Pawn&> onPawnHoverStart;
+	mini::Event<class Pawn&> onPawnHoverEnd;
 	mini::Event<> onPawnUnselected;
 	mini::Event<> onTurnFinished;
 	mini::Event<Game::GameState&> onGameStateChanged;

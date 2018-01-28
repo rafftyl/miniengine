@@ -6,6 +6,8 @@ void GameEvents::clearEvents()
 	onPawnUnselected.clear();
 	onTurnFinished.clear();
 	onGameStateChanged.clear();
+	onPawnHoverStart.clear();
+	onPawnHoverEnd.clear();
 }
 
 GameEvents::GameEvents()

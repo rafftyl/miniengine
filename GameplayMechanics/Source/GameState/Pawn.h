@@ -57,8 +57,6 @@ namespace Game
 		private:
 			std::pair<int, int> boardCoordinates;
 			const PawnType unitType;
-			OrderType lastOrder;
-			Directions direction;
 			const int owner;
 			int health;
 			int maxHealth;
@@ -70,5 +68,8 @@ namespace Game
 			bool Fight(GameState& gameState, PawnActionResult& result);
 			bool Move(GameState& gameState, PawnActionResult& result);
 			std::shared_ptr<Pawn> FindTarget(GameState& gameState);
+	public:
+		OrderType lastOrder;
+		Directions direction;
 	};
 }

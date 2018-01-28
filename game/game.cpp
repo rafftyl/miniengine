@@ -8,6 +8,7 @@
 #include "TextRenderer.h"
 #include "BoxCollider.h"
 #include "GameEvents.h"
+#include "PawnStats.h"
 #include "LayoutElement.h"
 #include "CircleCollider.h"
 #include "Screen.h"
@@ -331,6 +332,17 @@ int main()
 		layoutEl->setPosition({ 1.0f, 1.0f });
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setSize({ 100.0f, 100.0f });
+
+		auto& unitStats = textPrefab.instantiate(scene);
+		unitStats.getComponent<mini::TextRenderer>()->setColor(sf::Color::White);
+		unitStats.setScreenSpace(true);
+		unitStats.setPosition({ 500, 500 });
+		/*layoutEl = unitStats.addComponent<mini::LayoutElement>();
+		layoutEl->setPivotPosition({ 0.5f, 0.5f });
+		layoutEl->setPosition({ 0.5f, 0.5f });
+		layoutEl->applySettings({ false, false, false, false });
+		layoutEl->setSize({ 0.3f, 0.3f });*/
+		unitStats.addComponent<PawnStats>();
 
 		orderPanelPrefab.instantiate(scene);
 

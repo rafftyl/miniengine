@@ -15,26 +15,7 @@ namespace mini
 	void LayoutElement::start()
 	{
 		Component::start();	
-		owner.setScreenSpace(true);
-		renderer = owner.getComponent<Renderer>();
-		sf::Vector2f min, max;
-		renderer->getBounds(min, max);
-		sf::Vector2f size = max - min;
-		sf::Vector2f scale =
-			sf::Vector2f(
-				settings.absoluteSizeX ? elementSize.x / size.x : elementSize.x * Screen::width / size.x,
-				settings.absoluteSizeY ? elementSize.y / size.y : elementSize.y * Screen::height / size.y);
-		owner.setScale(scale);
-
-		renderer->getBounds(min, max);
-		size = max - min;
-		uniformPivotPosition -= sf::Vector2f(0.5f, 0.5f);
-		sf::Vector2f offset(uniformPivotPosition.x * size.x, uniformPivotPosition.y * size.y);
-		sf::Vector2f pos = 
-			sf::Vector2f(settings.absolutePositionX ? elementPosition.x : elementPosition.x * Screen::width,
-			settings.absolutePositionY ? elementPosition.y : elementPosition.y * Screen::height);
-		pos -= offset;
-		owner.setPosition(pos);
+		refresh();
 	}
 
 	void LayoutElement::setPosition(const sf::Vector2f& pos)
@@ -55,5 +36,29 @@ namespace mini
 	void LayoutElement::applySettings(const LayoutElementSettings& layoutSettings)
 	{
 		settings = layoutSettings;
+	}
+
+	void LayoutElement::refresh()
+	{
+		owner.setScreenSpace(true);
+		renderer = owner.getComponent<Renderer>();
+		sf::Vector2f min, max;
+		renderer->getBounds(min, max);
+		sf::Vector2f size = max - min;
+		sf::Vector2f scale =
+			sf::Vector2f(
+				settings.absoluteSizeX ? elementSize.x / size.x : elementSize.x * Screen::width / size.x,
+				settings.absoluteSizeY ? elementSize.y / size.y : elementSize.y * Screen::height / size.y);
+		owner.setScale(scale);
+
+		renderer->getBounds(min, max);
+		size = max - min;
+		uniformPivotPosition -= sf::Vector2f(0.5f, 0.5f);
+		sf::Vector2f offset(uniformPivotPosition.x * size.x, uniformPivotPosition.y * size.y);
+		sf::Vector2f pos =
+			sf::Vector2f(settings.absolutePositionX ? elementPosition.x : elementPosition.x * Screen::width,
+				settings.absolutePositionY ? elementPosition.y : elementPosition.y * Screen::height);
+		pos -= offset;
+		owner.setPosition(pos);
 	}
 }

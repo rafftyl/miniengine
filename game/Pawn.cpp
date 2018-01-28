@@ -133,3 +133,13 @@ void Pawn::onMouseButtonPressed(sf::Mouse::Button mouseButton, const sf::Vector2
 	}
 }
 
+void Pawn::onMouseEnter(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+{
+	GameEvents::getInstance().onPawnHoverStart.broadcast(*this);
+}
+
+void Pawn::onMouseExit(const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta)
+{
+	GameEvents::getInstance().onPawnHoverEnd.broadcast(*this);
+}
+
