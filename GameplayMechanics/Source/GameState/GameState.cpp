@@ -3,6 +3,7 @@
 #include "Pawn.h"
 #include "..\Moves\DefaultMove.h"
 #include "..\Moves\EndTurn.h"
+#include "..\Moves\UnitOrder.h"
 using namespace Game;
 
 
@@ -95,7 +96,11 @@ std::vector<double> GameState::GetResult() const
 {
 	std::vector<double> result;
 	result.resize(PlayersCount());
-	//TODO: określanie wyniku w stanie terminalnym
+	std::vector<double> playersPower(0.0, 0.0);
+	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+	{
+		playersPower[iterator->get()->GetOwner()] += 1.0 / pawnsOnBoard.size();
+	}
 	return result;
 }
 
@@ -110,6 +115,13 @@ std::vector<std::unique_ptr<const DefaultMove>> GameState::GetAllMoves() const
 	if(WhoPlay() != END_GAME)
 	{
 		result.push_back(std::make_unique<EndTurn>());
+		for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+		{
+			if (iterator->get()->GetOwner() == WhoPlay())
+			{
+				std::vector<UnitOrder*> newOrders = iterator->get()->GetAvailableOrders(*this);
+			}
+		}
 	}
 	return result;
 }
@@ -219,6 +231,13 @@ void GameState::BoardCycle()
 
 bool GameState::IsWon()
 {
-	//TODO: sprawdzanie wygranej
+	std::vector<double> result = GetResult();
+	for (auto iterator = result.begin(); iterator != result.end(); ++iterator)
+	{
+		if (*iterator >= 1.0)
+		{
+			return true;
+		}
+	}
 	return false;
 }

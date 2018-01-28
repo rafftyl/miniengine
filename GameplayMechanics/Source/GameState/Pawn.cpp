@@ -1,5 +1,6 @@
 #include "Pawn.h"
 #include "..\GameState\GameState.h"
+#include "..\Moves\UnitOrder.h"
 #include "Field.h"
 using namespace Game;
 
@@ -46,6 +47,16 @@ PawnType Pawn::GetUnitType() const
 int Pawn::GetOwner() const
 {
 	return owner;
+}
+
+int Pawn::GetHealth() const
+{
+	return health;
+}
+
+int Pawn::GetMaxHealth() const
+{
+	return maxHealth;
 }
 
 std::unique_ptr<Pawn> Pawn::Clone() const
@@ -98,6 +109,32 @@ void Pawn::ChangeHealth(int ammount)
 	{
 		health = maxHealth;
 	}
+}
+
+std::vector<UnitOrder*> Pawn::GetAvailableOrders(const GameState& gameState)
+{
+	std::vector<UnitOrder*> result;
+	if (lastOrder != OrderType::Stop)
+	{
+		result.push_back(new UnitOrder(this, OrderType::Stop, Directions::North));
+	}
+	for (int type = 1; type < static_cast<int>(OrderType::Max); ++type)
+	{
+		for (int dir = 0; dir < static_cast<int>(Directions::Max); ++dir)
+		{
+			if (boardCoordinates.first + TranslateDirections(static_cast<Directions>(dir)).first >= 0 &&
+				boardCoordinates.first + TranslateDirections(static_cast<Directions>(dir)).first < gameState.GetBoardDimensions().first &&
+				boardCoordinates.second + TranslateDirections(static_cast<Directions>(dir)).second >= 0 &&
+				boardCoordinates.second + TranslateDirections(static_cast<Directions>(dir)).second < gameState.GetBoardDimensions().second)
+			{
+				if (static_cast<OrderType>(type) != lastOrder || direction != static_cast<Directions>(dir))
+				{
+					result.push_back(new UnitOrder(this, static_cast<OrderType>(type), static_cast<Directions>(dir)));
+				}
+			}
+		}
+	}
+	return result;
 }
 
 

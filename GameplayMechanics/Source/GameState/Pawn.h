@@ -1,12 +1,15 @@
 #pragma once
 #include <sstream>
 #include <cassert>
+#include <vector>
 #include <memory>
 #include "GameState.h"
 
 
 namespace Game
 {
+	class UnitOrder;
+
 	enum class PawnType
 	{
 		Thug, Max
@@ -19,7 +22,7 @@ namespace Game
 
 	enum class Directions
 	{
-		North, East, South, West
+		North, East, South, West, Max
 	};
 
 	std::pair<int, int> TranslateDirections(Directions direction);
@@ -39,11 +42,14 @@ namespace Game
 			std::pair<int, int> GetBoardCoordinates() const;
 			PawnType GetUnitType() const;
 			int GetOwner() const;
+			int GetHealth() const;
+			int GetMaxHealth() const;
 			std::unique_ptr<Pawn> Clone() const;
 			bool Equals(const Pawn& other) const;
 			void SetNewOrder(OrderType newOrder, Directions newDirections);
 			PawnActionResult PerformAction(GameState& gameState);
 			void ChangeHealth(int ammount);
+			std::vector<UnitOrder*> GetAvailableOrders(const GameState& gameState);
 
 		private:
 			std::pair<int, int> boardCoordinates;

@@ -2,7 +2,7 @@
 #include "..\GameState\GameState.h"
 using namespace Game;
 
-UnitOrder::UnitOrder(std::shared_ptr<Pawn> _targetPawn, OrderType _orderType, Directions _direction) : targetPawn(_targetPawn), orderType(_orderType), direction(_direction)
+UnitOrder::UnitOrder(Pawn* _targetPawn, OrderType _orderType, Directions _direction) : targetPawn(_targetPawn), orderType(_orderType), direction(_direction)
 {
 }
 
@@ -17,7 +17,7 @@ bool UnitOrder::Equals(const DefaultMove* other) const
 	const UnitOrder* temp = dynamic_cast<const UnitOrder*>(other);
 	if (temp != nullptr)
 	{
-		if (targetPawn.get() == temp->targetPawn.get() && orderType == temp->orderType && direction == temp->direction)
+		if (targetPawn == temp->targetPawn && orderType == temp->orderType && direction == temp->direction)
 		{
 			return true;
 		}
