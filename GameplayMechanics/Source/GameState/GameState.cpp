@@ -38,6 +38,8 @@ void GameState::Initialize()
 	
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
 	AddPawn(newPawn, std::pair<int, int>(0, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
+	AddPawn(newPawn, std::pair<int, int>(2, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 1));
 	AddPawn(newPawn, std::pair<int, int>(2, 3));
 

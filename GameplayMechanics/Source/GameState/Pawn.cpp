@@ -25,7 +25,7 @@ Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 			maxHealth = 5;
 			speed = 1;
 			meeleAttack = 2;
-			counterAttack = 2;
+			counterAttack = 1;
 		break;
 
 		case PawnType::Brawler:
