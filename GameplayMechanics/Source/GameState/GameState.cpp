@@ -96,7 +96,10 @@ std::vector<double> GameState::GetResult() const
 {
 	std::vector<double> result;
 	result.resize(PlayersCount());
-	std::vector<double> playersPower(0.0, 0.0);
+	std::vector<double> playersPower;
+	playersPower.resize(2);
+	playersPower[0] = 0.0;
+	playersPower[1] = 0.0;
 	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
 	{
 		playersPower[iterator->get()->GetOwner()] += 1.0;
@@ -140,6 +143,10 @@ std::vector<std::unique_ptr<const DefaultMove>> GameState::GetAllMoves() const
 			if (iterator->get()->GetOwner() == WhoPlay())
 			{
 				std::vector<UnitOrder*> newOrders = iterator->get()->GetAvailableOrders(*this);
+				for (auto orderIterator = newOrders.begin(); orderIterator != newOrders.end(); ++orderIterator)
+				{
+					result.push_back(std::unique_ptr<const DefaultMove>(*orderIterator));
+				}
 			}
 		}
 	}

@@ -32,7 +32,7 @@ void GameplayManager::RestartGame()
 void GameplayManager::AI_PerformTurn()
 {
 	int currentPlayer = currentGameState->WhoPlay();
-	if (movesToAnimate.size() == 0 && currentPlayer >= 0)
+	if (currentPlayer >= 0)
 	{
 		while (currentPlayer == currentGameState->WhoPlay())
 		{
@@ -43,12 +43,10 @@ void GameplayManager::AI_PerformTurn()
 			currentGameState->PerformMove(*move);
 			movesToAnimate.push_back(std::move(move));
 		}
-
 		if (onAnimationQueueCreated != nullptr)
 		{
 			onAnimationQueueCreated(movesToAnimate);
 		}
-
 		movesToAnimate.clear();
 		if (onNewGameStateFound != nullptr)
 		{
@@ -66,7 +64,6 @@ GameplayManager::GameplayManager()
 	currentGameState->Initialize();
 	MctsGameState state(currentGameState->Clone().release());
 	mcts = std::make_unique<grailMCTS::MCTS>(state);
-	AI_PerformTurn();
 }
 
 GameplayManager::~GameplayManager()
