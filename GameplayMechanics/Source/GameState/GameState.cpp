@@ -13,6 +13,7 @@ void GameState::Initialize()
 {
 	//TODO: przeniesienie konstrukcji planszy
 	currentPlayer = 0;
+	turnCounter = 0;
 	board = std::vector<std::vector<std::shared_ptr<Field>>>();
 	board.reserve(4);
 	for (int row = 0; row < 4; ++row)
@@ -87,11 +88,7 @@ bool GameState::Equals(const GameState& other) const
 	const GameState* temp = dynamic_cast<const GameState*>(&other);
 	if (temp != nullptr)
 	{
-		if (currentPlayer != temp->currentPlayer)
-		{
-			return false;
-		}
-		if (board.size() != temp->board.size())
+		if (currentPlayer != temp->currentPlayer || turnCounter != temp->turnCounter || board.size() != temp->board.size())
 		{
 			return false;
 		}
@@ -149,8 +146,6 @@ int GameState::PlayersCount() const
 
 std::valarray<double> GameState::GetResult() const
 {
-	std::vector<double> result;
-	result.resize(PlayersCount());
 	std::vector<double> playersPower{ 0.0,0.0 };
 	for (auto& pawn : pawnsOnBoard)
 	{
@@ -263,6 +258,7 @@ bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, std::pair<int, int> coordina
 
 void GameState::RemovePawn(std::shared_ptr<Pawn> pawn)
 {
+	--board[pawn->GetBoardCoordinates().first][pawn->GetBoardCoordinates().second]->slotsTaken;
 	pawnsOnBoard.remove(pawn);
 }
 

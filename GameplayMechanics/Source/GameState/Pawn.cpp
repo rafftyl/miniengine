@@ -172,6 +172,10 @@ PawnActionResult Pawn::Advance(GameState& gameState)
 		{
 			--moveLeft;
 		}
+		else
+		{
+			break;
+		}
 	}
 	return result;
 }
@@ -186,6 +190,10 @@ bool Pawn::Fight(GameState& gameState, PawnActionResult& result)
 		if (target->health <= 0)
 		{
 			gameState.RemovePawn(target);
+		}
+		else
+		{
+			//TODO: defense
 		}
 		return true;
 	}

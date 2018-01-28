@@ -36,7 +36,7 @@ namespace Game
 			bool IsWon();
 
 		private:
-			int turnCounter = 0;
+			int turnCounter;
 			int currentPlayer;
 			std::list<std::shared_ptr<Pawn>> pawnsOnBoard;
 			void TurnEnd();
