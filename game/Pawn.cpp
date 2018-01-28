@@ -26,7 +26,28 @@ void Pawn::start()
 			renderer->setColor(normalColor);
 		}
 	});
-	
+
+	GameEvents::getInstance().onGameStateChanged.addCallback(
+		[&](Game::GameState& state)
+	{
+		if (gameStatePawn.expired())
+		{
+			getGameplaySystem().destroyObject(owner);
+		}
+		else
+		{
+			const auto& fields = GameManager::getInstance().fields;
+			for (auto& field : fields)
+			{
+				auto pawns = state.GetPawnsOnCoordinates({ field->getCoordinates().x, field->getCoordinates().y });
+				auto pawnIter = std::find_if(pawns.begin(), pawns.end(), [&](const auto& pwn)->bool {return pwn == gameStatePawn.lock(); });
+				if (pawnIter != pawns.end())
+				{
+					field->movePawnToField(this);
+				}
+			}
+		}
+	});
 }
 
 void Pawn::setOwnerIndex(int index)
@@ -59,12 +80,12 @@ void Pawn::setCurrentField(Field* field)
 	currentField = field;
 }
 
-void Pawn::setGameStatePawn(Game::Pawn * pawn)
+void Pawn::setGameStatePawn(const std::shared_ptr<Game::Pawn>& pawn)
 {
 	gameStatePawn = pawn;
 }
 
-const Game::Pawn* Pawn::getGameStatePawn() const
+const std::weak_ptr<Game::Pawn>& Pawn::getGameStatePawn() const
 {
 	return gameStatePawn;
 }

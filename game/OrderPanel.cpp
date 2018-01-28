@@ -54,7 +54,7 @@ void OrderPanel::initForPawn(const Pawn& pawn)
 		if (endTurn == nullptr)
 		{
 			auto order = dynamic_cast<const Game::UnitOrder*>(move.get());
-			if (order != nullptr && order->targetPawn == pawn.getGameStatePawn())
+			if (order != nullptr && order->targetPawn == pawn.getGameStatePawn().lock().get())
 			{
 				filteredMoves.push_back(std::move(move));
 			}
@@ -74,7 +74,7 @@ void OrderPanel::initForPawn(const Pawn& pawn)
 		sf::Vector2f pos = owner.getPosition() + localPos;
 		buttonObj.setPosition(pos);
 		spawnedButtons.push_back(&buttonObj);
-		std::array<float, 4> angles{ -90, 180, 90, 0 };
+		std::array<float, 4> angles{ 0, 90, 180, 270 };
 		auto order = dynamic_cast<const Game::UnitOrder*>(move.get());
 		switch (order->orderType)
 		{

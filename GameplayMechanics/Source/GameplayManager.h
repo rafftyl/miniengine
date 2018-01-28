@@ -24,7 +24,7 @@ namespace Game
 			void RestartGame();
 			void AI_PerformTurn();
 			std::function<void(const std::list<std::unique_ptr<const DefaultMove>>&)> onAnimationQueueCreated;
-			std::function<void(const GameState&)> onNewGameStateFound;
+			std::function<void(GameState&)> onNewGameStateFound;
 		private:
 			std::unique_ptr<grailMCTS::MCTS> mcts;
 			std::unique_ptr<GameState> currentGameState;

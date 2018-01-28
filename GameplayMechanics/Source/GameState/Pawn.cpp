@@ -172,7 +172,7 @@ bool Pawn::Fight(GameState& gameState, PawnActionResult& result)
 		target->ChangeHealth(-meeleAttack);
 		if (target->health <= 0)
 		{
-			gameState.RemovePawn(std::shared_ptr<Pawn>(target));
+			gameState.RemovePawn(target);
 		}
 		return true;
 	}

@@ -20,25 +20,26 @@ int GameManager::getCurrentPlayerIndex() const
 	return currentPlayerIndex;
 }
 
-int GameManager::getHumanPlayerIndex() const
+bool GameManager::isHumanPlayer(int index) const
 {
-	return humanPlayerIndex;
+	return humanPlayerIndices.find(index) != humanPlayerIndices.end();
 }
 
 bool GameManager::isCurrentPlayerHuman() const
 {
-	return getCurrentPlayerIndex() == getHumanPlayerIndex();
+	return humanPlayerIndices.find(getCurrentPlayerIndex()) != humanPlayerIndices.end();
 }
 
-void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::PawnType, mini::Prefab>& pawnPrefabs, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation)
+void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std::map<Game::PawnType, mini::Prefab>& pawnPrefabs, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation)
 {
+	fields.clear();
 	Game::GameplayManager& manager = Game::GameplayManager::GetInstance();
 	auto& state = manager.GetCurrentGameState();
 	auto dim = state.GetBoardDimensions();
 	const auto& board = state.board;
 	int rows = dim.first;
 	int cols = dim.second;
-	humanPlayerIndex = humanPlayer;
+	humanPlayerIndices = humanPlayers;
 	currentPlayerIndex = 0;
 	for (int index = 0; index < cols * rows; ++index)
 	{
@@ -53,6 +54,7 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::
 		pos.x -= mult * fieldSeparation;
 		pos.y += row * fieldSeparation;
 		field.setPosition(pos);
+		fields.push_back(fieldComp);
 
 		auto pawns = state.GetPawnsOnCoordinates({ row, col });
 		for (auto& pawn : pawns)
@@ -64,7 +66,7 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::
 				auto pawnComp = pawnObj.getComponent<Pawn>();
 				pawnComp->setOwnerIndex(pawn->GetOwner());
 				pawnComp->setCurrentField(fieldComp.get());
-				pawnComp->setGameStatePawn(pawn.get());
+				pawnComp->setGameStatePawn(pawn);
 				if (pawnComp->getOwnerIndex() == 0)
 				{
 					pawnComp->setColors(sf::Color::Green, sf::Color::Blue);
@@ -86,10 +88,15 @@ void GameManager::reloadSceneWithNewState(mini::GameplaySystem& gameplaySys, std
 	gameplaySys.loadScene(scene.getName());
 }
 
-void GameManager::endTurn()
+void GameManager::endTurn(bool requestAIMove)
 {
 	currentPlayerIndex++;
 	currentPlayerIndex %= playerCount;
+	if (currentPlayerIndex == 0)
+	{
+		GameEvents::getInstance().onGameStateChanged.broadcast(Game::GameplayManager::GetInstance().GetCurrentGameState());
+	}
 	GameEvents::getInstance().onTurnFinished.broadcast();
-	Game::GameplayManager::GetInstance().AI_PerformTurn();	
+	if(requestAIMove && !isCurrentPlayerHuman())
+		Game::GameplayManager::GetInstance().AI_PerformTurn();	
 }
