@@ -16,10 +16,13 @@ private:
 	bool isSelected = false;
 	int ownerIndex = 0;
 	std::weak_ptr<Game::Pawn> gameStatePawn;
+	unsigned int pawnSelectedCallbackHandle;
+	unsigned int stateChangedCallbackHandle;
 public:
 	Pawn(mini::GameObject& owner);
 	~Pawn();
 	void start() override;
+	void destroy() override;
 	void setOwnerIndex(int index);
 	int getOwnerIndex() const;
 	void setHighlighted(bool on) override;

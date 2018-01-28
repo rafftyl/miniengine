@@ -14,8 +14,10 @@ namespace mini
 		//adds callback and returns its index
 		unsigned int addCallback(std::function<void(Args...)> callback)
 		{			
-			callbacks[callbackCounter++] = callback;
-			return callbackCounter;
+			int res = callbackCounter;
+			callbacks.insert({ callbackCounter, callback });
+			callbackCounter++;
+			return res;
 		}
 
 		void removeCallback(unsigned int callbackIndex)

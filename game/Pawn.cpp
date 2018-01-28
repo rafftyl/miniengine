@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "GameManager.h"
 #include "GameState/Pawn.h"
+#include "GameplayManager.h"
 
 Pawn* Pawn::selectedPawn = nullptr;
 
@@ -17,7 +18,7 @@ Pawn::~Pawn()
 void Pawn::start()
 {
 	Targetable::start();
-	GameEvents::getInstance().onPawnSelected.addCallback(
+	pawnSelectedCallbackHandle = GameEvents::getInstance().onPawnSelected.addCallback(
 		[&](Pawn& pawn) 
 	{
 		if (isSelected && this != &pawn) 
@@ -27,8 +28,8 @@ void Pawn::start()
 		}
 	});
 
-	GameEvents::getInstance().onGameStateChanged.addCallback(
-		[&](Game::GameState& state)
+	stateChangedCallbackHandle = GameEvents::getInstance().onTurnFinished.addCallback(
+		[&]()
 	{
 		if (gameStatePawn.expired())
 		{
@@ -37,6 +38,7 @@ void Pawn::start()
 		else
 		{
 			const auto& fields = GameManager::getInstance().fields;
+			auto& state = Game::GameplayManager::GetInstance().GetCurrentGameState();
 			for (auto& field : fields)
 			{
 				auto pawns = state.GetPawnsOnCoordinates({ field->getCoordinates().x, field->getCoordinates().y });
@@ -48,6 +50,13 @@ void Pawn::start()
 			}
 		}
 	});
+}
+
+void Pawn::destroy()
+{
+	Targetable::destroy();
+	GameEvents::getInstance().onPawnSelected.removeCallback(pawnSelectedCallbackHandle);
+	GameEvents::getInstance().onGameStateChanged.removeCallback(stateChangedCallbackHandle);
 }
 
 void Pawn::setOwnerIndex(int index)

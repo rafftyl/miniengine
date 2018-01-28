@@ -22,7 +22,15 @@ OrderPanel::~OrderPanel()
 
 void OrderPanel::start()
 {
-	GameEvents::getInstance().onPawnSelected.addCallback([&](Pawn& pawn) { initForPawn(pawn); });
+	GameEvents::getInstance().onPawnSelected.addCallback(
+		[&](Pawn& pawn)
+	{
+		for (auto buttonObj : spawnedButtons)
+		{
+			gameplaySystem->destroyObject(*buttonObj);
+		}
+		initForPawn(pawn); 
+	});
 	GameEvents::getInstance().onPawnUnselected.addCallback([&]()
 	{
 		for (auto buttonObj : spawnedButtons)
