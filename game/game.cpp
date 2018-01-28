@@ -1,4 +1,4 @@
-// game.cpp : Defines the entry point for the console application.
+﻿// game.cpp : Defines the entry point for the console application.
 //
 #include "Miniengine.h"
 #include "GameObject.h"
@@ -26,6 +26,8 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <iostream>
+#include <sstream>
+
 
 int main()
 {
@@ -301,6 +303,7 @@ int main()
 
 	mini::Scene game("game", [&](mini::Scene& scene)
 	{
+		Game::GameplayManager::GetInstance().RestartGame();
 		backgroundPrefab.instantiate(scene).move({ -500, 0 });
 		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback(
@@ -350,6 +353,37 @@ int main()
 
 		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("menu"); });
+
+		auto& howToText = textPrefab.instantiate(scene);
+
+		auto layoutEl = howToText.addComponent<mini::LayoutElement>();
+		layoutEl->setPivotPosition({ 0.5f, 0.5f });
+		layoutEl->setPosition({ 0.5f, 0.5f });
+		layoutEl->applySettings({ false, false, false, false });
+		layoutEl->setSize({ 0.9f, 0.6f });
+
+		std::stringstream stream;
+		stream << "How to Play: \n";
+		stream << "You can assign one order per turn, units continue to execute last given order until given a new one.\n";
+		stream << "Units will not move if enemy is present. They will continue fight until one side wins. \n";
+		stream << "You win when last enemy unit is killed, or you have the most units at the last turn.\n";
+		stream << "\n";
+		stream << "Orders: \n";
+		stream << "Advance- unit moves in given direction. If enemy is encountered unit stops to fight. Move will be continued once enemy is dead.\n";
+		stream << "Stop- stops unit in place, it will still engage in combat with the enemy\n";
+		stream << "\n";
+		stream << "Unit stats: \n";
+		stream << "health- when reaches 0 the unit is dead.\n";
+		stream << "speed- how many fields the unit can traverse in turn.\n";
+		stream << "attack- damage dealt when attacking enemy.\n";
+		stream << "counter- damage dealt in response to enemy attack.\n";
+		stream << "\n";
+		stream << "Credits: \n";
+		stream << "Piotr Lukaszewicz\n";
+		stream << "Rafal Tyl\n";
+		howToText.getComponent<mini::TextRenderer>()->setText(stream.str().c_str());
+		howToText.getComponent<mini::TextRenderer>()->setColor(sf::Color::Black);
+		howToText.getComponent<mini::TextRenderer>()->setCharacterSize(25.0f);
 
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
