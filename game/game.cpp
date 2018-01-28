@@ -71,6 +71,13 @@ int main()
 	backButtonSprite->setTexture(texture_2);
 	backButtonSprite->setOrigin({ texture_2.getSize().x * 0.5f, texture_2.getSize().y * 0.5f });
 
+	sf::Texture texture_endTurn;
+	texture_endTurn.loadFromFile("Assets/end_turn.png");
+	texture_endTurn.setSmooth(true);
+	auto endTurnButtonSprite = std::make_shared<sf::Sprite>();
+	endTurnButtonSprite->setTexture(texture_endTurn);
+	endTurnButtonSprite->setOrigin({ texture_endTurn.getSize().x * 0.5f, texture_endTurn.getSize().y * 0.5f });
+
 	sf::Texture texture_3;
 	texture_3.loadFromFile("Assets/up_arrow.png");
 	texture_3.setSmooth(true);
@@ -140,6 +147,23 @@ int main()
 		layoutEl->setPosition({ 0.0f, 0.0f });
 		layoutEl->setPivotPosition({ 0.0f, 0.0f });
 		layoutEl->setSize({ 100.0f, 100.0f});
+		object.addComponent<UIButton>();
+	});
+
+	mini::Prefab endTurnButtonPrefab("endTurnButton",
+		[&](mini::GameObject& object)
+	{
+		object.setScreenSpace(true);
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(endTurnButtonSprite);
+		ren->setColor(sf::Color::White);
+
+		object.addComponent<mini::BoxCollider>();
+		auto layoutEl = object.addComponent<mini::LayoutElement>();
+		layoutEl->applySettings({ false, false, true, true });
+		layoutEl->setPosition({ 0.0f, 0.0f });
+		layoutEl->setPivotPosition({ 0.0f, 0.0f });
+		layoutEl->setSize({ 100.0f, 100.0f });
 		object.addComponent<UIButton>();
 	});
 
@@ -315,7 +339,7 @@ int main()
 			Pawn::selectedPawn = nullptr; 
 		});
 
-		auto& endTurn = buttonPrefab.instantiate(scene);
+		auto& endTurn = endTurnButtonPrefab.instantiate(scene);
 		endTurn.getComponent<UIButton>()->onClicked().addCallback(
 			[&](UIButton& button) 
 		{
