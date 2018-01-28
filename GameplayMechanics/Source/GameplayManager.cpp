@@ -4,7 +4,7 @@
 #include "GameState\MctsGameState.h"
 #include "Moves\DefaultMove.h"
 #include "Moves\MctsMove.h"
-#define ITERATIONS 5
+#define ITERATIONS 250
 using namespace Game;
 
 
@@ -63,7 +63,7 @@ GameplayManager::GameplayManager()
 	currentGameState = std::make_unique<GameState>();
 	currentGameState->Initialize();
 	MctsGameState state(currentGameState->Clone().release());
-	mcts = std::make_unique<grailMCTS::MCTS>(state);
+	mcts = std::make_unique<grailMCTS::MCTS>(state, grailMCTS::Configuration().with(grailMCTS::Configuration::PERFECTONLY_OR_CHEATING_WITH_STATES_IN_NODES));
 }
 
 GameplayManager::~GameplayManager()

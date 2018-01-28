@@ -30,33 +30,13 @@ void GameState::Initialize()
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
 	AddPawn(newPawn, std::pair<int, int>(0, 4));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
-	AddPawn(newPawn, std::pair<int, int>(0, 0));
+	AddPawn(newPawn, std::pair<int, int>(1, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 1));
-	AddPawn(newPawn, std::pair<int, int>(0, 4));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	AddPawn(newPawn, std::pair<int, int>(1, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
 	AddPawn(newPawn, std::pair<int, int>(1, 4));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 0));
-	AddPawn(newPawn, std::pair<int, int>(1, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 1));
-	AddPawn(newPawn, std::pair<int, int>(1, 4));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	AddPawn(newPawn, std::pair<int, int>(2, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
-	AddPawn(newPawn, std::pair<int, int>(2, 4));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 0));
 	AddPawn(newPawn, std::pair<int, int>(2, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 1));
 	AddPawn(newPawn, std::pair<int, int>(2, 4));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	AddPawn(newPawn, std::pair<int, int>(3, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
-	AddPawn(newPawn, std::pair<int, int>(3, 4));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
-	AddPawn(newPawn, std::pair<int, int>(3, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 1));
-	AddPawn(newPawn, std::pair<int, int>(3, 4));
 }
 
 std::unique_ptr<GameState> GameState::Clone() const

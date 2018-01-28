@@ -339,9 +339,9 @@ int main()
 		auto& camComp = cam.addComponent<mini::Camera>();
 		camComp->setOrthoSize(1.25f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
 
-		GameManager::getInstance().setupGame({ 0, 1 }, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
+		GameManager::getInstance().setupGame({ 0 }, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 
-		Game::GameplayManager::GetInstance().onNewGameStateFound = [&](Game::GameState& state) {GameEvents::getInstance().onGameStateChanged.broadcast(state); GameManager::getInstance().endTurn(); };
+		Game::GameplayManager::GetInstance().onNewGameStateFound = [&](Game::GameState& state) {GameManager::getInstance().endTurn(); };
 	});
 
 	mini::Scene howTo("how_to", [&](mini::Scene& scene)

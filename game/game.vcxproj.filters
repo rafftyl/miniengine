@@ -51,6 +51,9 @@
     <ClInclude Include="OrderPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PawnStats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp">
@@ -87,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OrderPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PawnStats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
