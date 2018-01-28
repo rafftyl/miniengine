@@ -54,13 +54,6 @@ int main()
 	brawlerSprite->setTexture(texture_brawler);
 	brawlerSprite->setOrigin({ texture_brawler.getSize().x * 0.5f, texture_brawler.getSize().y * 0.5f });
 
-	sf::Texture texture_advance;
-	texture_advance.loadFromFile("Assets/advance.png");
-	texture_advance.setSmooth(true);
-	auto advanceSprite = std::make_shared<sf::Sprite>();
-	advanceSprite->setTexture(texture_advance);
-	advanceSprite->setOrigin({ texture_advance.getSize().x * 0.5f, texture_advance.getSize().y * 0.5f });
-
 	sf::Texture texture_stop;
 	texture_stop.loadFromFile("Assets/stop.png");
 	texture_stop.setSmooth(true);
@@ -218,7 +211,24 @@ int main()
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
-		layoutEl->setSize({ 80.0f, 80.0f });
+		layoutEl->setSize({ 70.0f, 70.0f });
+		object.addComponent<mini::BoxCollider>();
+
+		object.addComponent<UIButton>();
+	});
+
+	mini::Prefab stopButtonPrefab("stopButton",
+		[&](mini::GameObject& object)
+	{
+		object.setScreenSpace(true);
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(stopSprite);
+		ren->setLayer(5);
+
+		auto layoutEl = object.addComponent<mini::LayoutElement>();
+		layoutEl->applySettings({ false, false, true, true });
+		layoutEl->setPivotPosition({ 0.5f, 0.5f });
+		layoutEl->setSize({ 70.0f, 70.0f });
 		object.addComponent<mini::BoxCollider>();
 
 		object.addComponent<UIButton>();
@@ -234,9 +244,9 @@ int main()
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPosition({ 1.0f, 0.5f });
 		layoutEl->setPivotPosition({ 1.0f, 0.5f });
-		layoutEl->setSize({ 250, 500 });
+		layoutEl->setSize({ 200, 450 });
 
-		object.addComponent<OrderPanel>()->setParams({ 0, 100 }, { 2, 2 }, 100, orderButtonPrefab);
+		object.addComponent<OrderPanel>()->setParams({ 0, 85 }, { 2, 2 }, 80, orderButtonPrefab, stopButtonPrefab);
 	});
 
 	mini::Prefab textPrefab("label", 
@@ -291,7 +301,7 @@ int main()
 
 	mini::Scene game("game", [&](mini::Scene& scene)
 	{
-		backgroundPrefab.instantiate(scene);
+		backgroundPrefab.instantiate(scene).move({ -500, 0 });
 		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback(
 			[&](UIButton& button) 
@@ -327,7 +337,7 @@ int main()
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
-		camComp->setOrthoSize(1.5f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
+		camComp->setOrthoSize(1.25f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
 
 		GameManager::getInstance().setupGame({ 0, 1 }, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 
