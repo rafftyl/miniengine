@@ -11,7 +11,7 @@ MctsMove::MctsMove(const DefaultMove* _move)
 
 std::unique_ptr<grailMCTS::Move> MctsMove::clone() const
 {
-	std::unique_ptr<grailMCTS::Move> copy = std::unique_ptr<MctsMove>(new MctsMove(move->Clone().release()));
+	std::unique_ptr<grailMCTS::Move> copy = std::make_unique<MctsMove>(move->Clone().release());
 	return copy;
 }
 

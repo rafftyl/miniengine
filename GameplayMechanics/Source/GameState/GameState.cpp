@@ -92,39 +92,32 @@ int GameState::PlayersCount() const
 	return 2;
 }
 
-std::vector<double> GameState::GetResult() const
+std::valarray<double> GameState::GetResult() const
 {
 	std::vector<double> result;
 	result.resize(PlayersCount());
-	std::vector<double> playersPower;
-	playersPower.resize(2);
-	playersPower[0] = 0.0;
-	playersPower[1] = 0.0;
-	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+	std::vector<double> playersPower{ 0.0,0.0 };
+	for (auto& pawn : pawnsOnBoard)
 	{
-		playersPower[iterator->get()->GetOwner()] += 1.0;
+		playersPower[pawn->GetOwner()] += 1.0;
 	}
+
 	if (playersPower[0] == 0.0 && playersPower[1] > 0.0)
 	{
-		result[0] = 0.0;
-		result[1] = 1.1;
-		return result;
+		return { 0.0, 1.1 };
 	}
+
 	if (playersPower[1] == 0.0 && playersPower[0] > 0.0)
 	{
-		result[0] = 1.1;
-		result[1] = 0.0;
-		return result;
+		return { 1.1, 0.0 };
 	}
+
 	if (playersPower[0] == 0.0 && playersPower[1] == 0.0)
 	{
-		result[0] = 0.5;
-		result[1] = 0.5;
-		return result;
+		return { 0.5, 0.5 };
 	}
-	result[0] = playersPower[0] / playersPower[1];
-	result[1] = playersPower[1] / playersPower[0];
-	return result;
+
+	return { playersPower[0] / playersPower[1],  playersPower[1] / playersPower[0] };
 }
 
 int GameState::WhoPlay() const
@@ -138,14 +131,14 @@ std::vector<std::unique_ptr<const DefaultMove>> GameState::GetAllMoves() const
 	if(WhoPlay() != END_GAME)
 	{
 		result.push_back(std::make_unique<EndTurn>());
-		for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+		for (auto& pawn : pawnsOnBoard)
 		{
-			if (iterator->get()->GetOwner() == WhoPlay())
+			if (pawn->GetOwner() == WhoPlay())
 			{
-				std::vector<UnitOrder*> newOrders = iterator->get()->GetAvailableOrders(*this);
-				for (auto orderIterator = newOrders.begin(); orderIterator != newOrders.end(); ++orderIterator)
+				std::vector<UnitOrder*> newOrders = pawn->GetAvailableOrders(*this);
+				for (auto order : newOrders)
 				{
-					result.push_back(std::unique_ptr<const DefaultMove>(*orderIterator));
+					result.push_back(std::unique_ptr<const DefaultMove>(order));
 				}
 			}
 		}
@@ -251,22 +244,22 @@ void GameState::TurnEnd()
 
 void GameState::BoardCycle()
 {
-	for (auto iterator = pawnsOnBoard.begin(); iterator == pawnsOnBoard.end(); ++iterator)
+	for(const auto& pawn :pawnsOnBoard)
 	{
-		iterator->get()->PerformAction(*this);
+		pawn->PerformAction(*this);
 	}
 }
 
 bool GameState::IsWon()
 {
-	if (turnCounter >= TURN_LIMIT)
+	if (turnCounter >= TURN_LIMIT || currentPlayer == END_GAME)
 	{
 		return true;
 	}
-	std::vector<double> result = GetResult();
-	for (auto iterator = result.begin(); iterator != result.end(); ++iterator)
+	std::valarray<double> result = GetResult();
+	for (int i = 0; i < result.size(); ++i)
 	{
-		if (*iterator >= 1.0)
+		if (result[i] > 1.0)
 		{
 			return true;
 		}

@@ -19,6 +19,7 @@
 #include "GameplaySystem.h"
 #include "OrderPanel.h"
 #include "GameState/Pawn.h"
+#include "GameplayManager.h"
 #include "GameManager.h"
 #include "Prefab.h"
 #include <SFML/Graphics.hpp>
@@ -161,11 +162,11 @@ int main()
 		ren->setSprite(upArrowSprite);
 		ren->setLayer(5);
 		
-		object.addComponent<mini::BoxCollider>();
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
 		layoutEl->setSize({ 80.0f, 80.0f });
+		object.addComponent<mini::BoxCollider>();
 
 		object.addComponent<UIButton>();
 	});
@@ -275,6 +276,8 @@ int main()
 		camComp->setOrthoSize(1.5f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
 
 		GameManager::getInstance().setupGame(0, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
+
+		Game::GameplayManager::GetInstance().onNewGameStateFound = [&](const Game::GameState& state) {GameManager::getInstance().reloadSceneWithNewState(camComp->getGameplaySystem(), prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220); };
 	});
 
 	mini::Scene howTo("how_to", [&](mini::Scene& scene)

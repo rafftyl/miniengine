@@ -5,6 +5,7 @@
 #include "Pawn.h"
 #include "UIButton.h"
 #include "Moves/DefaultMove.h"
+#include "GameManager.h"
 #include "GameplayManager.h"
 #include "GameState/Pawn.h"
 #include "Moves/EndTurn.h"
@@ -21,7 +22,7 @@ OrderPanel::~OrderPanel()
 
 void OrderPanel::start()
 {
-	GameEvents::getInstance().onPawnSelected.addCallback([&](Pawn& pawn) {initForPawn(pawn); });
+	GameEvents::getInstance().onPawnSelected.addCallback([&](Pawn& pawn) { initForPawn(pawn); });
 	GameEvents::getInstance().onPawnUnselected.addCallback([&]()
 	{
 		for (auto buttonObj : spawnedButtons)
@@ -30,7 +31,7 @@ void OrderPanel::start()
 		}
 		spawnedButtons.clear();
 		owner.setActive(false);
-	});
+	});	
 
 	owner.setActive(false);
 }
@@ -86,9 +87,23 @@ void OrderPanel::initForPawn(const Pawn& pawn)
 		default:
 			break;
 		}
+
+		buttonObj.getComponent<UIButton>()->onMouseEnter().addCallback([&](UIButton& button)
+		{
+			button.getOwner().getComponent<mini::Renderer>()->setColor(sf::Color::Green);
+		});
+
+		buttonObj.getComponent<UIButton>()->onMouseExit().addCallback([&](UIButton& button)
+		{
+			button.getOwner().getComponent<mini::Renderer>()->setColor(sf::Color::White);
+		}); 
+
 		buttonObj.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) 
 		{
-			Game::GameplayManager::GetInstance().GetCurrentGameState().PerformMove(*move);
+			auto& state = Game::GameplayManager::GetInstance().GetCurrentGameState();
+			state.PerformMove(*move);
+			Pawn::selectedPawn->setHighlighted(false);
+			GameManager::getInstance().endTurn();
 		}); //launch ability
 		++i;
 	}

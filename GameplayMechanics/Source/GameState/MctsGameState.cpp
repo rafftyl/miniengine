@@ -32,26 +32,17 @@ std::size_t MctsGameState::playersCount() const
 
 grailMCTS::Result MctsGameState::getResult() const
 {
-	std::vector<double> myResult = gameState->GetResult();
-	std::valarray<double> result;
-	result.resize(myResult.size());
-	int index = 0;
-	while (myResult.size() > 0)
-	{
-		result[index] = myResult.back();
-		myResult.pop_back();
-	}
-	return result;
+	return gameState->GetResult();
 }
 
 int MctsGameState::whoPlay() const
 {
-	if (gameState->WhoPlay() >= 0)
+	if (!gameState->IsWon())
 	{
 		return gameState->WhoPlay();
 	}
 	else
-	{
+	{		
 		return grailMCTS::TERMINAL;
 	}
 }
@@ -59,10 +50,10 @@ int MctsGameState::whoPlay() const
 std::vector<std::unique_ptr<const grailMCTS::Move>> MctsGameState::getMoves() const
 {
 	std::vector<std::unique_ptr<const grailMCTS::Move>> result;
-	std::vector<std::unique_ptr<const DefaultMove>> myMoves = gameState->GetAllMoves();
-	for (auto iterator = myMoves.begin(); iterator != myMoves.end(); ++iterator)
+	auto myMoves = gameState->GetAllMoves();
+	for (auto& move : myMoves)
 	{
-		result.push_back(std::unique_ptr<const MctsMove>(new MctsMove(iterator->release())));
+		result.push_back(std::make_unique<MctsMove>(move.release()));
 	}
 	return result;
 }

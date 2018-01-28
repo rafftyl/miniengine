@@ -32,10 +32,11 @@ namespace mini
 
 	bool BoxCollider::contains(const sf::Vector2f& point) const
 	{
-		sf::Vector2f min = offset - 0.5f * size;
-		sf::Vector2f max = offset + 0.5f * size;
-		min = owner.getTransform() * min;
-		max = owner.getTransform() * max;
+		sf::Vector2f scaledSize(owner.getScale().x * size.x, owner.getScale().y * size.y);
+		sf::Vector2f min = offset - 0.5f * scaledSize;
+		sf::Vector2f max = offset + 0.5f * scaledSize;
+		min += owner.getPosition();
+		max += owner.getPosition();
 		return point.x > min.x && point.y > min.y && point.x < max.x && point.y < max.y;
 	}
 }

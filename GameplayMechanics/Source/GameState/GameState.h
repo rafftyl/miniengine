@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include <list>
+#include <valarray>
 #include "Field.h"
 
 #define END_GAME -1
@@ -23,7 +24,7 @@ namespace Game
 			std::unique_ptr<GameState> Clone() const;
 			bool Equals(const GameState& other) const;
 			int PlayersCount() const;
-			std::vector<double> GetResult() const;
+			std::valarray<double> GetResult() const;
 			int WhoPlay() const;
 			std::vector<std::unique_ptr<const DefaultMove>> GetAllMoves() const;
 			bool PerformMove(const DefaultMove& move);
@@ -31,13 +32,12 @@ namespace Game
 			bool AddPawn(std::shared_ptr<Pawn>, std::pair<int, int> coordinates);
 			void RemovePawn(std::shared_ptr<Pawn> pawn);
 			std::vector<std::shared_ptr<Pawn>> GetPawnsOnCoordinates(std::pair<int, int> coordinates);
-
+			bool IsWon();
 		private:
 			int turnCounter = 0;
 			int currentPlayer;
 			std::list<std::shared_ptr<Pawn>> pawnsOnBoard;
 			void TurnEnd();
 			void BoardCycle();
-			bool IsWon();
 	};
 }

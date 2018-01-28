@@ -81,6 +81,7 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::
 
 void GameManager::reloadSceneWithNewState(mini::GameplaySystem& gameplaySys, std::map<Game::PawnType, mini::Prefab>& pawnPrefabs, mini::Prefab& fieldPrefab, const sf::Vector2f& origin, float fieldSeparation)
 {
+	GameEvents::getInstance().clearEvents();
 	mini::Scene& scene = gameplaySys.getCurrentScene();
 	gameplaySys.loadScene(scene.getName());
 }
@@ -90,6 +91,6 @@ void GameManager::endTurn()
 	currentPlayerIndex++;
 	currentPlayerIndex %= playerCount;
 	GameEvents::getInstance().onTurnFinished.broadcast();
-	Game::GameplayManager::GetInstance().GetCurrentGameState().PerformMove(Game::EndTurn());
-	Game::GameplayManager::GetInstance().AI_PerformTurn();
+	Game::GameplayManager::GetInstance().GetCurrentGameState().PerformMove(Game::EndTurn());	
+	Game::GameplayManager::GetInstance().AI_PerformTurn();	
 }

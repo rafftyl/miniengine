@@ -28,7 +28,7 @@ namespace mini
 				currentCam->registerRenderer(rend);
 			}
 		}
-		obj.gameplaySystem = shared_from_this();
+		obj.setGameplaySystem(shared_from_this());
 		obj.start();
 		return obj;
 	}
@@ -37,7 +37,7 @@ namespace mini
 	{
 		GameObject& obj = scenes[currentSceneIndex].addObject(std::move(name));
 		initFunction(obj);
-		obj.gameplaySystem = shared_from_this();
+		obj.setGameplaySystem(shared_from_this());
 		if (currentCam != nullptr)
 		{
 			auto rend = obj.getComponent<Renderer>();

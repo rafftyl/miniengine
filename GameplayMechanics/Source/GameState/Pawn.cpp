@@ -118,6 +118,7 @@ std::vector<UnitOrder*> Pawn::GetAvailableOrders(const GameState& gameState)
 	{
 		result.push_back(new UnitOrder(this, OrderType::Stop, Directions::North));
 	}
+
 	for (int type = 1; type < static_cast<int>(OrderType::Max); ++type)
 	{
 		for (int dir = 0; dir < static_cast<int>(Directions::Max); ++dir)
