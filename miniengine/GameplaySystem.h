@@ -18,6 +18,7 @@ namespace mini
 		std::vector<Scene> scenes;
 		int currentSceneIndex = -1;
 		std::shared_ptr<Camera> currentCam = nullptr;
+		std::set<int> objectsToDestroy;
 
 		//TODO: move to a separate InputEventHandler class
 		std::set<const GameObject*> objectsEntered;

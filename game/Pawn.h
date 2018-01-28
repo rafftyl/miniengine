@@ -15,6 +15,7 @@ private:
 	class Field* currentField = nullptr;
 	bool isSelected = false;
 	int ownerIndex = 0;
+	bool markedForDestroy = false;
 	std::weak_ptr<Game::Pawn> gameStatePawn;
 	unsigned int pawnSelectedCallbackHandle;
 	unsigned int stateChangedCallbackHandle;
@@ -22,6 +23,7 @@ public:
 	Pawn(mini::GameObject& owner);
 	~Pawn();
 	void start() override;
+	void update() override;
 	void destroy() override;
 	void setOwnerIndex(int index);
 	int getOwnerIndex() const;

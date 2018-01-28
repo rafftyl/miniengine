@@ -3,7 +3,6 @@
 #include "GameObject.h"
 #include "GameManager.h"
 #include "GameState/Pawn.h"
-#include "GameplayManager.h"
 
 Pawn* Pawn::selectedPawn = nullptr;
 
@@ -28,17 +27,16 @@ void Pawn::start()
 		}
 	});
 
-	stateChangedCallbackHandle = GameEvents::getInstance().onTurnFinished.addCallback(
-		[&]()
+	stateChangedCallbackHandle = GameEvents::getInstance().onGameStateChanged.addCallback(
+		[&](Game::GameState& state)
 	{
 		if (gameStatePawn.expired())
 		{
-			getGameplaySystem().destroyObject(owner);
+			markedForDestroy = true;
 		}
 		else
 		{
 			const auto& fields = GameManager::getInstance().fields;
-			auto& state = Game::GameplayManager::GetInstance().GetCurrentGameState();
 			for (auto& field : fields)
 			{
 				auto pawns = state.GetPawnsOnCoordinates({ field->getCoordinates().x, field->getCoordinates().y });
@@ -50,6 +48,14 @@ void Pawn::start()
 			}
 		}
 	});
+}
+
+void Pawn::update()
+{
+	if (markedForDestroy)
+	{
+		getGameplaySystem().destroyObject(owner);
+	}
 }
 
 void Pawn::destroy()
