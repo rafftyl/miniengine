@@ -12,7 +12,7 @@ namespace Game
 
 	enum class PawnType
 	{
-		Thug, Max
+		Thug, Sentinel, Brawler, Max
 	};
 
 	enum class OrderType

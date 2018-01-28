@@ -1,4 +1,5 @@
 ﻿#include "GameState.h"
+#include <cassert>
 #include "Field.h"
 #include "Pawn.h"
 #include "..\Moves\DefaultMove.h"
@@ -25,11 +26,35 @@ void GameState::Initialize()
 	}
 	std::shared_ptr<Pawn> newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
 	AddPawn(newPawn, std::pair<int, int>(0, 0));
-	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
-	AddPawn(newPawn, std::pair<int, int>(0, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
 	AddPawn(newPawn, std::pair<int, int>(0, 4));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
+	AddPawn(newPawn, std::pair<int, int>(0, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 1));
+	AddPawn(newPawn, std::pair<int, int>(0, 4));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
+	AddPawn(newPawn, std::pair<int, int>(1, 0));
 	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
+	AddPawn(newPawn, std::pair<int, int>(1, 4));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 0));
+	AddPawn(newPawn, std::pair<int, int>(1, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 1));
+	AddPawn(newPawn, std::pair<int, int>(1, 4));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
+	AddPawn(newPawn, std::pair<int, int>(2, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
+	AddPawn(newPawn, std::pair<int, int>(2, 4));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 0));
+	AddPawn(newPawn, std::pair<int, int>(2, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Sentinel, 1));
+	AddPawn(newPawn, std::pair<int, int>(2, 4));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 0));
+	AddPawn(newPawn, std::pair<int, int>(3, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Thug, 1));
+	AddPawn(newPawn, std::pair<int, int>(3, 4));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 0));
+	AddPawn(newPawn, std::pair<int, int>(3, 0));
+	newPawn = std::shared_ptr<Pawn>(new Pawn(PawnType::Brawler, 1));
 	AddPawn(newPawn, std::pair<int, int>(3, 4));
 }
 
@@ -81,6 +106,35 @@ bool GameState::Equals(const GameState& other) const
 					}
 				}
 			}
+		}
+		std::list<std::shared_ptr<Pawn>> ourPawns;
+		for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+		{
+			ourPawns.push_back(*iterator);
+		}
+		std::list<std::shared_ptr<Pawn>> theirPawns;
+		for (auto iterator = temp->pawnsOnBoard.begin(); iterator != temp->pawnsOnBoard.end(); ++iterator)
+		{
+			theirPawns.push_back(*iterator);
+		}
+		bool foundMatch = false;
+		while (ourPawns.size() > 0)
+		{
+			for (auto iterator = theirPawns.begin(); iterator != theirPawns.end(); ++iterator)
+			{
+				if (ourPawns.front()->Equals(**iterator))
+				{
+					ourPawns.pop_front();
+					theirPawns.erase(iterator);
+					foundMatch = true;
+					break;
+				}
+			}
+			if (!foundMatch)
+			{
+				return false;
+			}
+			foundMatch = false;
 		}
 		return true;
 	}
@@ -186,11 +240,13 @@ bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, std::pair<int, int> coordina
 	{
 		if (iterator->get() == pawn.get())
 		{
+			assert(false && "Tried to add duplicate pawn");
 			return false;
 		}
 	}
 	if (coordinates.first < 0 || coordinates.first >= board.size() || coordinates.second < 0 || coordinates.second >= board[0].size())
 	{
+		assert(false && "Invalid coordinates");
 		return false;
 	}
 	if (board[coordinates.first][coordinates.second]->slotsTaken < board[coordinates.first][coordinates.second]->GetCapacity())
@@ -200,6 +256,7 @@ bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, std::pair<int, int> coordina
 		pawn->SetBoardCoordinates(coordinates);
 		return true;
 	}
+	assert(false && "Slot is full");
 	return false;
 }
 
@@ -211,6 +268,11 @@ void GameState::RemovePawn(std::shared_ptr<Pawn> pawn)
 std::vector<std::shared_ptr<Pawn>> GameState::GetPawnsOnCoordinates(std::pair<int, int> coordinates)
 {
 	std::vector<std::shared_ptr<Pawn>> result;
+	if (coordinates.first < 0 || coordinates.first >= board.size() || coordinates.second < 0 || coordinates.second >= board[0].size())
+	{
+		assert(false && "Invalid coordinates");
+		return result;
+	}
 	for(const auto& pawn : pawnsOnBoard)
 	{
 		if (pawn->GetBoardCoordinates() == coordinates)
@@ -246,6 +308,7 @@ bool GameState::IsWon()
 {
 	if (turnCounter >= TURN_LIMIT || currentPlayer == END_GAME)
 	{
+		currentPlayer = END_GAME;
 		return true;
 	}
 	std::valarray<double> result = GetResult();
@@ -253,6 +316,7 @@ bool GameState::IsWon()
 	{
 		if (result[i] > 1.0)
 		{
+			currentPlayer = END_GAME;
 			return true;
 		}
 	}
