@@ -32,12 +32,40 @@ int main()
 	settings.windowHeight = 960;
 	settings.windowWidth = 1280;
 
-	sf::Texture texture_1;
-	texture_1.loadFromFile("Assets/img_1.png");
-	texture_1.setSmooth(true);
-	auto sharedSprite = std::make_shared<sf::Sprite>();
-	sharedSprite->setTexture(texture_1);
-	sharedSprite->setOrigin({ texture_1.getSize().x * 0.5f, texture_1.getSize().y * 0.5f });
+	sf::Texture texture_thug;
+	texture_thug.loadFromFile("Assets/thug.png");
+	texture_thug.setSmooth(true);
+	auto thugSprite = std::make_shared<sf::Sprite>();
+	thugSprite->setTexture(texture_thug);
+	thugSprite->setOrigin({ texture_thug.getSize().x * 0.5f, texture_thug.getSize().y * 0.5f });
+
+	sf::Texture texture_sentinel;
+	texture_sentinel.loadFromFile("Assets/sentinel.png");
+	texture_sentinel.setSmooth(true);
+	auto sentinelSprite = std::make_shared<sf::Sprite>();
+	sentinelSprite->setTexture(texture_sentinel);
+	sentinelSprite->setOrigin({ texture_sentinel.getSize().x * 0.5f, texture_sentinel.getSize().y * 0.5f });
+
+	sf::Texture texture_brawler;
+	texture_brawler.loadFromFile("Assets/brawler.png");
+	texture_brawler.setSmooth(true);
+	auto brawlerSprite = std::make_shared<sf::Sprite>();
+	brawlerSprite->setTexture(texture_brawler);
+	brawlerSprite->setOrigin({ texture_brawler.getSize().x * 0.5f, texture_brawler.getSize().y * 0.5f });
+
+	sf::Texture texture_advance;
+	texture_advance.loadFromFile("Assets/advance.png");
+	texture_advance.setSmooth(true);
+	auto advanceSprite = std::make_shared<sf::Sprite>();
+	advanceSprite->setTexture(texture_advance);
+	advanceSprite->setOrigin({ texture_advance.getSize().x * 0.5f, texture_advance.getSize().y * 0.5f });
+
+	sf::Texture texture_stop;
+	texture_stop.loadFromFile("Assets/stop.png");
+	texture_stop.setSmooth(true);
+	auto stopSprite = std::make_shared<sf::Sprite>();
+	stopSprite->setTexture(texture_stop);
+	stopSprite->setOrigin({ texture_stop.getSize().x * 0.5f, texture_stop.getSize().y * 0.5f });
 
 	sf::Texture texture_2;
 	texture_2.loadFromFile("Assets/back_button.png");
@@ -118,16 +146,40 @@ int main()
 		object.addComponent<UIButton>();
 	});
 
-	mini::Prefab pawnPrefab("pawn",
+	mini::Prefab thugPrefab("thug",
 		[&](mini::GameObject& object)
 	{
 		auto ren = object.addComponent<mini::SpriteRenderer>();
-		ren->setSprite(sharedSprite);
+		ren->setSprite(thugSprite);
 		ren->setLayer(2);
 		object.addComponent<mini::BoxCollider>();
 		object.addComponent<Pawn>()->setColors(sf::Color::Green, sf::Color::White);
 		object.addComponent<PositionInterpolator>();
-		object.setScale({ 0.33f, 0.33f });
+		object.setScale({ 1.3f, 1.3f });
+	});
+
+	mini::Prefab sentinelPrefab("sentinel",
+		[&](mini::GameObject& object)
+	{
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(sentinelSprite);
+		ren->setLayer(2);
+		object.addComponent<mini::BoxCollider>();
+		object.addComponent<Pawn>()->setColors(sf::Color::Green, sf::Color::White);
+		object.addComponent<PositionInterpolator>();
+		object.setScale({ 1.3f, 1.3f });
+	});
+
+	mini::Prefab brawlerPrefab("brawler",
+		[&](mini::GameObject& object)
+	{
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(brawlerSprite);
+		ren->setLayer(2);
+		object.addComponent<mini::BoxCollider>();
+		object.addComponent<Pawn>()->setColors(sf::Color::Green, sf::Color::White);
+		object.addComponent<PositionInterpolator>();
+		object.setScale({ 1.3f, 1.3f });
 	});
 
 	mini::Prefab slotPrefab("slot",
@@ -198,7 +250,7 @@ int main()
 		text->setColor(sf::Color::Red);
 	});
 
-	std::map<Game::PawnType, mini::Prefab> prefabMap = { {Game::PawnType::Thug, pawnPrefab} };
+	std::map<Game::PawnType, mini::Prefab> prefabMap = { { Game::PawnType::Thug, thugPrefab},{ Game::PawnType::Sentinel, sentinelPrefab },{ Game::PawnType::Brawler, brawlerPrefab } };
 	mini::Scene menu("menu", [&](mini::Scene& scene)
 	{
 		backgroundPrefab.instantiate(scene);

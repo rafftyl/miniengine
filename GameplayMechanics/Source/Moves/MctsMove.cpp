@@ -36,5 +36,5 @@ std::size_t MctsMove::hash() const
 
 std::unique_ptr<const DefaultMove> MctsMove::GetMove()
 {
-	return std::move(move);
+	return std::move(move->Clone());
 }

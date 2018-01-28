@@ -21,6 +21,18 @@ Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 			meeleAttack = 2;
 		break;
 
+		case PawnType::Sentinel:
+			maxHealth = 5;
+			speed = 1;
+			meeleAttack = 2;
+		break;
+
+		case PawnType::Brawler:
+			maxHealth = 2;
+			speed = 3;
+			meeleAttack = 3;
+		break;
+
 		default:
 			std::stringstream stream;
 			stream << "Missing constructor implementation for pawn type: " << GetUnitTypeName(_unitType);
@@ -118,7 +130,6 @@ std::vector<UnitOrder*> Pawn::GetAvailableOrders(const GameState& gameState)
 	{
 		result.push_back(new UnitOrder(this, OrderType::Stop, Directions::North));
 	}
-
 	for (int type = 1; type < static_cast<int>(OrderType::Max); ++type)
 	{
 		for (int dir = 0; dir < static_cast<int>(Directions::Max); ++dir)
@@ -150,15 +161,17 @@ PawnActionResult Pawn::Stop(GameState& gameState)
 PawnActionResult Pawn::Advance(GameState& gameState)
 {
 	PawnActionResult result = PawnActionResult();
-	if (Fight(gameState, result))
+	int moveLeft = speed;
+	while (moveLeft > 0)
 	{
-	}
-	else if (Move(gameState, result))
-	{
-	}
-	else
-	{
-		//TODO: efect stop do result
+		if (Fight(gameState, result))
+		{
+			break;
+		}
+		else if (Move(gameState, result))
+		{
+			--moveLeft;
+		}
 	}
 	return result;
 }
