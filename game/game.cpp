@@ -33,8 +33,8 @@
 int main()
 {
 	mini::EngineSettings settings;
-	settings.windowHeight = 960;
-	settings.windowWidth = 1280;
+	settings.windowHeight = 1000;
+	settings.windowWidth = 1920;
 
 	sf::Texture texture_thug;
 	texture_thug.loadFromFile("Assets/thug.png");
@@ -269,9 +269,9 @@ int main()
 
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
-		layoutEl->setPosition({ 1.0f, 0.4f });
+		layoutEl->setPosition({ 0.95f, 0.4f });
 		layoutEl->setPivotPosition({ 1.0f, 0.5f });
-		layoutEl->setSize({ 250, 600 });
+		layoutEl->setSize({ 350, 600 });
 
 		object.addComponent<OrderPanel>()->setParams({ 0, 110 }, { 2, 2 }, 110, orderButtonPrefab, stopButtonPrefab);
 	});
@@ -291,7 +291,7 @@ int main()
 	std::map<Game::PawnType, mini::Prefab> prefabMap = { { Game::PawnType::Thug, thugPrefab},{ Game::PawnType::Sentinel, sentinelPrefab },{ Game::PawnType::Brawler, brawlerPrefab } };
 	mini::Scene menu("menu", [&](mini::Scene& scene)
 	{
-		backgroundPrefab.instantiate(scene);
+		backgroundPrefab.instantiate(scene).move({ -400, 0 });
 
 		auto& startGame = buttonPrefab.instantiate(scene);
 		startGame.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("game");  });
@@ -363,13 +363,13 @@ int main()
 		auto& unitStats = textPrefab.instantiate(scene);
 		unitStats.getComponent<mini::TextRenderer>()->setColor(sf::Color::White);
 		unitStats.setScreenSpace(true);
-		unitStats.setPosition({ 640, 780 });
+		unitStats.setPosition({ 200, 780 });
 		unitStats.addComponent<PawnStats>();
 
 		auto& aiBusy = textPrefab.instantiate(scene);
 		aiBusy.getComponent<mini::TextRenderer>()->setColor(sf::Color::White);
 		aiBusy.setScreenSpace(true);
-		aiBusy.setPosition({ 640, 60 });
+		aiBusy.setPosition({ 850, 120 });
 		aiBusy.getComponent<mini::TextRenderer>()->setText("Plotting to crush you...");
 		aiBusy.setActive(false);
 
@@ -379,7 +379,8 @@ int main()
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });
 		auto& camComp = cam.addComponent<mini::Camera>();
-		camComp->setOrthoSize(1.25f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
+		camComp->setOrthoSize(sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
+		cam.move({ 0, -200 });
 
 		GameManager::getInstance().setupGame({ 0 }, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 
@@ -438,7 +439,7 @@ int main()
 		camComp->setOrthoSize({ static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight) });
 	});
 
-	settings.windowName = "Example Game";
+	settings.windowName = "Radio Commander";
 	mini::Miniengine engine(settings, { std::move(menu), std::move(howTo), std::move(game) });
 	engine.Run();
 
