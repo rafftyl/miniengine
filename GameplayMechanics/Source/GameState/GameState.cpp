@@ -99,8 +99,28 @@ std::vector<double> GameState::GetResult() const
 	std::vector<double> playersPower(0.0, 0.0);
 	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
 	{
-		playersPower[iterator->get()->GetOwner()] += 1.0 / pawnsOnBoard.size();
+		playersPower[iterator->get()->GetOwner()] += 1.0;
 	}
+	if (playersPower[0] == 0.0 && playersPower[1] > 0.0)
+	{
+		result[0] = 0.0;
+		result[1] = 1.1;
+		return result;
+	}
+	if (playersPower[1] == 0.0 && playersPower[0] > 0.0)
+	{
+		result[0] = 1.1;
+		result[1] = 0.0;
+		return result;
+	}
+	if (playersPower[0] == 0.0 && playersPower[1] == 0.0)
+	{
+		result[0] = 0.5;
+		result[1] = 0.5;
+		return result;
+	}
+	result[0] = playersPower[0] / playersPower[1];
+	result[1] = playersPower[1] / playersPower[0];
 	return result;
 }
 
@@ -216,6 +236,7 @@ void GameState::TurnEnd()
 	++currentPlayer;
 	if (currentPlayer >= PlayersCount())
 	{
+		++turnCounter;
 		BoardCycle();
 		currentPlayer = IsWon() ? END_GAME : 0;
 	}
@@ -231,6 +252,10 @@ void GameState::BoardCycle()
 
 bool GameState::IsWon()
 {
+	if (turnCounter >= TURN_LIMIT)
+	{
+		return true;
+	}
 	std::vector<double> result = GetResult();
 	for (auto iterator = result.begin(); iterator != result.end(); ++iterator)
 	{
