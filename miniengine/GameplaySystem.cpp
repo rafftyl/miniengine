@@ -53,7 +53,6 @@ namespace mini
 
 	void GameplaySystem::destroyObject(GameObject& object)
 	{
-		object.destroy();
 		if (currentCam != nullptr)
 		{
 			auto rend = object.getComponent<Renderer>();
@@ -62,6 +61,7 @@ namespace mini
 				currentCam->unregisterRenderer(rend);
 			}
 		}
+		object.destroy();
 		objectsToDestroy.insert(object.getId());		
 	}
 

@@ -165,16 +165,18 @@ std::vector<std::unique_ptr<const DefaultMove>> GameState::GetAllMoves() const
 	if(WhoPlay() != END_GAME)
 	{
 		result.push_back(std::make_unique<EndTurn>());
+		int index = 0;
 		for (auto& pawn : pawnsOnBoard)
 		{
 			if (pawn->GetOwner() == WhoPlay())
 			{
-				std::vector<UnitOrder*> newOrders = pawn->GetAvailableOrders(*this);
+				std::vector<UnitOrder*> newOrders = pawn->GetAvailableOrders(*this, index);
 				for (auto order : newOrders)
 				{
 					result.push_back(std::unique_ptr<const DefaultMove>(order));
 				}
 			}
+			index++;
 		}
 	}
 	return result;
