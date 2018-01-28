@@ -18,19 +18,19 @@ Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 			maxHealth = 3;
 			speed = 2;
 			meeleAttack = 2;
-			counterAttack = 1;
+			counterAttack = 0;
 		break;
 
 		case PawnType::Sentinel:
 			maxHealth = 5;
 			speed = 1;
-			meeleAttack = 1;
-			counterAttack = 3;
+			meeleAttack = 2;
+			counterAttack = 2;
 		break;
 
 		case PawnType::Brawler:
 			maxHealth = 1;
-			speed = 3;
+			speed = 2;
 			meeleAttack = 3;
 			counterAttack = 0;
 		break;
@@ -186,11 +186,12 @@ PawnActionResult Pawn::Advance(GameState& gameState)
 {
 	PawnActionResult result = PawnActionResult();
 	int moveLeft = speed;
-	while (moveLeft > 0)
+	bool attacked = false;
+	while (moveLeft > 0 && !attacked)
 	{
 		if (Fight(gameState, result))
 		{
-			break;
+			attacked = true;
 		}
 		else if (Move(gameState, result))
 		{
@@ -200,6 +201,10 @@ PawnActionResult Pawn::Advance(GameState& gameState)
 		{
 			break;
 		}
+	}
+	if (!attacked)
+	{
+		Fight(gameState, result);
 	}
 	return result;
 }
