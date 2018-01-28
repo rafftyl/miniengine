@@ -16,6 +16,7 @@
 #include "Field.h"
 #include "Camera.h"
 #include "UIButton.h"
+#include "Moves/EndTurn.h"
 #include "GameplaySystem.h"
 #include "OrderPanel.h"
 #include "GameState/Pawn.h"
@@ -311,6 +312,7 @@ int main()
 					Pawn::selectedPawn->setHighlighted(false);
 					Pawn::selectedPawn = nullptr;
 				}
+				Game::GameplayManager::GetInstance().GetCurrentGameState().PerformMove(Game::EndTurn());
 				GameManager::getInstance().endTurn(); 
 			} 
 		});
@@ -327,9 +329,9 @@ int main()
 		auto& camComp = cam.addComponent<mini::Camera>();
 		camComp->setOrthoSize(1.5f * sf::Vector2f(static_cast<float>(settings.windowWidth), static_cast<float>(settings.windowHeight)));
 
-		GameManager::getInstance().setupGame(0, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
+		GameManager::getInstance().setupGame({ 0, 1 }, scene, prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220);
 
-		Game::GameplayManager::GetInstance().onNewGameStateFound = [&](const Game::GameState& state) {GameManager::getInstance().reloadSceneWithNewState(camComp->getGameplaySystem(), prefabMap, fieldPrefab, sf::Vector2f(0.5f * settings.windowWidth, 130), 220); };
+		Game::GameplayManager::GetInstance().onNewGameStateFound = [&](Game::GameState& state) {GameEvents::getInstance().onGameStateChanged.broadcast(state); GameManager::getInstance().endTurn(); };
 	});
 
 	mini::Scene howTo("how_to", [&](mini::Scene& scene)

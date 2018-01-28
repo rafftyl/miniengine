@@ -76,15 +76,18 @@ void Field::movePawnToField(Pawn* pawn)
 {
 	if (pawns.size() < maxPawns && pawns.find(Pawn::selectedPawn) == pawns.end())
 	{
-		if (Pawn::selectedPawn->getCurrentField() != nullptr)
+		if (pawn->getCurrentField() != this)
 		{
-			Pawn::selectedPawn->getCurrentField()->removePawn(Pawn::selectedPawn);
+			if (pawn->getCurrentField() != nullptr)
+			{
+				pawn->getCurrentField()->removePawn(pawn);
+			}
+			addPawn(pawn);
+			pawn->setCurrentField(this);
+			std::queue<std::pair<float, sf::Vector2f>> movementQueue;
+			movementQueue.push({ 1.0f, slots[pawns.size() - 1]->getPosition() });
+			pawn->getOwner().getComponent<PositionInterpolator>()->startMovement(std::move(movementQueue));
+			pawn->setHighlighted(false);
 		}
-		addPawn(Pawn::selectedPawn);
-		Pawn::selectedPawn->setCurrentField(this);
-		std::queue<std::pair<float, sf::Vector2f>> movementQueue;
-		movementQueue.push({ 1.0f, slots[pawns.size() - 1]->getPosition() });
-		Pawn::selectedPawn->getOwner().getComponent<PositionInterpolator>()->startMovement(std::move(movementQueue));
-		Pawn::selectedPawn->setHighlighted(false);
 	}
 }
