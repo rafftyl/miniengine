@@ -121,7 +121,7 @@ int main()
 	{
 		object.setScreenSpace(true);
 		auto ren = object.addComponent<mini::ShapeRenderer>();
-		ren->setColor(sf::Color::Black);
+		ren->setColor(sf::Color(100, 100, 100, 180));
 		ren->setShape(rectShape);
 		
 		object.addComponent<mini::BoxCollider>();		
@@ -269,11 +269,11 @@ int main()
 
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
-		layoutEl->setPosition({ 1.0f, 0.5f });
+		layoutEl->setPosition({ 1.0f, 0.4f });
 		layoutEl->setPivotPosition({ 1.0f, 0.5f });
-		layoutEl->setSize({ 200, 450 });
+		layoutEl->setSize({ 250, 600 });
 
-		object.addComponent<OrderPanel>()->setParams({ 0, 85 }, { 2, 2 }, 80, orderButtonPrefab, stopButtonPrefab);
+		object.addComponent<OrderPanel>()->setParams({ 0, 110 }, { 2, 2 }, 110, orderButtonPrefab, stopButtonPrefab);
 	});
 
 	mini::Prefab textPrefab("label", 
@@ -285,7 +285,7 @@ int main()
 		text->setText("Dupa");
 		text->setCharacterSize(45);
 		text->setLayer(1);
-		text->setColor(sf::Color::Red);
+		text->setColor(sf::Color::Black);
 	});
 
 	std::map<Game::PawnType, mini::Prefab> prefabMap = { { Game::PawnType::Thug, thugPrefab},{ Game::PawnType::Sentinel, sentinelPrefab },{ Game::PawnType::Brawler, brawlerPrefab } };
@@ -366,6 +366,14 @@ int main()
 		unitStats.setPosition({ 640, 780 });
 		unitStats.addComponent<PawnStats>();
 
+		auto& aiBusy = textPrefab.instantiate(scene);
+		aiBusy.getComponent<mini::TextRenderer>()->setColor(sf::Color::White);
+		aiBusy.setScreenSpace(true);
+		aiBusy.setPosition({ 640, 60 });
+		aiBusy.getComponent<mini::TextRenderer>()->setText("Plotting to crush you...");
+		aiBusy.setActive(false);
+
+		GameManager::getInstance().aiBusyText = &aiBusy;
 		orderPanelPrefab.instantiate(scene);
 
 		auto& cam = scene.addObject("camera");
@@ -380,7 +388,15 @@ int main()
 
 	mini::Scene howTo("how_to", [&](mini::Scene& scene)
 	{
-		backgroundPrefab.instantiate(scene);
+		auto& back = scene.addObject("background");
+		back.addComponent<mini::ShapeRenderer>()->setShape(rectShape);
+		back.getComponent<mini::ShapeRenderer>()->setColor(sf::Color(100, 100, 100, 255));
+		back.getComponent<mini::ShapeRenderer>()->setLayer(-1);
+		auto lel = back.addComponent<mini::LayoutElement>();
+		lel->setPivotPosition({ 0.5f, 0.5f });
+		lel->setPosition({ 0.5f, 0.5f });
+		lel->applySettings({ false, false, false, false });
+		lel->setSize({ 1.0f, 1.0f });
 
 		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {button.getGameplaySystem().loadScene("menu"); });

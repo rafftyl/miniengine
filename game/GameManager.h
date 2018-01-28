@@ -16,6 +16,7 @@ class GameManager
 {
 public:
 	std::vector<std::shared_ptr<Field>> fields;
+	mini::GameObject* aiBusyText;
 private:
 	const int playerCount = 2;
 	int currentPlayerIndex = -1;

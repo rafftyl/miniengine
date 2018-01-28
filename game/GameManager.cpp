@@ -104,6 +104,16 @@ void GameManager::endTurn(bool requestAIMove)
 		{
 			aiOrderThread->join();
 		}
-		aiOrderThread = std::make_unique<std::thread>([] {Game::GameplayManager::GetInstance().AI_PerformTurn(); });		
+		if (aiBusyText)
+		{
+			aiBusyText->setActive(true);
+		}
+		aiOrderThread = std::make_unique<std::thread>([&] {
+			Game::GameplayManager::GetInstance().AI_PerformTurn(); 
+			if (aiBusyText)
+			{
+				aiBusyText->setActive(false);
+			}
+		});
 	}		
 }
