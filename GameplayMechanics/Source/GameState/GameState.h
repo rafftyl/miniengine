@@ -5,7 +5,7 @@
 #include "Field.h"
 
 #define END_GAME -1
-
+#define TURN_LIMIT 20
 
 namespace Game
 {
@@ -33,6 +33,7 @@ namespace Game
 			std::vector<std::shared_ptr<Pawn>> GetPawnsOnCoordinates(std::pair<int, int> coordinates);
 
 		private:
+			int turnCounter = 0;
 			int currentPlayer;
 			std::list<std::shared_ptr<Pawn>> pawnsOnBoard;
 			void TurnEnd();

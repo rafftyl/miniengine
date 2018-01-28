@@ -66,6 +66,7 @@ GameplayManager::GameplayManager()
 	currentGameState->Initialize();
 	MctsGameState state(currentGameState->Clone().release());
 	mcts = std::make_unique<grailMCTS::MCTS>(state);
+	AI_PerformTurn();
 }
 
 GameplayManager::~GameplayManager()
