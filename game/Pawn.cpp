@@ -17,7 +17,7 @@ Pawn::~Pawn()
 void Pawn::start()
 {
 	Targetable::start();
-	GameEvents::getInstance().onPawnSelected.addCallback(
+	pawnSelectedCallbackHandle = GameEvents::getInstance().onPawnSelected.addCallback(
 		[&](Pawn& pawn) 
 	{
 		if (isSelected && this != &pawn) 
@@ -27,12 +27,12 @@ void Pawn::start()
 		}
 	});
 
-	GameEvents::getInstance().onGameStateChanged.addCallback(
+	stateChangedCallbackHandle = GameEvents::getInstance().onGameStateChanged.addCallback(
 		[&](Game::GameState& state)
 	{
 		if (gameStatePawn.expired())
 		{
-			getGameplaySystem().destroyObject(owner);
+			markedForDestroy = true;
 		}
 		else
 		{
@@ -48,6 +48,21 @@ void Pawn::start()
 			}
 		}
 	});
+}
+
+void Pawn::update()
+{
+	if (markedForDestroy)
+	{
+		getGameplaySystem().destroyObject(owner);
+	}
+}
+
+void Pawn::destroy()
+{
+	Targetable::destroy();
+	GameEvents::getInstance().onPawnSelected.removeCallback(pawnSelectedCallbackHandle);
+	GameEvents::getInstance().onGameStateChanged.removeCallback(stateChangedCallbackHandle);
 }
 
 void Pawn::setOwnerIndex(int index)

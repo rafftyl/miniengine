@@ -61,6 +61,7 @@ void GameState::Initialize()
 std::unique_ptr<GameState> GameState::Clone() const
 {
 	std::unique_ptr<GameState> copy = std::unique_ptr<GameState>(new GameState());
+	copy->turnCounter = turnCounter;
 	copy->currentPlayer = currentPlayer;
 	copy->board.reserve(board.size());
 	for (int row = 0; row < board.size(); ++row)

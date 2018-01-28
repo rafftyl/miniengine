@@ -53,6 +53,7 @@ namespace mini
 
 	void GameplaySystem::destroyObject(GameObject& object)
 	{
+		object.destroy();
 		if (currentCam != nullptr)
 		{
 			auto rend = object.getComponent<Renderer>();
@@ -61,7 +62,7 @@ namespace mini
 				currentCam->unregisterRenderer(rend);
 			}
 		}
-		scenes[currentSceneIndex].objects.erase(object.getId());
+		objectsToDestroy.insert(object.getId());		
 	}
 
 	void GameplaySystem::loadScene(const std::string& name)
@@ -127,7 +128,13 @@ namespace mini
 			for (auto& obj : scenes[currentSceneIndex].objects)
 			{
 				obj.second.update();
-			}	
+			}
+
+			for (int id : objectsToDestroy)
+			{
+				scenes[currentSceneIndex].objects.erase(id);
+			}
+			objectsToDestroy.clear();
 		}
 	}
 
