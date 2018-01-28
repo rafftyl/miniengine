@@ -131,22 +131,18 @@ std::valarray<double> GameState::GetResult() const
 	{
 		playersPower[pawn->GetOwner()] += 1.0;
 	}
-
 	if (playersPower[0] == 0.0 && playersPower[1] > 0.0)
 	{
 		return { 0.0, 1.1 };
 	}
-
 	if (playersPower[1] == 0.0 && playersPower[0] > 0.0)
 	{
 		return { 1.1, 0.0 };
 	}
-
 	if (playersPower[0] == 0.0 && playersPower[1] == 0.0)
 	{
 		return { 0.5, 0.5 };
 	}
-
 	return { playersPower[0] / (playersPower[0] + playersPower[1]),  playersPower[1] / (playersPower[0] + playersPower[1]) };
 }
 
