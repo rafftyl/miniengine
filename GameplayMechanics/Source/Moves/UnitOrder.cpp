@@ -33,4 +33,5 @@ bool UnitOrder::IsValid(const GameState& gameState) const
 void UnitOrder::ApplyMove(GameState& gameState) const
 {
 	targetPawn->SetNewOrder(orderType, direction);
+	gameState.TurnEnd();
 }

@@ -205,25 +205,17 @@ bool GameState::AddPawn(std::shared_ptr<Pawn> pawn, std::pair<int, int> coordina
 
 void GameState::RemovePawn(std::shared_ptr<Pawn> pawn)
 {
-	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
-	{
-		if (iterator->get() == pawn.get())
-		{
-			--board[iterator->get()->GetBoardCoordinates().first][iterator->get()->GetBoardCoordinates().second]->slotsTaken;
-			pawnsOnBoard.erase(iterator);
-			break;
-		}
-	}
+	pawnsOnBoard.remove(pawn);
 }
 
 std::vector<std::shared_ptr<Pawn>> GameState::GetPawnsOnCoordinates(std::pair<int, int> coordinates)
 {
 	std::vector<std::shared_ptr<Pawn>> result;
-	for (auto iterator = pawnsOnBoard.begin(); iterator != pawnsOnBoard.end(); ++iterator)
+	for(const auto& pawn : pawnsOnBoard)
 	{
-		if (iterator->get()->GetBoardCoordinates() == coordinates)
+		if (pawn->GetBoardCoordinates() == coordinates)
 		{
-			result.push_back(*iterator);
+			result.push_back(pawn);
 		}
 	}
 	return result;

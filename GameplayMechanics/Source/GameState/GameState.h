@@ -17,6 +17,7 @@ namespace Game
 	class GameState
 	{
 		friend EndTurn;
+		friend class UnitOrder;
 
 		public:
 			std::vector<std::vector<std::shared_ptr<Field>>> board;
