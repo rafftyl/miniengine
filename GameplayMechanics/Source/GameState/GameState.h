@@ -34,6 +34,7 @@ namespace Game
 			void RemovePawn(std::shared_ptr<Pawn> pawn);
 			std::vector<std::shared_ptr<Pawn>> GetPawnsOnCoordinates(std::pair<int, int> coordinates);
 			bool IsWon();
+
 		private:
 			int turnCounter = 0;
 			int currentPlayer;
