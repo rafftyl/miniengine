@@ -73,7 +73,7 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 				}
 				else
 				{
-					pawnComp->setColors(sf::Color::Red, sf::Color::Red);
+					pawnComp->setColors(sf::Color::Green, sf::Color::Red);
 				}
 				fieldComp->addPawn(pawnComp.get());				
 			}

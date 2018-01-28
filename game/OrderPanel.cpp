@@ -29,6 +29,7 @@ void OrderPanel::start()
 		{
 			gameplaySystem->destroyObject(*buttonObj);
 		}
+		spawnedButtons.clear();
 		initForPawn(pawn); 
 	});
 	GameEvents::getInstance().onPawnUnselected.addCallback([&]()
