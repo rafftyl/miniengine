@@ -59,6 +59,16 @@ void Pawn::setCurrentField(Field* field)
 	currentField = field;
 }
 
+void Pawn::setGameStatePawn(Game::Pawn * pawn)
+{
+	gameStatePawn = pawn;
+}
+
+const Game::Pawn* Pawn::getGameStatePawn() const
+{
+	return gameStatePawn;
+}
+
 Field* Pawn::getCurrentField()
 {
 	return currentField;

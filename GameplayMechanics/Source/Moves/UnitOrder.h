@@ -14,7 +14,7 @@ namespace Game
 			bool IsValid(const GameState& gameState) const override;
 			void ApplyMove(GameState& gameState) const override;
 
-		private:
+		public:
 			Pawn* targetPawn;
 			const OrderType orderType;
 			const Directions direction;

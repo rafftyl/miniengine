@@ -3,6 +3,7 @@
 #include "GameplayManager.h"
 #include "GameState/GameState.h"
 #include "GameState/Pawn.h"
+#include "Moves/EndTurn.h"
 #include "Pawn.h"
 #include "Field.h"
 
@@ -63,6 +64,7 @@ void GameManager::setupGame(int humanPlayer, mini::Scene& scene, std::map<Game::
 				auto pawnComp = pawnObj.getComponent<Pawn>();
 				pawnComp->setOwnerIndex(pawn->GetOwner());
 				pawnComp->setCurrentField(fieldComp.get());
+				pawnComp->setGameStatePawn(pawn.get());
 				if (pawnComp->getOwnerIndex() == 0)
 				{
 					pawnComp->setColors(sf::Color::Green, sf::Color::Blue);
@@ -88,4 +90,6 @@ void GameManager::endTurn()
 	currentPlayerIndex++;
 	currentPlayerIndex %= playerCount;
 	GameEvents::getInstance().onTurnFinished.broadcast();
+	Game::GameplayManager::GetInstance().GetCurrentGameState().PerformMove(Game::EndTurn());
+	Game::GameplayManager::GetInstance().AI_PerformTurn();
 }

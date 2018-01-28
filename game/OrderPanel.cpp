@@ -4,6 +4,12 @@
 #include "GameObject.h"
 #include "Pawn.h"
 #include "UIButton.h"
+#include "Moves/DefaultMove.h"
+#include "GameplayManager.h"
+#include "GameState/Pawn.h"
+#include "Moves/EndTurn.h"
+#include "Moves/UnitOrder.h"
+#include <array>
 
 OrderPanel::OrderPanel(mini::GameObject& owner) : mini::Component(owner)
 {
@@ -39,8 +45,24 @@ void OrderPanel::setParams(const sf::Vector2f& origin, const sf::Vector2i& layou
 
 void OrderPanel::initForPawn(const Pawn& pawn)
 {
+	filteredMoves.clear();
+	auto moves = Game::GameplayManager::GetInstance().GetCurrentGameState().GetAllMoves();
+	for (auto& move : moves)
+	{
+		auto endTurn = dynamic_cast<const Game::EndTurn*>(move.get());
+		if (endTurn == nullptr)
+		{
+			auto order = dynamic_cast<const Game::UnitOrder*>(move.get());
+			if (order != nullptr && order->targetPawn == pawn.getGameStatePawn())
+			{
+				filteredMoves.push_back(std::move(move));
+			}
+		}
+	}
 	owner.setActive(true);
-	for (int i = 0; i < buttonLayoutDimensions.x * buttonLayoutDimensions.y; ++i) //iterate over actions
+	
+	int i = 0;
+	for (auto& move : filteredMoves) //iterate over actions
 	{
 		int row = i / buttonLayoutDimensions.x;
 		int col = i - row * buttonLayoutDimensions.x;
@@ -48,8 +70,26 @@ void OrderPanel::initForPawn(const Pawn& pawn)
 		sf::Vector2f localPos = buttonLayoutOrigin;
 		localPos.x -= (buttonLayoutDimensions.x / 2.0f - col - 0.5f) * buttonSeparation;
 		localPos.y += row * buttonSeparation;
-		buttonObj.setPosition(owner.getPosition() + buttonLayoutOrigin - localPos);
+		sf::Vector2f pos = owner.getPosition() + localPos;
+		buttonObj.setPosition(pos);
 		spawnedButtons.push_back(&buttonObj);
-		buttonObj.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) {}); //launch ability
+		std::array<float, 4> angles{ -90, 180, 90, 0 };
+		auto order = dynamic_cast<const Game::UnitOrder*>(move.get());
+		switch (order->orderType)
+		{
+		case Game::OrderType::Advance:
+			buttonObj.setRotation(angles[static_cast<int>(order->direction)]);
+			break;
+		case Game::OrderType::Stop:
+			buttonObj.setRotation(38);
+			break;
+		default:
+			break;
+		}
+		buttonObj.getComponent<UIButton>()->onClicked().addCallback([&](UIButton& button) 
+		{
+			Game::GameplayManager::GetInstance().GetCurrentGameState().PerformMove(*move);
+		}); //launch ability
+		++i;
 	}
 }

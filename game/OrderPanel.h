@@ -1,7 +1,9 @@
 #pragma once
 #include "Component.h"
 #include "Prefab.h"
+#include "Moves/DefaultMove.h"
 #include <SFML/System/Vector2.hpp>
+#include <memory>
 
 class OrderPanel : public mini::Component
 {
@@ -11,8 +13,7 @@ private:
 	float buttonSeparation;
 	mini::Prefab upArrowPrefab;
 	std::vector<mini::GameObject*> spawnedButtons;
-
-	//TODO: spawned abilities
+	std::vector<std::unique_ptr<const Game::DefaultMove>> filteredMoves;
 public:
 	OrderPanel(mini::GameObject& owner);
 	~OrderPanel();

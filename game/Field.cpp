@@ -3,6 +3,7 @@
 #include "Pawn.h"
 #include "PositionInterpolator.h"
 #include "GameplaySystem.h"
+#include "GameEvents.h"
 
 Field::Field(mini::GameObject& owner) : Targetable(owner)
 {

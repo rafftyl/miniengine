@@ -52,13 +52,22 @@ int main()
 	upArrowSprite->setTexture(texture_3);
 	upArrowSprite->setOrigin({ texture_3.getSize().x * 0.5f, texture_3.getSize().y * 0.5f });
 
+	sf::Texture texture_4;
+	texture_4.loadFromFile("Assets/radio.png");
+	texture_4.setSmooth(true);
+	auto radioSprite = std::make_shared<sf::Sprite>();
+	radioSprite->setTexture(texture_4);
+	radioSprite->setOrigin({ texture_4.getSize().x * 0.5f, texture_4.getSize().y * 0.5f });
+
 	sf::Texture backgroundTexture;
 	backgroundTexture.loadFromFile("Assets/camo.png");
 	backgroundTexture.setSmooth(true);
 	backgroundTexture.setRepeated(true);
 	auto backgroundSprite = std::make_shared<sf::Sprite>();
 	backgroundSprite->setTexture(backgroundTexture);
-	backgroundSprite->setOrigin({ backgroundTexture.getSize().x * 0.5f, backgroundTexture.getSize().y * 0.5f });
+	backgroundSprite->setOrigin({ backgroundTexture.getSize().x * 1.0f, backgroundTexture.getSize().y * 1.0f});
+	sf::IntRect rect(-7000, -7000, 3000, 3000);
+	backgroundSprite->setTextureRect(rect);
 	auto rectShape = std::make_shared<sf::RectangleShape>(sf::Vector2f(1.0f, 1.0f));
 	rectShape->setOrigin({ .5f , .5f});
 
@@ -156,7 +165,7 @@ int main()
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
-		layoutEl->setSize({ 100.0f, 100.0f });
+		layoutEl->setSize({ 80.0f, 80.0f });
 
 		object.addComponent<UIButton>();
 	});
@@ -164,17 +173,16 @@ int main()
 	mini::Prefab orderPanelPrefab("orderPanel",
 		[&](mini::GameObject& object)
 	{
-		auto ren = object.addComponent<mini::ShapeRenderer>();
-		ren->setShape(rectShape);
-		ren->setColor(sf::Color::Yellow);
+		auto ren = object.addComponent<mini::SpriteRenderer>();
+		ren->setSprite(radioSprite);
 
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
-		layoutEl->setPosition({ 0.5f, 1.0f });
-		layoutEl->setPivotPosition({ 0.5f, 1.0f });
-		layoutEl->setSize({ 500.0f, 120.0f });
+		layoutEl->setPosition({ 1.0f, 0.5f });
+		layoutEl->setPivotPosition({ 1.0f, 0.5f });
+		layoutEl->setSize({ 250, 500 });
 
-		object.addComponent<OrderPanel>()->setParams({ -200, 0 }, { 4, 1 }, 120, orderButtonPrefab);
+		object.addComponent<OrderPanel>()->setParams({ 0, 100 }, { 2, 2 }, 100, orderButtonPrefab);
 	});
 
 	mini::Prefab textPrefab("label", 
@@ -229,7 +237,7 @@ int main()
 
 	mini::Scene game("game", [&](mini::Scene& scene)
 	{
-		backgroundPrefab.instantiate(scene);
+		//backgroundPrefab.instantiate(scene);
 		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback(
 			[&](UIButton& button) 

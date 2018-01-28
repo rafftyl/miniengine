@@ -2,6 +2,7 @@
 #include "Targetable.h"
 #include "InputInterfaces.h"
 #include "Renderer.h"
+#include "GameState/Pawn.h"
 
 class Pawn : 
 	public Targetable, 
@@ -14,6 +15,7 @@ private:
 	class Field* currentField = nullptr;
 	bool isSelected = false;
 	int ownerIndex = 0;
+	Game::Pawn* gameStatePawn;
 public:
 	Pawn(mini::GameObject& owner);
 	~Pawn();
@@ -22,6 +24,8 @@ public:
 	int getOwnerIndex() const;
 	void setHighlighted(bool on) override;
 	void setCurrentField(Field* field);
+	void setGameStatePawn(Game::Pawn* pawn);
+	const Game::Pawn* getGameStatePawn()const;
 	Field* getCurrentField();
 	// Inherited via IMouseButtonPressHandlerRaycast
 	virtual void onMouseButtonPressedRaycast(sf::Mouse::Button mouseButton, const sf::Vector2f& mousePosition, const sf::Vector2f& mouseDelta) override;
