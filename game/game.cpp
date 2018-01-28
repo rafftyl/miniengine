@@ -69,7 +69,7 @@ int main()
 	stopSprite->setOrigin({ texture_stop.getSize().x * 0.5f, texture_stop.getSize().y * 0.5f });
 
 	sf::Texture texture_2;
-	texture_2.loadFromFile("Assets/back_button.png");
+	texture_2.loadFromFile("Assets/back.png");
 	texture_2.setSmooth(true);
 	auto backButtonSprite = std::make_shared<sf::Sprite>();
 	backButtonSprite->setTexture(texture_2);
@@ -291,7 +291,7 @@ int main()
 
 	mini::Scene game("game", [&](mini::Scene& scene)
 	{
-		//backgroundPrefab.instantiate(scene);
+		backgroundPrefab.instantiate(scene);
 		auto& menu = backButtonPrefab.instantiate(scene);
 		menu.getComponent<UIButton>()->onClicked().addCallback(
 			[&](UIButton& button) 
