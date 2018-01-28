@@ -12,13 +12,14 @@ private:
 	sf::Vector2i buttonLayoutDimensions;
 	float buttonSeparation;
 	mini::Prefab upArrowPrefab;
+	mini::Prefab stopButtonPrefab;
 	std::vector<mini::GameObject*> spawnedButtons;
 	std::vector<std::unique_ptr<const Game::DefaultMove>> filteredMoves;
 public:
 	OrderPanel(mini::GameObject& owner);
 	~OrderPanel();
 	void start() override;
-	void setParams(const sf::Vector2f& origin, const sf::Vector2i& layoutSize, float separation, mini::Prefab upPrefab);
+	void setParams(const sf::Vector2f& origin, const sf::Vector2i& layoutSize, float separation, mini::Prefab upPrefab, mini::Prefab stopPrefab);
 private:
 	void initForPawn(const class Pawn& pawn);
 };

@@ -44,12 +44,13 @@ void OrderPanel::start()
 	owner.setActive(false);
 }
 
-void OrderPanel::setParams(const sf::Vector2f& origin, const sf::Vector2i& layoutSize, float separation, mini::Prefab upPrefab)
+void OrderPanel::setParams(const sf::Vector2f& origin, const sf::Vector2i& layoutSize, float separation, mini::Prefab upPrefab, mini::Prefab stopPrefab)
 {
 	buttonLayoutOrigin = origin;
 	buttonLayoutDimensions = layoutSize;
 	buttonSeparation = separation;
 	upArrowPrefab = upPrefab;
+	stopButtonPrefab = stopPrefab;
 }
 
 void OrderPanel::initForPawn(const Pawn& pawn)
@@ -75,22 +76,27 @@ void OrderPanel::initForPawn(const Pawn& pawn)
 	{
 		int row = i / buttonLayoutDimensions.x;
 		int col = i - row * buttonLayoutDimensions.x;
-		auto& buttonObj = upArrowPrefab.instantiate(getGameplaySystem());
+
+		auto order = dynamic_cast<const Game::UnitOrder*>(move.get());
+		auto& buttonObj = order->orderType == Game::OrderType::Advance ? upArrowPrefab.instantiate(getGameplaySystem()) : stopButtonPrefab.instantiate(getGameplaySystem());
+
 		sf::Vector2f localPos = buttonLayoutOrigin;
 		localPos.x -= (buttonLayoutDimensions.x / 2.0f - col - 0.5f) * buttonSeparation;
 		localPos.y += row * buttonSeparation;
+
 		sf::Vector2f pos = owner.getPosition() + localPos;
 		buttonObj.setPosition(pos);
 		spawnedButtons.push_back(&buttonObj);
+
 		std::array<float, 4> angles{ 0, 90, 180, 270 };
-		auto order = dynamic_cast<const Game::UnitOrder*>(move.get());
+		
+		float rotation = 0;
 		switch (order->orderType)
 		{
 		case Game::OrderType::Advance:
 			buttonObj.setRotation(angles[static_cast<int>(order->direction)]);
 			break;
 		case Game::OrderType::Stop:
-			buttonObj.setRotation(38);
 			break;
 		default:
 			break;
