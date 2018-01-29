@@ -62,9 +62,11 @@ void PawnStats::start()
 			
 		ss << "Type: " << pawnTypeName << std::endl
 			<< "Health: " << pwn->GetHealth() << "/" << pwn->GetMaxHealth() << std::endl
-			<< "Damage: " << pwn->GetMeeleAttack() << std::endl
+			<< "Attack: " << pwn->GetMeeleAttack() << std::endl
+			<< "Defense: " << pwn->GetCounterAttack() << std::endl
 			<< "Speed: " << pwn->GetSpeed() << std::endl
-			<< "Last order: " << lastOrderName;
+			<< "Last order: " << lastOrderName << std::endl
+			<< "Initiative: " << pawn.initiativeIndex;
 		textRen->setText(ss.str());
 		owner.setActive(true);
 		//owner.getComponent<mini::LayoutElement>()->refresh();

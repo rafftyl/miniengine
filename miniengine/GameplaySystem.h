@@ -19,6 +19,7 @@ namespace mini
 		int currentSceneIndex = -1;
 		std::shared_ptr<Camera> currentCam = nullptr;
 		std::set<int> objectsToDestroy;
+		bool isLoadingScene = false;
 
 		//TODO: move to a separate InputEventHandler class
 		std::set<const GameObject*> objectsEntered;
@@ -33,7 +34,7 @@ namespace mini
 		void loadScene(const std::string& name);
 		virtual void update() override;
 		virtual void init() override;
-		std::shared_ptr<const Camera> getCurrentCam() const;
+		std::shared_ptr<Camera> getCurrentCam();
 		Scene& getCurrentScene();
 		void closeApplication() const;
 	private:

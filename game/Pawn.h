@@ -1,8 +1,9 @@
 #pragma once
 #include "Targetable.h"
 #include "InputInterfaces.h"
-#include "Renderer.h"
+#include "TextRenderer.h"
 #include "GameState/Pawn.h"
+#include "Prefab.h"
 
 class Pawn : 
 	public Targetable, 
@@ -13,6 +14,8 @@ class Pawn :
 {
 public:
 	static Pawn* selectedPawn;
+	int initiativeIndex = -1;
+	mini::Prefab labelPrefab;
 private:
 	class Field* currentField = nullptr;
 	bool isSelected = false;
@@ -20,7 +23,8 @@ private:
 	bool markedForDestroy = false;
 	std::weak_ptr<Game::Pawn> gameStatePawn;
 	unsigned int pawnSelectedCallbackHandle;
-	unsigned int stateChangedCallbackHandle;
+	unsigned int stateChangedCallbackHandle;	
+	mini::GameObject* initiativeLabel;
 public:
 	Pawn(mini::GameObject& owner);
 	~Pawn();

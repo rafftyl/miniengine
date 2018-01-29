@@ -21,7 +21,6 @@ namespace mini
 			return dynamic_cast<const ComponentType*>(this) != nullptr;
 		}
 
-	protected:
 		virtual void start();
 		virtual void update();
 		virtual void destroy();

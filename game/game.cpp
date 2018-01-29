@@ -107,6 +107,18 @@ int main()
 	auto font = std::make_shared<sf::Font>();
 	font->loadFromFile("Assets/die_hard.ttf");
 
+	mini::Prefab textPrefab("label",
+		[&](mini::GameObject& object)
+	{
+		object.setScreenSpace(true);
+		auto text = object.addComponent<mini::TextRenderer>();
+		text->setFont(font);
+		text->setText("Dupa");
+		text->setCharacterSize(45);
+		text->setLayer(1);
+		text->setColor(sf::Color::Black);
+	});
+
 	mini::Prefab backgroundPrefab("background",
 		[&](mini::GameObject& object)
 	{
@@ -175,6 +187,7 @@ int main()
 		ren->setLayer(2);
 		object.addComponent<mini::BoxCollider>();
 		object.addComponent<Pawn>()->setColors(sf::Color::Green, sf::Color::White);
+		object.getComponent<Pawn>()->labelPrefab = textPrefab;
 		object.addComponent<PositionInterpolator>();
 		object.setScale({ 1.3f, 1.3f });
 	});
@@ -187,6 +200,7 @@ int main()
 		ren->setLayer(2);
 		object.addComponent<mini::BoxCollider>();
 		object.addComponent<Pawn>()->setColors(sf::Color::Green, sf::Color::White);
+		object.getComponent<Pawn>()->labelPrefab = textPrefab;
 		object.addComponent<PositionInterpolator>();
 		object.setScale({ 1.3f, 1.3f });
 	});
@@ -199,6 +213,7 @@ int main()
 		ren->setLayer(2);
 		object.addComponent<mini::BoxCollider>();
 		object.addComponent<Pawn>()->setColors(sf::Color::Green, sf::Color::White);
+		object.getComponent<Pawn>()->labelPrefab = textPrefab;
 		object.addComponent<PositionInterpolator>();
 		object.setScale({ 1.3f, 1.3f });
 	});
@@ -238,7 +253,7 @@ int main()
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
-		layoutEl->setSize({ 70.0f, 70.0f });
+		layoutEl->setSize({ 85.0f, 85.0f });
 		object.addComponent<mini::BoxCollider>();
 
 		object.addComponent<UIButton>();
@@ -255,7 +270,7 @@ int main()
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
 		layoutEl->setPivotPosition({ 0.5f, 0.5f });
-		layoutEl->setSize({ 70.0f, 70.0f });
+		layoutEl->setSize({ 85.0f, 85.0f });
 		object.addComponent<mini::BoxCollider>();
 
 		object.addComponent<UIButton>();
@@ -269,24 +284,13 @@ int main()
 
 		auto layoutEl = object.addComponent<mini::LayoutElement>();
 		layoutEl->applySettings({ false, false, true, true });
-		layoutEl->setPosition({ 0.95f, 0.4f });
+		layoutEl->setPosition({ 0.95f, 0.2f });
 		layoutEl->setPivotPosition({ 1.0f, 0.5f });
 		layoutEl->setSize({ 350, 600 });
 
-		object.addComponent<OrderPanel>()->setParams({ 0, 110 }, { 2, 2 }, 110, orderButtonPrefab, stopButtonPrefab);
+		object.addComponent<OrderPanel>()->setParams({ 0, 320 }, { 2, 2 }, 100, orderButtonPrefab, stopButtonPrefab);
 	});
 
-	mini::Prefab textPrefab("label", 
-		[&](mini::GameObject& object)
-	{
-		object.setScreenSpace(true);
-		auto text = object.addComponent<mini::TextRenderer>();
-		text->setFont(font);
-		text->setText("Dupa");
-		text->setCharacterSize(45);
-		text->setLayer(1);
-		text->setColor(sf::Color::Black);
-	});
 
 	std::map<Game::PawnType, mini::Prefab> prefabMap = { { Game::PawnType::Thug, thugPrefab},{ Game::PawnType::Sentinel, sentinelPrefab },{ Game::PawnType::Brawler, brawlerPrefab } };
 	mini::Scene menu("menu", [&](mini::Scene& scene)
@@ -369,7 +373,7 @@ int main()
 		auto& aiBusy = textPrefab.instantiate(scene);
 		aiBusy.getComponent<mini::TextRenderer>()->setColor(sf::Color::White);
 		aiBusy.setScreenSpace(true);
-		aiBusy.setPosition({ 850, 120 });
+		aiBusy.setPosition({ 950, 140 });
 		aiBusy.getComponent<mini::TextRenderer>()->setText("Plotting to crush you...");
 		aiBusy.setActive(false);
 
@@ -431,7 +435,7 @@ int main()
 		stream << "Rafal Tyl\n";
 		howToText.getComponent<mini::TextRenderer>()->setText(stream.str().c_str());
 		howToText.getComponent<mini::TextRenderer>()->setColor(sf::Color::Black);
-		howToText.getComponent<mini::TextRenderer>()->setCharacterSize(25.0f);
+		howToText.getComponent<mini::TextRenderer>()->setCharacterSize(25);
 
 		auto& cam = scene.addObject("camera");
 		cam.setPosition({ 0.5f * settings.windowWidth, 0.5f * settings.windowHeight });

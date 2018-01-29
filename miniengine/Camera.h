@@ -10,6 +10,7 @@ namespace mini
 	class Camera : public Component
 	{
 		friend class RenderingSystem;
+		friend class Renderer;
 		friend class GameplaySystem;
 	private:
 		std::set<std::shared_ptr<class Renderer>> renderers;	

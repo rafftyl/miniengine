@@ -48,13 +48,28 @@ void Pawn::start()
 			}
 		}
 	});
+
+	initiativeLabel = &labelPrefab.instantiate(getGameplaySystem());
+	initiativeLabel->setScreenSpace(false);
+	auto textRenderer = initiativeLabel->getComponent<mini::TextRenderer>();
+	textRenderer->setColor(sf::Color::White);
+	textRenderer->setCharacterSize(20);
+	textRenderer->setLayer(4);
+	std::stringstream ss;
+	ss << initiativeIndex;
+	textRenderer->setText(ss.str());
 }
 
 void Pawn::update()
 {
 	if (markedForDestroy)
 	{
+		getGameplaySystem().destroyObject(*initiativeLabel);
 		getGameplaySystem().destroyObject(owner);
+	}
+	else
+	{
+		initiativeLabel->setPosition(owner.getPosition() + sf::Vector2f(20, 20));
 	}
 }
 

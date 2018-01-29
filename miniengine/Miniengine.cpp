@@ -10,7 +10,7 @@ namespace mini
 	{
 		Screen::width = settings.windowWidth;
 		Screen::height = settings.windowHeight;
-		window = std::make_unique<sf::RenderWindow>(sf::VideoMode(settings.windowWidth, settings.windowHeight), settings.windowName);
+		window = std::make_unique<sf::RenderWindow>(sf::VideoMode(settings.windowWidth, settings.windowHeight), settings.windowName, sf::Style::Titlebar | sf::Style::Close);
 		systems.push_back(std::make_shared<InputSystem>(msgBus, *window));
 		systems.push_back(std::make_shared<GameplaySystem>(msgBus, std::move(scenes)));
 		systems.push_back(std::make_shared<AudioSystem>(msgBus));	

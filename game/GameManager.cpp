@@ -42,6 +42,7 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 	int cols = dim.second;
 	humanPlayerIndices = humanPlayers;
 	currentPlayerIndex = 0;
+	int initiative = 1;
 	for (int index = 0; index < cols * rows; ++index)
 	{
 		int row = index / cols;
@@ -58,6 +59,7 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 		fields.push_back(fieldComp);
 
 		auto pawns = state.GetPawnsOnCoordinates({ row, col });
+		
 		for (auto& pawn : pawns)
 		{
 			auto iter = pawnPrefabs.find(pawn->GetUnitType());
@@ -68,6 +70,7 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 				pawnComp->setOwnerIndex(pawn->GetOwner());
 				pawnComp->setCurrentField(fieldComp.get());
 				pawnComp->setGameStatePawn(pawn);
+				pawnComp->initiativeIndex = initiative;
 				if (pawnComp->getOwnerIndex() == 0)
 				{
 					pawnComp->setColors(sf::Color::Green, sf::Color::Blue);
@@ -76,8 +79,9 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 				{
 					pawnComp->setColors(sf::Color::Green, sf::Color::Red);
 				}
-				fieldComp->addPawn(pawnComp.get());				
-			}
+				fieldComp->addPawn(pawnComp.get());		
+				++initiative;
+			}			
 		}
 	}
 }

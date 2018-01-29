@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "GameObject.h"
+#include "GameplaySystem.h"
 
 namespace mini
 {
@@ -15,6 +16,14 @@ namespace mini
 	{
 	}
 
+	void Renderer::start()
+	{
+		if (getGameplaySystem().getCurrentCam() != nullptr)
+		{
+			getGameplaySystem().getCurrentCam()->registerRenderer(shared_from_this());
+		}
+	}
+
 	void Renderer::setColor(const sf::Color& newColor)
 	{
 		color = newColor;
@@ -28,6 +37,13 @@ namespace mini
 	void Renderer::setLayer(int newLayer)
 	{
 		layer = newLayer;
+	}
+
+	sf::Vector2f Renderer::getSize() const
+	{
+		sf::Vector2f min, max;
+		getBounds(min, max);
+		return max - min;
 	}
 
 	void Renderer::getBounds(sf::Vector2f& outMin, sf::Vector2f& outMax) const

@@ -18,21 +18,21 @@ Pawn::Pawn(PawnType _unitType, int _owner) : unitType(_unitType), owner(_owner)
 			maxHealth = 3;
 			speed = 2;
 			meeleAttack = 2;
-			counterAttack = 0;
+			counterAttack = 1;
 		break;
 
 		case PawnType::Sentinel:
 			maxHealth = 5;
 			speed = 1;
 			meeleAttack = 2;
-			counterAttack = 1;
+			counterAttack = 3;
 		break;
 
 		case PawnType::Brawler:
 			maxHealth = 1;
 			speed = 2;
 			meeleAttack = 3;
-			counterAttack = 0;
+			counterAttack = 2;
 		break;
 
 		default:
@@ -116,24 +116,20 @@ void Pawn::SetNewOrder(OrderType newOrder, Directions newDirection)
 
 PawnActionResult Pawn::PerformAction(GameState& gameState)
 {
-	if (health > 0)
+	switch (lastOrder)
 	{
-		switch (lastOrder)
-		{
-			case OrderType::Stop:
-				return Stop(gameState);
-			break;
+		case OrderType::Stop:
+			return Stop(gameState);
+		break;
 
-			case OrderType::Advance:
-				return Advance(gameState);
-			break;
+		case OrderType::Advance:
+			return Advance(gameState);
+		break;
 
-			default:
-				assert(false && "Missing action implementation for order!");
-			break;
-		}
+		default:
+			assert(false && "Missing action implementation for order!");
+		break;
 	}
-	assert(false && "Perform action on dead pawn!");
 	PawnActionResult result;
 	return result;
 }

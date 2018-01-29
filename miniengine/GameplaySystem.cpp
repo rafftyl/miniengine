@@ -20,16 +20,7 @@ namespace mini
 	GameObject& GameplaySystem::spawnObject(std::string&& name)
 	{
 		GameObject& obj = scenes[currentSceneIndex].addObject(std::move(name));
-		if (currentCam != nullptr)
-		{
-			auto rend = obj.getComponent<Renderer>();
-			if (rend != nullptr)
-			{
-				currentCam->registerRenderer(rend);
-			}
-		}
 		obj.setGameplaySystem(shared_from_this());
-		obj.start();
 		return obj;
 	}
 
@@ -37,17 +28,11 @@ namespace mini
 	{
 		GameObject& obj = scenes[currentSceneIndex].addObject(std::move(name));
 		initFunction(obj);
-		obj.setGameplaySystem(shared_from_this());
-		if (currentCam != nullptr)
+		if (!isLoadingScene)
 		{
-			auto rend = obj.getComponent<Renderer>();
-			if (rend != nullptr)
-			{
-				currentCam->registerRenderer(rend);
-			}
+			obj.setGameplaySystem(shared_from_this());
+			obj.start();
 		}
-		
-		obj.start();
 		return obj;
 	}
 
@@ -67,6 +52,7 @@ namespace mini
 
 	void GameplaySystem::loadScene(const std::string& name)
 	{	
+		isLoadingScene = true;
 		if (currentSceneIndex > -1)
 		{			
 			currentCam = nullptr;
@@ -93,12 +79,6 @@ namespace mini
 			currentScene.load();
 			for (auto& obj : currentScene.objects)
 			{
-				obj.second.setGameplaySystem(shared_from_this());
-			}	
-
-			for (auto& obj : currentScene.objects)
-			{
-				obj.second.start();
 				auto cam = obj.second.getComponent<Camera>();
 				if (cam != nullptr)
 				{
@@ -106,19 +86,13 @@ namespace mini
 					msgBus.engineEvents.onCameraSet.broadcast(currentCam);
 				}
 			}
-
-			if (currentCam != nullptr)
+			for (auto& obj : currentScene.objects)
 			{
-				for (auto& obj : currentScene.objects)
-				{
-					auto rends = obj.second.getComponents<Renderer>();
-					for (const auto& renderer : rends)
-					{
-						currentCam->registerRenderer(renderer);
-					}
-				}
-			}
+				obj.second.setGameplaySystem(shared_from_this());
+				obj.second.start();
+			}				
 		}
+		isLoadingScene = false;
 	}
 
 	void GameplaySystem::update()
@@ -147,7 +121,7 @@ namespace mini
 		}		
 	}
 
-	std::shared_ptr<const Camera> GameplaySystem::getCurrentCam() const
+	std::shared_ptr<Camera> GameplaySystem::getCurrentCam() 
 	{
 		return currentCam;
 	}
