@@ -35,10 +35,10 @@ namespace Game
 			std::vector<std::shared_ptr<Pawn>> GetPawnsOnCoordinates(std::pair<int, int> coordinates);
 			bool IsWon();
 
+			std::list<std::shared_ptr<Pawn>> pawnsOnBoard;
 		private:
 			int turnCounter;
-			int currentPlayer;
-			std::list<std::shared_ptr<Pawn>> pawnsOnBoard;
+			int currentPlayer;			
 			void TurnEnd();
 			void BoardCycle();
 	};

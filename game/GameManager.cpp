@@ -42,7 +42,7 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 	int cols = dim.second;
 	humanPlayerIndices = humanPlayers;
 	currentPlayerIndex = 0;
-	int initiative = 1;
+	
 	for (int index = 0; index < cols * rows; ++index)
 	{
 		int row = index / cols;
@@ -56,18 +56,24 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 		pos.x -= mult * fieldSeparation;
 		pos.y += row * fieldSeparation;
 		field.setPosition(pos);
-		fields.push_back(fieldComp);
+		fields.push_back(fieldComp);		
+	}
 
-		auto pawns = state.GetPawnsOnCoordinates({ row, col });
-		
-		for (auto& pawn : pawns)
+	auto pawns = state.pawnsOnBoard;
+	int initiative = 1;
+	for (auto& pawn : pawns)
+	{
+		auto iter = pawnPrefabs.find(pawn->GetUnitType());
+		if (iter != pawnPrefabs.end())
 		{
-			auto iter = pawnPrefabs.find(pawn->GetUnitType());
-			if (iter != pawnPrefabs.end())
+			auto& pawnObj = iter->second.instantiate(scene);
+			auto pawnComp = pawnObj.getComponent<Pawn>();
+			pawnComp->setOwnerIndex(pawn->GetOwner());
+			auto coords = pawn->GetBoardCoordinates();
+			auto fieldIter = std::find_if(fields.begin(), fields.end(), [&](const auto& field) {return field->getCoordinates().x == coords.first && field->getCoordinates().y == coords.second;});
+			if (fieldIter != fields.end())
 			{
-				auto& pawnObj = iter->second.instantiate(scene);
-				auto pawnComp = pawnObj.getComponent<Pawn>();
-				pawnComp->setOwnerIndex(pawn->GetOwner());
+				auto fieldComp = *fieldIter;
 				pawnComp->setCurrentField(fieldComp.get());
 				pawnComp->setGameStatePawn(pawn);
 				pawnComp->initiativeIndex = initiative;
@@ -79,9 +85,9 @@ void GameManager::setupGame(std::set<int> humanPlayers, mini::Scene& scene, std:
 				{
 					pawnComp->setColors(sf::Color::Green, sf::Color::Red);
 				}
-				fieldComp->addPawn(pawnComp.get());		
-				++initiative;
-			}			
+				fieldComp->addPawn(pawnComp.get());
+			}
+			++initiative;
 		}
 	}
 }
